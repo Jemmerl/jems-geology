@@ -13,11 +13,11 @@ public class ServerConfig {
 
 
 
-    public static void loadConfig(ForgeConfigSpec serverSpec, Path configPath) {
-        final CommentedFileConfig configData = CommentedFileConfig.builder(configPath).sync()
-                .autosave().writingMode(WritingMode.REPLACE).build();
-        configData.load();
-        serverSpec.setConfig(configData);
-    }
+//    public static void loadConfig(ForgeConfigSpec serverSpec, Path configPath) {
+//        final CommentedFileConfig configData = CommentedFileConfig.builder(configPath).sync()
+//                .autosave().writingMode(WritingMode.REPLACE).build();
+//        configData.load();
+//        serverSpec.setConfig(configData);
+//    }
 
 }

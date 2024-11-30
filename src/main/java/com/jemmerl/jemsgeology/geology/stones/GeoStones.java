@@ -2,8 +2,6 @@ package com.jemmerl.jemsgeology.geology.stones;
 
 import com.jemmerl.jemsgeology.geology.ores.OreBearing;
 
-import java.util.HashSet;
-
 public enum GeoStones {
     // surface weathering, subsurface weathering
 
@@ -37,7 +35,9 @@ public enum GeoStones {
     // todo magnesite can be in regolith above serpentine bodies, make it drop from serp regolith? (similar to flint/gravel)
 
     // Extrusive Igneous
-    RHYOLITE("rhyolite", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
+    GRAY_RHYOLITE("gray_rhyolite", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
+    // TODO gray rhyolite will be the "minecraft stone" analog, used in structure block replacements
+    PINK_RHYOLITE("pink_rhyolite", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
     DACITE("dacite", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
     ANDESITE("andesite", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
     TRACHYTE("trachyte", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
@@ -47,7 +47,7 @@ public enum GeoStones {
     TRACHYTIC_TUFF("trachytic_tuff", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.NONE),
     ANDESITIC_TUFF("andesitic_tuff", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.NONE),
     BASALTIC_TUFF("basaltic_tuff", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.NONE),
-    ULTRAMAFIC_TUFF("ultramafic_tuff", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.DIAMONDIFEROUS),
+    ULTRAMAFIC_TUFF("ultramafic_tuff", GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
 
     // Intrusive Igneous
     DIORITE("diorite", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
@@ -58,7 +58,7 @@ public enum GeoStones {
     ANORTHOSITE("anorthosite", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
     DIABASE("diabase", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
     PERIDOTITE("peridotite", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, OreBearing.ANY),
-    KIMBERLITE("kimberlite", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, false, OreBearing.DIAMONDIFEROUS),
+    KIMBERLITE("kimberlite", GeoGroup.INTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, false, OreBearing.ANY),
 
     //TODO when there are multiple kinds of meta. rock that can form from a source (marl can be hornfel or amphibolite)
     //  then use regional values to pick
@@ -89,9 +89,20 @@ public enum GeoStones {
     RED_SAND("red_sand", GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, OreBearing.ANY),
     GRAVEL("gravel", GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, OreBearing.ANY);
 
+    private final String name;
+    private final GeoGroup geoGroup;
+    private final WeatheringType surfaceWeathering;
+    private final WeatheringType subSurfaceWeathering;
+    private final boolean hasCobble;
+    private final OreBearing oreBearing;
 
     GeoStones(String name, GeoGroup geoGroup, WeatheringType surfaceWeathering, WeatheringType subSurfaceWeathering, boolean hasCobble, OreBearing oreBearing) {
-
+        this.name = name;
+        this.geoGroup = geoGroup;
+        this.surfaceWeathering = surfaceWeathering;
+        this.subSurfaceWeathering = subSurfaceWeathering;
+        this.hasCobble = hasCobble;
+        this.oreBearing = oreBearing;
     }
 
 
