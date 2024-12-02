@@ -1,29 +1,27 @@
 package com.jemmerl.jemsgeology.geology.ores;
 
-import net.minecraft.util.IStringSerializable;
-
 public class OreType /*implements IStringSerializable*/ {
 
     private String name;
     private String source;
-    private boolean hasPoorGrade;
+    private boolean hasPoorOre;
 
-    public OreType(String name, String source, boolean hasPoorGrade) {
+    public OreType(String name, String source, boolean hasPoorOre) {
         this.name = name;
         this.source = source;
-        this.hasPoorGrade = hasPoorGrade;
+        this.hasPoorOre = hasPoorOre;
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public String getSource() {
-        return this.source;
+        return source;
     }
 
-    public boolean hasPoorGrade() {
-        return this.hasPoorGrade;
+    public boolean hasPoorOre() {
+        return hasPoorOre;
     }
 
 }

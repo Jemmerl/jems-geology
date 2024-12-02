@@ -25,7 +25,7 @@ public enum GeoType {
     ANTHRACITE_COAL("anthracite_coal", GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false),
 
     // Hydrothermal
-    QUARTZ("quartz", GeoGroup.HYDROTHERMAL, WeatheringType.NONE, WeatheringType.NONE, true),
+    QUARTZ("quartz", GeoGroup.HYDROTHERMAL, WeatheringType.REGOLITH, WeatheringType.NONE, true),
 
     // Evaporites
     ROCKSALT("rocksalt", GeoGroup.EVAPORITE, WeatheringType.NONE, WeatheringType.NONE, false),
