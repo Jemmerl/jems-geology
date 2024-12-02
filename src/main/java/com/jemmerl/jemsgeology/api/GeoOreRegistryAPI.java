@@ -2,35 +2,35 @@ package com.jemmerl.jemsgeology.api;
 
 import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
+import com.jemmerl.jemsgeology.geology.ores.OreType;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 
 public class GeoOreRegistryAPI {
 
-    private static final LinkedHashMap<String, GeoOre> geoOreRegistry = new LinkedHashMap<>();
+    private static final LinkedHashMap<String, OreType> ORE_TYPES = new LinkedHashMap<>();
 
     // Todo add override boolean to replace conflict instead of throw warning?
-    public static void addGeoOre(GeoOre geoOre) {
-        String name = geoOre.getName();
-        if (geoOreRegistry.containsKey(name)) {
-            GeoOre conflictOre = geoOreRegistry.get(name);
-            JemsGeology.LOGGER.warn("Ore add attempt named \"" + name + "\" from source: \"" + geoOre.getSource()
+    public static OreType registerOreType(OreType oreType) {
+        String name = oreType.getName();
+        if (ORE_TYPES.containsKey(name)) {
+            OreType conflictOre = ORE_TYPES.get(name);
+            JemsGeology.LOGGER.error("Ore add attempt named \"" + name + "\" from source: \"" + oreType.getSource()
                     + "\" is conflicting with ore \"" + name + "\" from source: \"" + conflictOre.getSource() + "\"");
-            return;
+            return null;
         }
-        geoOreRegistry.put(name, geoOre);
+        ORE_TYPES.put(name, oreType);
+        System.out.println("registered " + name);
+        return oreType;
     }
 
-    public static void addGeoOres(Collection<GeoOre> geoOres) {
-        geoOres.forEach(GeoOreRegistryAPI::addGeoOre);
-    }
+//    public static void addGeoOres(Collection<GeoOre> geoOres) {
+//        geoOres.forEach(GeoOreRegistryAPI::addGeoOre);
+//    }
 
-    public static ImmutableMap<String, GeoOre> getRegisteredOres() {
+    public static ImmutableMap<String, OreType> getRegisteredOres() {
         System.out.println("got registered ores");
-        return ImmutableMap.copyOf(geoOreRegistry);
+        return ImmutableMap.copyOf(ORE_TYPES);
     }
 
 }
