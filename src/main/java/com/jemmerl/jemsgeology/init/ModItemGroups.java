@@ -36,10 +36,10 @@ public class ModItemGroups {
     };
 
     public static final ItemGroup JEMGEO_MISC_GROUP = new ItemGroup("jemsgeo_misc_tab") {
-//        @Override
-//        public ItemStack createIcon() {
-//            return ModItems.IRON_QUARRY_TOOL.get().getDefaultInstance();
-//        }
+        @Override
+        public ItemStack createIcon() {
+            return ModItems.IRON_QUARRY_TOOL.get().getDefaultInstance();
+        }
     };
 
     public static final ItemGroup JEMGEO_ORE_BLOCK_GROUP = new ItemGroup("jemsgeo_ore_blocks_tab") {
