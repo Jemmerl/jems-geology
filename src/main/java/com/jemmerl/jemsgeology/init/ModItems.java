@@ -3,6 +3,7 @@ package com.jemmerl.jemsgeology.init;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.geologyinit.OreItemRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
@@ -50,16 +51,16 @@ public class ModItems {
     //////////////////////////
 
     // Rock Item Creation and Registration
-    public static RegistryObject<Item> registerRockItem(GeologyType geologyType) {
-        return ITEMS.register((geologyType.getName() + "_rock"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_COBBLE_GROUP)));
+    public static RegistryObject<Item> registerRockItem(GeoType geoType) {
+        return ITEMS.register((geoType.getName() + "_rock"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_COBBLE_GROUP)));
     }
 
     public static RegistryObject<Item> registerOreItem(OreType oreType) {
-        return ITEMS.register((oreType.getString() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
+        return ITEMS.register((oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
     }
 
     public static RegistryObject<Item> registerPoorOreItem(OreType oreType) {
-        return ITEMS.register(("poor_" + oreType.getString() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
+        return ITEMS.register(("poor_" + oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
     }
 
     // Item registry method
