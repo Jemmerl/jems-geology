@@ -4,15 +4,14 @@ import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
+import net.minecraft.block.FallingBlock;
 
-public class BaseGeoBlock extends Block implements IGeoBlock {
-
+public class FallingBaseGeoBlock extends FallingBlock implements IGeoBlock {
     private final GeoType geoType;
     private final OreType oreType;
     private final Grade grade;
 
-    public BaseGeoBlock(AbstractBlock.Properties properties, GeoType geoType, OreType oreType, Grade grade) {
+    public FallingBaseGeoBlock(AbstractBlock.Properties properties, GeoType geoType, OreType oreType, Grade grade) {
         super(properties);
         this.geoType = geoType;
         this.oreType = oreType;
@@ -37,5 +36,4 @@ public class BaseGeoBlock extends Block implements IGeoBlock {
     public Grade getGradeType() {
         return grade;
     }
-
 }

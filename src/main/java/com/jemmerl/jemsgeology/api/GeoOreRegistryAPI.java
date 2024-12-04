@@ -10,6 +10,8 @@ public class GeoOreRegistryAPI {
 
     private static final LinkedHashMap<String, OreType> ORE_TYPES = new LinkedHashMap<>();
 
+    //TODO itll be easy to remove this and rework ores to not use an API if I decide people dont get opinions.
+
     // Todo add override boolean to replace conflict instead of throw warning?
     public static OreType registerOreType(OreType oreType) {
         String name = oreType.getName();

@@ -1,5 +1,6 @@
 package com.jemmerl.jemsgeology;
 
+import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -29,6 +30,7 @@ public class JemsGeology
         System.out.println("done register ores");
 
         ModBlocks.register(eventBus);
+        ModItems.register(eventBus);
 
         eventBus.addListener(this::setup);
         eventBus.addListener(this::enqueueIMC);
