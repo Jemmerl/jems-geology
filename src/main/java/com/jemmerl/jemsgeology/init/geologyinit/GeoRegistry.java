@@ -72,19 +72,34 @@ public class GeoRegistry {
     public Block getBaseStone() { return baseStone.get(); }
     public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
 
-    public Block getStoneOre(OreType oreType, Grade gradeType) {
-        if (oreType.hasOre() && gradeType.hasGrade()) {
-            return stoneOreRegistry.get(oreType).getGradeOre(gradeType).get();
+    public Block getStoneOre(OreType oreType, Grade grade) {
+        if (oreType.hasOre()) {
+            switch (grade) {
+                case NORMAL:
+                    return stoneOreRegistry.get(oreType).getNormalOreBlock().get();
+                case POOR:
+                    return stoneOreRegistry.get(oreType).getPoorOreBlock().get();
+                case NONE:
+                default:
+            }
         }
         return baseStone.get();
     }
 
-    // GeoTypes with no cobble use their base stone as their own regolith
-    public Block getRegolithOre(OreType oreType, Grade gradeType) {
-        if (oreType.hasOre() && gradeType.hasGrade()) {
-            return  hasCobble ? regolithOreRegistry.get(oreType).getGradeOre(gradeType).get() : getStoneOre(oreType, gradeType);
+    public Block getRegolithOre(OreType oreType, Grade grade) {
+        if (!hasCobble) return getStoneOre(oreType, grade);
+
+        if (oreType.hasOre()) {
+            switch (grade) {
+                case NORMAL:
+                    return regolithOreRegistry.get(oreType).getNormalOreBlock().get();
+                case POOR:
+                    return regolithOreRegistry.get(oreType).getPoorOreBlock().get();
+                case NONE:
+                default:
+            }
         }
-        return  hasCobble ? regolith.get() : baseStone.get();
+        return regolith.get();
     }
 
     // GeoTypes with no cobble use their base stone as their own regolith

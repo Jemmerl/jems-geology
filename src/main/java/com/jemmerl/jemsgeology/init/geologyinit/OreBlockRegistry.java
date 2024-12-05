@@ -7,23 +7,22 @@ import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class OreBlockRegistry {
 
+    private final boolean hasPoorOre;
     private final RegistryObject<Block> poorOreBlock;
     private final RegistryObject<Block> normalOreBlock;
 //    private final RegistryObject<Block> richOreBlock;
 
     public OreBlockRegistry(GeoType geoType, OreType oreType, boolean isRegolith) {
-        poorOreBlock = oreType.hasPoorOre() ? registerOreBlock(geoType, oreType, Grade.POOR, isRegolith) : null;
+        hasPoorOre = oreType.hasPoorOre();
+        poorOreBlock = hasPoorOre ? registerOreBlock(geoType, oreType, Grade.POOR, isRegolith) : null;
         normalOreBlock = registerOreBlock(geoType, oreType, Grade.NORMAL, isRegolith);
-//        richOreBlock = registerOreBlock(geoType, oreType, GradeType.HIGHGRADE, blockType);
+//        richOreBlock = hasRichOre ? registerOreBlock(geoType, oreType, GradeType.HIGHGRADE, blockType);
     }
 
     public RegistryObject<Block> getPoorOreBlock() {
-        return poorOreBlock;
+        return (hasPoorOre ? poorOreBlock : normalOreBlock);
     }
 
     public RegistryObject<Block> getNormalOreBlock() {

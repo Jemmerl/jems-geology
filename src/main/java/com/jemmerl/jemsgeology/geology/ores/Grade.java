@@ -16,4 +16,8 @@ public enum Grade {
     public String getName() {
         return name;
     }
+
+    public boolean hasGrade() {
+        return this != NONE;
+    }
 }

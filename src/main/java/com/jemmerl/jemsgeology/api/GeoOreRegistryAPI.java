@@ -3,8 +3,11 @@ package com.jemmerl.jemsgeology.api;
 import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 
 import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Objects;
 
 public class GeoOreRegistryAPI {
 
@@ -14,7 +17,12 @@ public class GeoOreRegistryAPI {
 
     // Todo add override boolean to replace conflict instead of throw warning?
     public static OreType registerOreType(OreType oreType) {
-        String name = oreType.getName();
+        String name = oreType.getName().toLowerCase(Locale.ROOT);
+        if (ModGeoOres.PROTECTED_ORES.contains(name)) {
+            JemsGeology.LOGGER.error("Ore add attempt named \"" + name + "\" from source: \"" + oreType.getSource()
+                    + "\" attempted to override a protected default ore. Naughty naughty!");
+            return null;
+        }
         if (ORE_TYPES.containsKey(name)) {
             OreType conflictOre = ORE_TYPES.get(name);
             JemsGeology.LOGGER.error("Ore add attempt named \"" + name + "\" from source: \"" + oreType.getSource()
@@ -22,16 +30,12 @@ public class GeoOreRegistryAPI {
             return null;
         }
         ORE_TYPES.put(name, oreType);
-        System.out.println("registered " + name);
+        System.out.println("registered " + name);//TODO DEBUG
         return oreType;
     }
 
-//    public static void addGeoOres(Collection<GeoOre> geoOres) {
-//        geoOres.forEach(GeoOreRegistryAPI::addGeoOre);
-//    }
-
     public static ImmutableMap<String, OreType> getRegisteredOres() {
-        System.out.println("got registered ores");
+        System.out.println("got registered ores");//TODO DEBUG
         return ImmutableMap.copyOf(ORE_TYPES);
     }
 

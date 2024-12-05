@@ -4,6 +4,9 @@ import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+
 public class ModGeoOres {
 
     // None. No Ore.
@@ -72,6 +75,8 @@ public class ModGeoOres {
     //////////////////////////////////////
     //          REGISTRY METHODS        //
     //////////////////////////////////////
+
+    public static final LinkedHashSet<String> PROTECTED_ORES = new LinkedHashSet<>(Arrays.asList("none", "diamond"));
 
     public static void init() {
         JemsGeology.LOGGER.info("Registering GeoOres from source: " + JemsGeology.MOD_ID);

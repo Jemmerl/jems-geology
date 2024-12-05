@@ -1,5 +1,7 @@
 package com.jemmerl.jemsgeology.init;
 
+import com.jemmerl.jemsgeology.geology.ores.Grade;
+import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.item.ItemGroup;
@@ -45,8 +47,8 @@ public class ModItemGroups {
     public static final ItemGroup JEMGEO_ORE_BLOCK_GROUP = new ItemGroup("jemsgeo_ore_blocks_tab") {
         @Override
         public ItemStack createIcon() {
-//            return ModBlocks.GEOBLOCKS.get(GeoType.BASALT)
-//                    .getStoneOre(OreType.APATITE, GradeType.MID).asItem().getDefaultInstance();
+            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT)
+                    .getStoneOre(ModGeoOres.DIAMOND, Grade.NORMAL).asItem().getDefaultInstance();
         }
     };
 
