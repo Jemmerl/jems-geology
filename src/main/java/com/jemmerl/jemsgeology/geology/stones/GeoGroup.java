@@ -18,4 +18,8 @@ public enum GeoGroup {
         this.name = name;
     }
 
+    public boolean isDetritus() {
+        return this.equals(DETRITUS);
+    }
+
 }

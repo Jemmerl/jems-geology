@@ -1,7 +1,6 @@
 package com.jemmerl.jemsgeology.init.geologyinit;
 
 import com.google.common.collect.Maps;
-import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
@@ -71,7 +70,7 @@ public class GeoRegistry {
     //////////////////////////////
 
     public Block getBaseStone() { return baseStone.get(); }
-    public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some hardcoded stuff cleaner
+    public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
 
     public Block getStoneOre(OreType oreType, Grade gradeType) {
         if (oreType.hasOre() && gradeType.hasGrade()) {
@@ -111,10 +110,10 @@ public class GeoRegistry {
     //          SETTERS         //
     //////////////////////////////
 
-    private  LinkedHashMap<OreType, OreBlockRegistry> fillOreRegistry(GeoType geoType, boolean regolith) {
+    private  LinkedHashMap<OreType, OreBlockRegistry> fillOreRegistry(GeoType geoType, boolean isRegolith) {
         LinkedHashMap<OreType, OreBlockRegistry> oreMap = new LinkedHashMap<>();
         for (OreType oreType : ModBlocks.REGISTERED_ORES.values()) {
-            oreMap.put(oreType, new OreBlockRegistry(geoType, oreType, regolith));
+            oreMap.put(oreType, new OreBlockRegistry(geoType, oreType, isRegolith));
         }
         return oreMap;
     }

@@ -1,5 +1,6 @@
 package com.jemmerl.jemsgeology;
 
+import com.jemmerl.jemsgeology.init.ModEntities;
 import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import com.jemmerl.jemsgeology.init.ModBlocks;
@@ -29,6 +30,7 @@ public class JemsGeology
         ModGeoOres.init();
         System.out.println("done register ores");
 
+        ModEntities.register(eventBus);
         ModBlocks.register(eventBus);
         ModItems.register(eventBus);
 

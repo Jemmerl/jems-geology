@@ -132,4 +132,12 @@ public enum GeoType {
     public MaterialColor getMaterialColor() {
         return materialColor;
     }
+
+    public float getHardnessAdj() {
+        return 0F;
+    }
+
+    public float getResistAdj() {
+        return 0F;
+    }
 }

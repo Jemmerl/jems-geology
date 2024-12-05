@@ -13,4 +13,7 @@ public enum Grade {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
 }

@@ -5,10 +5,13 @@ import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.blocks.FallingCobbleBlock;
 import com.jemmerl.jemsgeology.blocks.RegolithGeoBlock;
 import com.jemmerl.jemsgeology.blocks.StoneGeoBlock;
+import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
+import com.jemmerl.jemsgeology.geology.stones.GeoGroup;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -67,18 +70,18 @@ public class ModBlocks {
     ///////////////////////////////
 
     // For base stone blocks
-    public static <T extends Block>RegistryObject<T> registerStoneGeoBlock(GeologyType geologyType) {
-        String blockTypeName = (geologyType.isInStoneGroup(StoneGroupType.DETRITUS)) ? "_detritus" : "_stone";
-        String name = geologyType.getName() + blockTypeName;
-        Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(buildStoneProperties(geologyType), geologyType, OreType.NONE, GradeType.NONE);
+    public static <T extends Block>RegistryObject<T> registerStoneGeoBlock(GeoType geoType) {
+        String blockTypeName = (geoType.getGeoGroup().isDetritus()) ? "_detritus" : "_stone";
+        String name = geoType.getName() + blockTypeName;
+        Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(getStoneProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
     }
 
     // For ore bearing stone blocks
-    public static <T extends Block>RegistryObject<T> registerStoneGeoBlock(GeologyType geologyType, OreType oreType, GradeType gradeType) {
-        String blockTypeName = (geologyType.isInStoneGroup(StoneGroupType.DETRITUS)) ? "_detritus" : "_stone";
-        String name = geologyType.getName() + blockTypeName + "/" + oreType.getString() + "/" + gradeType.getString();
-        Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(buildStoneProperties(geologyType), geologyType, oreType, gradeType);
+    public static <T extends Block>RegistryObject<T> registerStoneGeoBlock(GeoType geoType, OreType oreType, Grade grade) {
+        String blockTypeName = (geoType.getGeoGroup().isDetritus()) ? "_detritus" : "_stone";
+        String name = geoType.getName() + blockTypeName + "/" + oreType.getName() + "/" + grade.getName();
+        Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(getStoneProp(geoType), geoType, oreType, grade);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
     }
 
@@ -89,16 +92,16 @@ public class ModBlocks {
     }
 
     // For base regolith blocks
-    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeologyType geologyType) {
-        String name = geologyType.getName() + "_regolith";
-        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(REGOLITH_PROP, geologyType, OreType.NONE, GradeType.NONE);
+    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType) {
+        String name = geoType.getName() + "_regolith";
+        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
     }
 
     // For ore bearing regolith blocks
-    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeologyType geologyType, OreType oreType, GradeType gradeType) {
-        String name = geologyType.getName() + "_regolith/" + oreType.getString() + "/" + gradeType.getString();
-        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(REGOLITH_PROP, geologyType, oreType, gradeType);
+    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType, OreType oreType, Grade grade) {
+        String name = geoType.getName() + "_regolith/" + oreType.getName() + "/" + grade.getName();
+        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, oreType, grade);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
     }
 
@@ -190,6 +193,15 @@ public class ModBlocks {
     private static AbstractBlock.Properties getGeneralStoneProp(GeoType geoType) {
         return AbstractBlock.Properties.create(Material.ROCK, geoType.getMaterialColor()).sound(SoundType.STONE)
                 .setRequiresTool().harvestTool(ToolType.PICKAXE).harvestLevel(0);
+    }
+
+    private static AbstractBlock.Properties getRegolithProp(GeoType geoType) {
+        return AbstractBlock.Properties.create(Material.EARTH, geoType.getMaterialColor()).sound(SoundType.GROUND)
+                .harvestTool(ToolType.PICKAXE).harvestLevel(0).hardnessAndResistance(2.5f);
+    }
+
+    private static AbstractBlock.Properties getStoneProp(GeoType geoType) {
+        return getGeneralStoneProp(geoType).hardnessAndResistance((1.5F + geoType.getHardnessAdj()), (6.0F + geoType.getResistAdj()));
     }
 
     // TODO make cobbles harder to mine than cobblestone, as one is decorative and one is a Natural Problem

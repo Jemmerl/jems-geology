@@ -1,5 +1,6 @@
 package com.jemmerl.jemsgeology.blocks;
 
+import com.jemmerl.jemsgeology.entities.FallingCobbleEntity;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
@@ -29,12 +30,12 @@ public class FallingCobbleBlock extends FallingBlock {
     // Edit of "callFallThrough" that returns blocks cobbles can fall through
     public static boolean canFallThrough(BlockState state) {
         Material material = state.getMaterial();
-        return state.isIn(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable() || state.isIn(ModTags.Blocks.COBBLES_CAN_BREAK);
+        return state.isIn(BlockTags.FIRE) || material.isLiquid() || material.isReplaceable() /*|| state.isIn(ModTags.Blocks.COBBLES_CAN_BREAK)*/;
     }
 
      // Edit of "callFallThrough" that returns blocks cobbles can smash through, a.k.a. break after already falling
     public static boolean canSmashThrough(BlockState state) {
-        return canFallThrough(state) || state.isIn(ModTags.Blocks.COBBLES_CAN_SMASH);
+        return canFallThrough(state) /*|| state.isIn(ModTags.Blocks.COBBLES_CAN_SMASH)*/;
     }
 
     @Override
