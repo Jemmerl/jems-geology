@@ -8,7 +8,6 @@ import com.jemmerl.jemsgeology.blocks.StoneGeoBlock;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.geology.stones.GeoGroup;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
@@ -26,13 +25,16 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.LinkedHashMap;
 import java.util.function.Supplier;
 
+@SuppressWarnings("unchecked")
 public class ModBlocks {
 
     public static final DeferredRegister<Block> BLOCKS
             = DeferredRegister.create(ForgeRegistries.BLOCKS, JemsGeology.MOD_ID);
 
+    // todo
+    //  -vanilla ore items (list of excluded items? map of excluded to vanilla?)
+    //      -oooh, maybe an option in oretypes to pre-define the ore items!!!
 
-    //
 
 
 //    private static final Block.Properties REGOLITH_PROP = AbstractBlock.Properties.create(Material.EARTH)
@@ -88,7 +90,7 @@ public class ModBlocks {
     public static <T extends Block>RegistryObject<T> registerCobblesBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobbles";
         Supplier<T> blockSupplier = () -> (T) new FallingCobbleBlock(getCobblesProp(geoType), geoType);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
     }
 
     // For base regolith blocks
@@ -113,7 +115,7 @@ public class ModBlocks {
     public static <T extends Block>RegistryObject<T> registerCobblestoneBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobblestone";
         Supplier<T> blockSupplier = () -> (T) new Block(getCobblestoneProp(geoType));
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStoneBlock(GeoType geoType) {

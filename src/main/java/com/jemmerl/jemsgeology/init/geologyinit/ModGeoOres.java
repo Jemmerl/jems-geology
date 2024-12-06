@@ -9,8 +9,8 @@ import java.util.LinkedHashSet;
 
 public class ModGeoOres {
 
-    // None. No Ore.
-    public static final OreType NONE = GeoOreRegistryAPI.registerOreType(new OreType("none", JemsGeology.MOD_ID, false));
+    // None. No Ore. Does not get registered as an ore.
+    public static final OreType NONE = new OreType("none", JemsGeology.MOD_ID, false);
 
     // Vanilla / Vanilla-adjacent (e.g. olivine spawns with diamonds)
     public static final OreType LAPIS = GeoOreRegistryAPI.registerOreType(new OreType("lapis", JemsGeology.MOD_ID, false));

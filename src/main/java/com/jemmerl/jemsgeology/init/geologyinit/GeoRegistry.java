@@ -61,7 +61,7 @@ public class GeoRegistry {
                 () -> polishedStone.get().getDefaultState()) : null;
 
         this.stoneOreRegistry =  fillOreRegistry(geoType, false);
-        this.regolithOreRegistry =  hasCobble ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
+        this.regolithOreRegistry = hasCobble ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
     }
 
 

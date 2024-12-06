@@ -37,7 +37,7 @@ public class OreBlockRegistry {
 
     private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, Grade grade, boolean isRegolith) {
         return isRegolith ?
-                ModBlocks.registerStoneGeoBlock(geoType, oreType, grade) :
-                ModBlocks.registerRegolithGeoBlock(geoType, oreType, grade);
+                ModBlocks.registerRegolithGeoBlock(geoType, oreType, grade) :
+                ModBlocks.registerStoneGeoBlock(geoType, oreType, grade);
     }
 }

@@ -18,7 +18,7 @@ public class GeoOreRegistryAPI {
     // Todo add override boolean to replace conflict instead of throw warning?
     public static OreType registerOreType(OreType oreType) {
         String name = oreType.getName().toLowerCase(Locale.ROOT);
-        if (ModGeoOres.PROTECTED_ORES.contains(name)) {
+        if ((!Objects.equals(oreType.getSource(), JemsGeology.MOD_ID))  && ModGeoOres.PROTECTED_ORES.contains(name)) {
             JemsGeology.LOGGER.error("Ore add attempt named \"" + name + "\" from source: \"" + oreType.getSource()
                     + "\" attempted to override a protected default ore. Naughty naughty!");
             return null;

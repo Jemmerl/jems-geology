@@ -22,11 +22,11 @@ public class ServerConfig {
 
         builder.push("Stone Property Options");
         STONE_HARD_MULT = builder.comment("hardness multiplier, set to 1 to disable")
-                .defineInRange("hardnessMultiplier", stoneHardnessMultiplier, 1, 2);
-        STONE_HARD_MULT = builder.comment("depth multiplier, recommended 20, 1 to disable")
-                .defineInRange("depthMultiplier", stoneHardnessMultiplier, 1, 2);
-        STONE_HARD_MULT = builder.comment("depth multiplier start, recommended y=50")
-                .defineInRange("depthStart", stoneHardnessMultiplier, 0, 65535);
+                .defineInRange("stoneHardnessMultiplier", stoneHardnessMultiplier, 1, 2);
+        STONE_DEPTH_MULT = builder.comment("depth multiplier, recommended 20, 1 to disable")
+                .defineInRange("stoneDepthMultiplier", stoneDepthMultiplier, 1, 2);
+        STONE_DEPTH_MULT_START = builder.comment("depth multiplier start, recommended y=50")
+                .defineInRange("stoneDepthMultiplierStart", stoneDepthMultiplierStart, 0, 65535);
         builder.pop();
 
 

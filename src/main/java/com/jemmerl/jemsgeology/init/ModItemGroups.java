@@ -16,17 +16,17 @@ public class ModItemGroups {
         }
     };
 
-    public static final ItemGroup JEMSGEO_DECOR_STONE_GROUP = new ItemGroup("jemsgeo_decor_stones_tab") {
-        @Override
-        public ItemStack createIcon() {
-            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getRawStairs().asItem().getDefaultInstance();
-        }
-    };
-
     public static final ItemGroup JEMGEO_COBBLE_GROUP = new ItemGroup("jemsgeo_cobbles_tab") {
         @Override
         public ItemStack createIcon() {
             return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getRockItem().getDefaultInstance();
+        }
+    };
+
+    public static final ItemGroup JEMSGEO_DECOR_STONE_GROUP = new ItemGroup("jemsgeo_decor_stones_tab") {
+        @Override
+        public ItemStack createIcon() {
+            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getRawStairs().asItem().getDefaultInstance();
         }
     };
 

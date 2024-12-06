@@ -2,16 +2,21 @@ package com.jemmerl.jemsgeology;
 
 import com.jemmerl.jemsgeology.init.ModEntities;
 import com.jemmerl.jemsgeology.init.ModItems;
+import com.jemmerl.jemsgeology.init.ServerConfig;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLConfig;
+import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,16 +40,14 @@ public class JemsGeology
         ModItems.register(eventBus);
 
         eventBus.addListener(this::setup);
-        eventBus.addListener(this::enqueueIMC);
-        eventBus.addListener(this::processIMC);
         eventBus.addListener(this::doClientStuff);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
 
-//        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SERVER_SPEC);
-//        ServerConfig.loadConfig(ServerConfig.SERVER_SPEC, FMLPaths.GAMEDIR.get()
-//                .resolve(FMLConfig.defaultConfigPath()).resolve(MOD_ID + "-server.toml"));
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, ServerConfig.SERVER_SPEC);
+        ServerConfig.loadConfig(ServerConfig.SERVER_SPEC, FMLPaths.GAMEDIR.get()
+                .resolve(FMLConfig.defaultConfigPath()).resolve(MOD_ID + "-server.toml"));
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -52,14 +55,6 @@ public class JemsGeology
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-
-    }
-
-    private void enqueueIMC(final InterModEnqueueEvent event) {
-
-    }
-
-    private void processIMC(final InterModProcessEvent event) {
 
     }
 
