@@ -105,6 +105,8 @@ public enum GeoType {
         this.materialColor = materialColor;
     }
 
+    //TODO note EnumSet is very efficient for enums smile
+
     //////////////////////////////////////
     //              GETTERS             //
     //////////////////////////////////////

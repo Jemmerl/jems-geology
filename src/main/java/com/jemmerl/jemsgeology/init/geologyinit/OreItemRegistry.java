@@ -14,15 +14,15 @@ public class OreItemRegistry {
 
     public OreItemRegistry(OreType oreType) {
         this.oreType = oreType;
-        this.oreItem = (oreType.getName() == "diamond") ? null : ModItems.registerOreItem(oreType);
-        this.poorOreItem = oreType.hasPoorOre() ? ModItems.registerPoorOreItem(oreType) : null;
+        this.oreItem = oreType.hasPresetOre() ? null : ModItems.registerOreItem(oreType);
+        this.poorOreItem = (oreType.hasPresetPoorOre() || !oreType.hasPoorOre()) ? null : ModItems.registerPoorOreItem(oreType);
     }
 
-    public Item getOreItem() {
-        return (oreType.getName() == "diamond") ? Items.DIAMOND : oreItem.get();
-    }
-    public Item getPoorOreItem() {
-        return oreType.hasPoorOre() ? poorOreItem.get() : oreItem.get();
+    public Item getOreItem(boolean poorOre) {
+        if (poorOre && oreType.hasPoorOre()) {
+            return oreType.hasPresetPoorOre() ? oreType.getPresetPoorOreItem() : poorOreItem.get();
+        }
+        return oreType.hasPresetOre() ? oreType.getPresetOreItem() : oreItem.get();
     }
 
 }

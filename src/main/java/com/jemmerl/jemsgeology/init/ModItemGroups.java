@@ -33,7 +33,7 @@ public class ModItemGroups {
     public static final ItemGroup JEMGEO_ORES_GROUP = new ItemGroup("jemsgeo_ores_tab") {
         @Override
         public ItemStack createIcon() {
-            return ModItems.ORE_ITEMS.get(ModGeoOres.MAGNETITE).getOreItem().getDefaultInstance();
+            return ModItems.ORE_ITEMS.get(ModGeoOres.MAGNETITE).getOreItem(false).getDefaultInstance();
         }
     };
 

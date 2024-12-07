@@ -3,6 +3,7 @@ package com.jemmerl.jemsgeology.init.geologyinit;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
+import net.minecraft.item.Items;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
@@ -13,10 +14,10 @@ public class ModGeoOres {
     public static final OreType NONE = new OreType("none", JemsGeology.MOD_ID, false);
 
     // Vanilla / Vanilla-adjacent (e.g. olivine spawns with diamonds)
-    public static final OreType LAPIS = GeoOreRegistryAPI.registerOreType(new OreType("lapis", JemsGeology.MOD_ID, false));
-    public static final OreType REDSTONE = GeoOreRegistryAPI.registerOreType(new OreType("redstone", JemsGeology.MOD_ID, false));
-    public static final OreType DIAMOND = GeoOreRegistryAPI.registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true));
-    public static final OreType EMERALD = GeoOreRegistryAPI.registerOreType(new OreType("emerald", JemsGeology.MOD_ID, false));
+    public static final OreType LAPIS = GeoOreRegistryAPI.registerOreType(new OreType("lapis", JemsGeology.MOD_ID, false, true, Items.LAPIS_LAZULI));
+    public static final OreType REDSTONE = GeoOreRegistryAPI.registerOreType(new OreType("redstone", JemsGeology.MOD_ID, false, true, Items.REDSTONE));
+    public static final OreType DIAMOND = GeoOreRegistryAPI.registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true, true, Items.DIAMOND));
+    public static final OreType EMERALD = GeoOreRegistryAPI.registerOreType(new OreType("emerald", JemsGeology.MOD_ID, false, true, Items.EMERALD));
     public static final OreType NATIVE_GOLD = GeoOreRegistryAPI.registerOreType(new OreType("native_gold", JemsGeology.MOD_ID, true));
     public static final OreType OLIVINE = GeoOreRegistryAPI.registerOreType(new OreType("olivine", JemsGeology.MOD_ID, false));
     public static final OreType HEMATITE = GeoOreRegistryAPI.registerOreType(new OreType("hematite", JemsGeology.MOD_ID, true));
