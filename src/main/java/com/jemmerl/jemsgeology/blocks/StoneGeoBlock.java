@@ -24,7 +24,7 @@ public class StoneGeoBlock extends BaseGeoBlock {
         }
 
         int i = net.minecraftforge.common.ForgeHooks.canHarvestBlock(state, player, worldIn, pos) ? 30 : 100; // Normal "cannot harvest" speed modifier
-        if (!getGeologyType().getGeoGroup().equals(GeoGroup.DETRITUS)) {
+        if (!getGeoType().getGeoGroup().equals(GeoGroup.DETRITUS)) {
             int y = pos.getY();
             int y0 = ServerConfig.STONE_DEPTH_MULT_START.get();
             if (y <= y0) { // Increases linearly starting at y = y0

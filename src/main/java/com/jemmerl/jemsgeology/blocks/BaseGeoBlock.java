@@ -24,7 +24,7 @@ public class BaseGeoBlock extends Block implements IGeoBlock {
     }
 
     @Override
-    public GeoType getGeologyType() {
+    public GeoType getGeoType() {
         return geoType;
     }
 
@@ -34,7 +34,7 @@ public class BaseGeoBlock extends Block implements IGeoBlock {
     }
 
     @Override
-    public Grade getGradeType() {
+    public Grade getGrade() {
         return grade;
     }
 

@@ -1,7 +1,6 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.ModTags;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import net.minecraft.data.BlockTagsProvider;
@@ -9,7 +8,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
 
 import javax.annotation.Nullable;
 

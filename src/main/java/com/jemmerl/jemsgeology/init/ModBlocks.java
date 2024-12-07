@@ -2,12 +2,12 @@ package com.jemmerl.jemsgeology.init;
 
 import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
+import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.blocks.FallingCobbleBlock;
 import com.jemmerl.jemsgeology.blocks.RegolithGeoBlock;
 import com.jemmerl.jemsgeology.blocks.StoneGeoBlock;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
@@ -31,14 +31,6 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS
             = DeferredRegister.create(ForgeRegistries.BLOCKS, JemsGeology.MOD_ID);
 
-    // todo
-    //  -vanilla ore items (list of excluded items? map of excluded to vanilla?)
-    //      -oooh, maybe an option in oretypes to pre-define the ore items!!!
-
-
-
-//    private static final Block.Properties REGOLITH_PROP = AbstractBlock.Properties.create(Material.EARTH)
-//            .sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0).hardnessAndResistance(0.7f);
 //
 //    private static final Block.Properties DIRT_PROP = AbstractBlock.Properties.create(Material.EARTH)
 //            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.5f);

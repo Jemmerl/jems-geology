@@ -3,7 +3,6 @@ package com.jemmerl.jemsgeology.init.geologyinit;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraftforge.fml.RegistryObject;
 
 public class OreItemRegistry {

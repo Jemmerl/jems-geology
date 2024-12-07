@@ -23,7 +23,7 @@ public class FallingBaseGeoBlock extends FallingBlock implements IGeoBlock {
     }
 
     @Override
-    public GeoType getGeologyType() {
+    public GeoType getGeoType() {
         return geoType;
     }
 
@@ -33,7 +33,7 @@ public class FallingBaseGeoBlock extends FallingBlock implements IGeoBlock {
     }
 
     @Override
-    public Grade getGradeType() {
+    public Grade getGrade() {
         return grade;
     }
 }

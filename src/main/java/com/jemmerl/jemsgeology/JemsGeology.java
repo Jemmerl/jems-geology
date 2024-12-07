@@ -1,10 +1,14 @@
 package com.jemmerl.jemsgeology;
 
+import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModEntities;
 import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.ServerConfig;
+import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
-import com.jemmerl.jemsgeology.init.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -12,8 +16,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -24,12 +26,10 @@ import org.apache.logging.log4j.Logger;
 @Mod(JemsGeology.MOD_ID)
 public class JemsGeology
 {
-    private static JemsGeology instance;
     public static final String MOD_ID = "jemsgeo";
     public static final Logger LOGGER = LogManager.getLogger();
 
     public JemsGeology() {
-        instance = this;
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModGeoOres.init();
@@ -55,10 +55,10 @@ public class JemsGeology
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-
-    }
-
-    public static JemsGeology getInstance() {
-        return instance;
+        // Set transparent textures for all ore blocks
+        for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
+            for(Block block: geoRegistry.getAllOreBlocks())
+                RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
+        }
     }
 }

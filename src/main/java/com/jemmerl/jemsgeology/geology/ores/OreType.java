@@ -74,13 +74,6 @@ public class OreType /*implements IStringSerializable*/ {
         return presetPoorOreItem;
     }
 
-    public Item getOredItem(boolean poorOre) {
-        if (poorOre) {
-            return hasPresetPoorOre ? presetPoorOreItem : ModItems.ORE_ITEMS.get(this).getOreItem(true);
-        }
-        return hasPresetOre ? presetOreItem : ModItems.ORE_ITEMS.get(this).getOreItem(false);
-    }
-
     public Item getOreItem(boolean poorOre) {
         if (poorOre) {
             if (hasPresetPoorOre) return presetPoorOreItem;
@@ -89,8 +82,4 @@ public class OreType /*implements IStringSerializable*/ {
         }
         return ModItems.ORE_ITEMS.get(this).getOreItem(poorOre);
     }
-
-//    public Item getPoorOreItem() {
-//        return hasPresetPoorOre ? presetPoorOreItem : ModItems.ORE_ITEMS.get(this).getPoorOreItem();
-//    }
 }

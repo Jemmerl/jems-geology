@@ -2,6 +2,9 @@ package com.jemmerl.jemsgeology.geology.stones;
 
 import net.minecraft.block.material.MaterialColor;
 
+import java.util.Collections;
+import java.util.List;
+
 public enum GeoType {
     // surface weathering, subsurface weathering
 
@@ -142,4 +145,15 @@ public enum GeoType {
     public float getResistAdj() {
         return 0F;
     }
+
+
+    //TODO may move to its own class down the line. or maybe remove all together, if stones become API'd like ores
+    ////////////////////////////////////
+    //              LISTS             //
+    ////////////////////////////////////
+
+    // List of blocks with a different side texture
+    public static List<GeoType> SIDE_TEXTURE_MODELS = Collections.singletonList(
+            GeoType.PAHOEHOE
+    );
 }
