@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:diorite_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:diorite_rock",
+    "count": 4
+  }
+}

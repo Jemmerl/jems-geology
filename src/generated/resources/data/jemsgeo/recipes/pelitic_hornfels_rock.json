@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:pelitic_hornfels_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:pelitic_hornfels_rock",
+    "count": 4
+  }
+}

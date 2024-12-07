@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:ultramafic_tuff_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:ultramafic_tuff_rock",
+    "count": 4
+  }
+}

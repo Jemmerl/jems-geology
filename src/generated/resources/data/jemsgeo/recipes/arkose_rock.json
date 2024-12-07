@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:arkose_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:arkose_rock",
+    "count": 4
+  }
+}

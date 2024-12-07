@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:siltstone_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:siltstone_rock",
+    "count": 4
+  }
+}

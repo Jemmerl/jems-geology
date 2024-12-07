@@ -36,6 +36,7 @@ public class GeoRegistry {
     private final RegistryObject<Block> polishedStone;
     private final RegistryObject<Block> polishedSlab;
     private final RegistryObject<Block> polishedStairs;
+    private final RegistryObject<Block> polishedWall;
 
     public GeoRegistry(GeoType geoType) {
         this.geoType = geoType;
@@ -59,6 +60,7 @@ public class GeoRegistry {
         polishedSlab = hasCobble ? ModBlocks.registerPolishedSlab(geoType) : null;
         polishedStairs = hasCobble ? ModBlocks.registerPolishedStairs(geoType,
                 () -> polishedStone.get().getDefaultState()) : null;
+        polishedWall = hasCobble ? ModBlocks.registerPolishedStoneWall(geoType) : null;
 
         this.stoneOreRegistry =  fillOreRegistry(geoType, false);
         this.regolithOreRegistry = hasCobble ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
@@ -68,6 +70,9 @@ public class GeoRegistry {
     //////////////////////////////
     //          GETTERS         //
     //////////////////////////////
+
+    public boolean hasCobble() { return hasCobble; }
+    public GeoType getGeoType() { return geoType; }
 
     public Block getBaseStone() { return baseStone.get(); }
     public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
@@ -119,6 +124,7 @@ public class GeoRegistry {
     public Block getPolishedStone() { return this.polishedStone.get(); }
     public Block getPolishedSlab() { return this.polishedSlab.get(); }
     public Block getPolishedStairs() { return this.polishedStairs.get(); }
+    public Block getPolishedWall() { return this.polishedWall.get(); }
 
 
     //////////////////////////////
@@ -134,8 +140,76 @@ public class GeoRegistry {
     }
 
 
-    ///////////////////////////////
-    //          DATA-GEN         //
-    ///////////////////////////////
+    //////////////////////////////////////////////
+    //          DATA-GEN / LIST BUILDERS        //
+    //////////////////////////////////////////////
+
+    // THESE ARE MAINLY TO BE USED DURING INITIALIZATION AND DATA GENERATION
+    // The sheer amount of items generated would be excessive during any other stage
+    // These all assume proper checks are being done to ensure no null returns for cobble-less blocks!
+
+    // Get all geo-blocks (aka not including cobbles and cobblestones)
+    public List<Block> getAllGeoBlocks() {
+        List<Block> allGeoBlocks = new ArrayList<>(getStoneGeoBlocks());
+        if (hasCobble) allGeoBlocks.addAll(getRegolithGeoBlocks());
+        return allGeoBlocks;
+    }
+
+    // Get all stone geo-blocks
+    public List<Block> getStoneGeoBlocks() {
+        List<Block> stoneGeoBlocks = new ArrayList<>(getStoneOreBlocks());
+        stoneGeoBlocks.add(getBaseStone());
+        return stoneGeoBlocks;
+    }
+
+    // Get all regolith geo-blocks
+    public List<Block> getRegolithGeoBlocks() {
+        List<Block> regolithGeoBlocks = new ArrayList<>(getRegolithOreBlocks());
+        regolithGeoBlocks.add(getRegolith());
+        return regolithGeoBlocks;
+    }
+
+    // Get all ore-bearing geo-blocks
+    public List<Block> getAllOreBlocks() {
+        List<Block> allOreBlocks = new ArrayList<>(getStoneOreBlocks());
+        if (hasCobble) allOreBlocks.addAll(getRegolithOreBlocks());
+        return allOreBlocks;
+    }
+
+    // Get all ore-bearing base stone geo-blocks
+    public List<Block> getStoneOreBlocks() {
+        List<Block> allStoneOreBlocks = new ArrayList<>();
+        for (OreBlockRegistry oreRegistry: stoneOreRegistry.values()) {
+            allStoneOreBlocks.addAll(oreRegistry.getAllGradedOreBlocks());
+        }
+        return allStoneOreBlocks;
+    }
+
+    // Get all ore-bearing regolith geo-blocks
+    public List<Block> getRegolithOreBlocks() {
+        List<Block> allRegolithOreBlocks = new ArrayList<>();
+        for (OreBlockRegistry oreRegistry: regolithOreRegistry.values()) {
+            allRegolithOreBlocks.addAll(oreRegistry.getAllGradedOreBlocks());
+        }
+        return allRegolithOreBlocks;
+    }
+
+    public Map<OreType, OreBlockRegistry> getStoneOreRegistry() { return stoneOreRegistry; }
+    public Map<OreType, OreBlockRegistry> getRegolithOreRegistry() { return regolithOreRegistry; }
+
+    public List<Block> getDecorBlocks() {
+        List<Block> allDecorBlocks = new ArrayList<>();
+        allDecorBlocks.add(rawSlab.get());
+        allDecorBlocks.add(rawStairs.get());
+        allDecorBlocks.add(rawWall.get());
+        allDecorBlocks.add(cobbleSlab.get());
+        allDecorBlocks.add(cobbleStairs.get());
+        allDecorBlocks.add(cobbleWall.get());
+        allDecorBlocks.add(polishedStone.get());
+        allDecorBlocks.add(polishedSlab.get());
+        allDecorBlocks.add(polishedStairs.get());
+        allDecorBlocks.add(polishedWall.get());
+        return allDecorBlocks;
+    }
 
 }

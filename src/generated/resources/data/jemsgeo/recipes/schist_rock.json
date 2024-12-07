@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:schist_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:schist_rock",
+    "count": 4
+  }
+}

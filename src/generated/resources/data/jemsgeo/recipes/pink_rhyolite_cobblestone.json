@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cobblestones",
+  "pattern": [
+    "xxx",
+    "mxm",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "item": "jemsgeo:pink_rhyolite_rock"
+    },
+    "m": {
+      "item": "jemsgeo:lime_mortar"
+    }
+  },
+  "result": {
+    "item": "jemsgeo:pink_rhyolite_cobblestone",
+    "count": 3
+  }
+}

@@ -1,10 +1,10 @@
 package com.jemmerl.jemsgeology.data;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.data.generators.client.ModBlockStateModelProvider;
-import com.jemmerl.jemsgeology.data.generators.client.ModItemModelProvider;
-import com.jemmerl.jemsgeology.data.generators.client.ModLangProvider;
-import com.jemmerl.jemsgeology.data.generators.server.*;
+import com.jemmerl.jemsgeology.data.client.ModLangProvider;
+import com.jemmerl.jemsgeology.data.server.ModBlockTagsProvider;
+import com.jemmerl.jemsgeology.data.server.ModCobblestoneRecipeProvider;
+import com.jemmerl.jemsgeology.data.server.ModItemTagsProvider;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -30,8 +30,8 @@ public final class DataGenerators {
         gen.addProvider(new ModCobblestoneRecipeProvider(gen));
         //gen.addProvider(new ModStonecutterRecipeProvider(gen));
         //gen.addProvider(new ModLootTableProvider(gen));
-        //BlockTagsProvider blocktagsprovider = new ModBlockTagsProvider(gen, JemsGeology.MOD_ID, existingFileHelper);
-        //gen.addProvider(blocktagsprovider);
-        //gen.addProvider(new ModItemTagsProvider(gen, blocktagsprovider, JemsGeology.MOD_ID, existingFileHelper));
+        BlockTagsProvider blocktagsprovider = new ModBlockTagsProvider(gen, JemsGeology.MOD_ID, existingFileHelper);
+        gen.addProvider(blocktagsprovider);
+        gen.addProvider(new ModItemTagsProvider(gen, blocktagsprovider, JemsGeology.MOD_ID, existingFileHelper));
     }
 }

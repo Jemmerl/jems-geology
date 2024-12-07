@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:gneiss_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:gneiss_rock",
+    "count": 4
+  }
+}

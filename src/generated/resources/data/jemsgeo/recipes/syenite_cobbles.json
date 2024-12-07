@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cobbles",
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "key": {
+    "x": {
+      "item": "jemsgeo:syenite_rock"
+    }
+  },
+  "result": {
+    "item": "jemsgeo:syenite_cobbles"
+  }
+}

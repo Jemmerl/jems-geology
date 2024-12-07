@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:amphibolite_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:amphibolite_rock",
+    "count": 4
+  }
+}

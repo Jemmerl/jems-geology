@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:gray_rhyolite_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:gray_rhyolite_rock",
+    "count": 4
+  }
+}

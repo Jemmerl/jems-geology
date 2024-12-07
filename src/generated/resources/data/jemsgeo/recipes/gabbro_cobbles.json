@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "cobbles",
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "key": {
+    "x": {
+      "item": "jemsgeo:gabbro_rock"
+    }
+  },
+  "result": {
+    "item": "jemsgeo:gabbro_cobbles"
+  }
+}

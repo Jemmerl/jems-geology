@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:dolomite_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:dolomite_rock",
+    "count": 4
+  }
+}

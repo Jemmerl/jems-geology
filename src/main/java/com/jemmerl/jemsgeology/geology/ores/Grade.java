@@ -3,9 +3,9 @@ package com.jemmerl.jemsgeology.geology.ores;
 public enum Grade {
 
     NONE("none"),
-    POOR("poor"),
-    NORMAL("normal");
-    //HIGH("high");
+    POOR("lowgrade"),
+    NORMAL("midgrade");
+    //HIGH("highgrade");
 
     private final String name;
 

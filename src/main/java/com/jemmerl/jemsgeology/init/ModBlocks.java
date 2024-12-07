@@ -52,11 +52,6 @@ public class ModBlocks {
 //    private static final Block.Properties GRAVEL_PROP = AbstractBlock.Properties.create(Material.SAND)
 //            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
 
-
-
-
-
-
     // TODO need to test this happens after other mods put ores in.
     public static final ImmutableMap<String, OreType> REGISTERED_ORES = GeoOreRegistryAPI.getRegisteredOres();
 
@@ -115,7 +110,7 @@ public class ModBlocks {
     public static <T extends Block>RegistryObject<T> registerCobblestoneBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobblestone";
         Supplier<T> blockSupplier = () -> (T) new Block(getCobblestoneProp(geoType));
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStoneBlock(GeoType geoType) {
@@ -187,6 +182,11 @@ public class ModBlocks {
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
+    public static <T extends Block>RegistryObject<T> registerPolishedStoneWall(GeoType geoType) {
+        String name = "polished_" + geoType.getName() + "_wall";
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
 
     /////////////////////////////////
     //      PROPERTY BUILDERS      //

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:trachyte_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:trachyte_rock",
+    "count": 4
+  }
+}

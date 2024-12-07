@@ -1,0 +1,12 @@
+
+["Stone Property Options"]
+	#depth multiplier, recommended 20, 1 to disable
+	#Range: 1 ~ 2
+	stoneDepthMultiplier = 1
+	#depth multiplier start, recommended y=50
+	#Range: 0 ~ 65535
+	stoneDepthMultiplierStart = 50
+	#hardness multiplier, set to 1 to disable
+	#Range: 1 ~ 2
+	stoneHardnessMultiplier = 1
+
