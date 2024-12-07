@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/diabase_stone",
+    "bottom": "jemsgeo:block/diabase_stone",
+    "top": "jemsgeo:block/diabase_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_greywacke_stone"
+  },
+  "result": "jemsgeo:polished_greywacke_stairs",
+  "count": 1
+}

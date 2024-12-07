@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_trachyte_stone"
+  },
+  "result": "jemsgeo:trachyte_cobble_wall",
+  "count": 2
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/carbonate_hornfels_regolith",
+    "up": "jemsgeo:block/carbonate_hornfels_regolith",
+    "down": "jemsgeo:block/carbonate_hornfels_regolith",
+    "north": "jemsgeo:block/carbonate_hornfels_regolith",
+    "south": "jemsgeo:block/carbonate_hornfels_regolith",
+    "east": "jemsgeo:block/carbonate_hornfels_regolith",
+    "west": "jemsgeo:block/carbonate_hornfels_regolith"
+  }
+}

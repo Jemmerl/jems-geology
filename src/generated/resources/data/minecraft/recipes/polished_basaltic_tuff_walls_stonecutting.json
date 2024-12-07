@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_basaltic_tuff_stone"
+  },
+  "result": "jemsgeo:basaltic_tuff_cobble_wall",
+  "count": 2
+}

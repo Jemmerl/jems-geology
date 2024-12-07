@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/ultramafic_tuff_stone",
+    "up": "jemsgeo:block/ultramafic_tuff_stone",
+    "down": "jemsgeo:block/ultramafic_tuff_stone",
+    "north": "jemsgeo:block/ultramafic_tuff_stone",
+    "south": "jemsgeo:block/ultramafic_tuff_stone",
+    "east": "jemsgeo:block/ultramafic_tuff_stone",
+    "west": "jemsgeo:block/ultramafic_tuff_stone"
+  }
+}

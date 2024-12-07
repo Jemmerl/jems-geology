@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/gypsum_stone",
+    "up": "jemsgeo:block/gypsum_stone",
+    "down": "jemsgeo:block/gypsum_stone",
+    "north": "jemsgeo:block/gypsum_stone",
+    "south": "jemsgeo:block/gypsum_stone",
+    "east": "jemsgeo:block/gypsum_stone",
+    "west": "jemsgeo:block/gypsum_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:siltstone_stone"
+  },
+  "result": "jemsgeo:siltstone_wall",
+  "count": 2
+}

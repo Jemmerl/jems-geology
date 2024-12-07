@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/greisen_stone",
+    "up": "jemsgeo:block/greisen_stone",
+    "down": "jemsgeo:block/greisen_stone",
+    "north": "jemsgeo:block/greisen_stone",
+    "south": "jemsgeo:block/greisen_stone",
+    "east": "jemsgeo:block/greisen_stone",
+    "west": "jemsgeo:block/greisen_stone"
+  }
+}

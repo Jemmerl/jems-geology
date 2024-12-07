@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/kimberlite_stone",
+    "particle": "jemsgeo:block/kimberlite_stone",
+    "overlay": "jemsgeo:block/ore/poor_native_gold"
+  }
+}

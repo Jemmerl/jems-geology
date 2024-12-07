@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_anorthosite_stone"
+  },
+  "result": "jemsgeo:anorthosite_cobble_wall",
+  "count": 2
+}

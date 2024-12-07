@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/carbonate_hornfels_stone",
+    "up": "jemsgeo:block/carbonate_hornfels_stone",
+    "down": "jemsgeo:block/carbonate_hornfels_stone",
+    "north": "jemsgeo:block/carbonate_hornfels_stone",
+    "south": "jemsgeo:block/carbonate_hornfels_stone",
+    "east": "jemsgeo:block/carbonate_hornfels_stone",
+    "west": "jemsgeo:block/carbonate_hornfels_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:syenite_stone"
+  },
+  "result": "jemsgeo:polished_syenite_stone",
+  "count": 1
+}

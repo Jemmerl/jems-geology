@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:diorite_cobblestone"
+  },
+  "result": "jemsgeo:diorite_cobble_slab",
+  "count": 2
+}

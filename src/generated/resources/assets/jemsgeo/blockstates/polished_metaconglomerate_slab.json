@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/polished_metaconglomerate_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/polished_metaconglomerate_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/polished_metaconglomerate_stone"
+    }
+  }
+}

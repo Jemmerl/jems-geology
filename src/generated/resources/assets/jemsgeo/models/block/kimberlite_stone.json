@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/kimberlite_stone",
+    "up": "jemsgeo:block/kimberlite_stone",
+    "down": "jemsgeo:block/kimberlite_stone",
+    "north": "jemsgeo:block/kimberlite_stone",
+    "south": "jemsgeo:block/kimberlite_stone",
+    "east": "jemsgeo:block/kimberlite_stone",
+    "west": "jemsgeo:block/kimberlite_stone"
+  }
+}

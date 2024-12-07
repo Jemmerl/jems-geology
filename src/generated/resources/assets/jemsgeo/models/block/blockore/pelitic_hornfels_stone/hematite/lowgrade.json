@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/pelitic_hornfels_stone",
+    "particle": "jemsgeo:block/pelitic_hornfels_stone",
+    "overlay": "jemsgeo:block/ore/poor_hematite"
+  }
+}

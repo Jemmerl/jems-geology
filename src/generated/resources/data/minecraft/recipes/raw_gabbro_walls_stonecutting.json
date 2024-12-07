@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:gabbro_stone"
+  },
+  "result": "jemsgeo:gabbro_wall",
+  "count": 2
+}

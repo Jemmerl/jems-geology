@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_conglomerate_stone"
+  },
+  "result": "jemsgeo:polished_conglomerate_slab",
+  "count": 2
+}

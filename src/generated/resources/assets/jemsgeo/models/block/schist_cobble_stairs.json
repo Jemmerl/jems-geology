@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/schist_cobblestone",
+    "bottom": "jemsgeo:block/schist_cobblestone",
+    "top": "jemsgeo:block/schist_cobblestone"
+  }
+}

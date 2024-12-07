@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/polished_greywacke_stone",
+    "bottom": "jemsgeo:block/polished_greywacke_stone",
+    "top": "jemsgeo:block/polished_greywacke_stone"
+  }
+}

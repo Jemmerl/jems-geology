@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/anorthosite_stone",
+    "up": "jemsgeo:block/anorthosite_stone",
+    "down": "jemsgeo:block/anorthosite_stone",
+    "north": "jemsgeo:block/anorthosite_stone",
+    "south": "jemsgeo:block/anorthosite_stone",
+    "east": "jemsgeo:block/anorthosite_stone",
+    "west": "jemsgeo:block/anorthosite_stone"
+  }
+}

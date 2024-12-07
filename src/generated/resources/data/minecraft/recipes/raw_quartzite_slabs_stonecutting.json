@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:quartzite_stone"
+  },
+  "result": "jemsgeo:quartzite_slab",
+  "count": 2
+}

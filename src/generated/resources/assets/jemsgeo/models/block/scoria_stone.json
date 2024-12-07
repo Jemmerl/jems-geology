@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/scoria_stone",
+    "up": "jemsgeo:block/scoria_stone",
+    "down": "jemsgeo:block/scoria_stone",
+    "north": "jemsgeo:block/scoria_stone",
+    "south": "jemsgeo:block/scoria_stone",
+    "east": "jemsgeo:block/scoria_stone",
+    "west": "jemsgeo:block/scoria_stone"
+  }
+}

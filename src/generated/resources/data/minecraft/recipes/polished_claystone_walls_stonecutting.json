@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_claystone_stone"
+  },
+  "result": "jemsgeo:claystone_cobble_wall",
+  "count": 2
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:andesitic_tuff_stone"
+  },
+  "result": "jemsgeo:polished_andesitic_tuff_stone",
+  "count": 1
+}

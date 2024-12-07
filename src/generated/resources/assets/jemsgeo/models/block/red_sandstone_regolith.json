@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/red_sandstone_regolith",
+    "up": "jemsgeo:block/red_sandstone_regolith",
+    "down": "jemsgeo:block/red_sandstone_regolith",
+    "north": "jemsgeo:block/red_sandstone_regolith",
+    "south": "jemsgeo:block/red_sandstone_regolith",
+    "east": "jemsgeo:block/red_sandstone_regolith",
+    "west": "jemsgeo:block/red_sandstone_regolith"
+  }
+}

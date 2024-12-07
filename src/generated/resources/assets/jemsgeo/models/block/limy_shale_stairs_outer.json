@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/limy_shale_stone",
+    "bottom": "jemsgeo:block/limy_shale_stone",
+    "top": "jemsgeo:block/limy_shale_stone"
+  }
+}

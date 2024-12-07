@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/red_sandstone_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/red_sandstone_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/red_sandstone_stone"
+    }
+  }
+}

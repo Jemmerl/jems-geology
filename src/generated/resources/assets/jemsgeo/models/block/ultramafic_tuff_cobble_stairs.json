@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/ultramafic_tuff_cobblestone",
+    "bottom": "jemsgeo:block/ultramafic_tuff_cobblestone",
+    "top": "jemsgeo:block/ultramafic_tuff_cobblestone"
+  }
+}

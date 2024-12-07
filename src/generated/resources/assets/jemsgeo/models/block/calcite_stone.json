@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/calcite_stone",
+    "up": "jemsgeo:block/calcite_stone",
+    "down": "jemsgeo:block/calcite_stone",
+    "north": "jemsgeo:block/calcite_stone",
+    "south": "jemsgeo:block/calcite_stone",
+    "east": "jemsgeo:block/calcite_stone",
+    "west": "jemsgeo:block/calcite_stone"
+  }
+}

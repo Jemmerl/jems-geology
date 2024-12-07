@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "side": "jemsgeo:block/polished_kimberlite_stone",
+    "bottom": "jemsgeo:block/polished_kimberlite_stone",
+    "top": "jemsgeo:block/polished_kimberlite_stone"
+  }
+}

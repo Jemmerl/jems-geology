@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:gray_rhyolite_cobblestone"
+  },
+  "result": "jemsgeo:gray_rhyolite_cobble_slab",
+  "count": 2
+}

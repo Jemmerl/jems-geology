@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/trachyte_stone",
+    "up": "jemsgeo:block/trachyte_stone",
+    "down": "jemsgeo:block/trachyte_stone",
+    "north": "jemsgeo:block/trachyte_stone",
+    "south": "jemsgeo:block/trachyte_stone",
+    "east": "jemsgeo:block/trachyte_stone",
+    "west": "jemsgeo:block/trachyte_stone"
+  }
+}

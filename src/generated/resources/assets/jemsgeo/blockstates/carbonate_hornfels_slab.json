@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/carbonate_hornfels_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/carbonate_hornfels_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/carbonate_hornfels_stone"
+    }
+  }
+}

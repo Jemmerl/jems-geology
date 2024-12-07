@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/pahoehoe_stone1",
+    "up": "jemsgeo:block/pahoehoe_stone1",
+    "down": "jemsgeo:block/pahoehoe_stone1",
+    "north": "jemsgeo:block/pahoehoe_stone2",
+    "south": "jemsgeo:block/pahoehoe_stone2",
+    "east": "jemsgeo:block/pahoehoe_stone2",
+    "west": "jemsgeo:block/pahoehoe_stone2"
+  }
+}

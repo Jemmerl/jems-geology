@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/mafic_hornfels_regolith",
+    "up": "jemsgeo:block/mafic_hornfels_regolith",
+    "down": "jemsgeo:block/mafic_hornfels_regolith",
+    "north": "jemsgeo:block/mafic_hornfels_regolith",
+    "south": "jemsgeo:block/mafic_hornfels_regolith",
+    "east": "jemsgeo:block/mafic_hornfels_regolith",
+    "west": "jemsgeo:block/mafic_hornfels_regolith"
+  }
+}

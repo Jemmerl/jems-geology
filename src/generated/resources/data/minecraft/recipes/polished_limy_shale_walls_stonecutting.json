@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_limy_shale_stone"
+  },
+  "result": "jemsgeo:limy_shale_cobble_wall",
+  "count": 2
+}

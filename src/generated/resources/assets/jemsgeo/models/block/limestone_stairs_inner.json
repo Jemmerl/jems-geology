@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "jemsgeo:block/limestone_stone",
+    "bottom": "jemsgeo:block/limestone_stone",
+    "top": "jemsgeo:block/limestone_stone"
+  }
+}

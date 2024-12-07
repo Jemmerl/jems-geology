@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/dolomite_stone",
+    "up": "jemsgeo:block/dolomite_stone",
+    "down": "jemsgeo:block/dolomite_stone",
+    "north": "jemsgeo:block/dolomite_stone",
+    "south": "jemsgeo:block/dolomite_stone",
+    "east": "jemsgeo:block/dolomite_stone",
+    "west": "jemsgeo:block/dolomite_stone"
+  }
+}

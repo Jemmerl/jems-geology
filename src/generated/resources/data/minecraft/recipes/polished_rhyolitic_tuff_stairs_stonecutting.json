@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_rhyolitic_tuff_stone"
+  },
+  "result": "jemsgeo:polished_rhyolitic_tuff_stairs",
+  "count": 1
+}

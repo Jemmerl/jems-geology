@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/bituminous_coal_stone",
+    "up": "jemsgeo:block/bituminous_coal_stone",
+    "down": "jemsgeo:block/bituminous_coal_stone",
+    "north": "jemsgeo:block/bituminous_coal_stone",
+    "south": "jemsgeo:block/bituminous_coal_stone",
+    "east": "jemsgeo:block/bituminous_coal_stone",
+    "west": "jemsgeo:block/bituminous_coal_stone"
+  }
+}

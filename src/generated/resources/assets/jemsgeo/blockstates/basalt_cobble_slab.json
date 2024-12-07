@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/basalt_cobble_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/basalt_cobble_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/basalt_cobblestone"
+    }
+  }
+}

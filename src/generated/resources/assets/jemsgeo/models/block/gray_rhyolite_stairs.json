@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/gray_rhyolite_stone",
+    "bottom": "jemsgeo:block/gray_rhyolite_stone",
+    "top": "jemsgeo:block/gray_rhyolite_stone"
+  }
+}

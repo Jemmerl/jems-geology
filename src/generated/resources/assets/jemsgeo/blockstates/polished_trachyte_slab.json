@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/polished_trachyte_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/polished_trachyte_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/polished_trachyte_stone"
+    }
+  }
+}

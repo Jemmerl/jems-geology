@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/metaconglomerate_cobblestone",
+    "bottom": "jemsgeo:block/metaconglomerate_cobblestone",
+    "top": "jemsgeo:block/metaconglomerate_cobblestone"
+  }
+}

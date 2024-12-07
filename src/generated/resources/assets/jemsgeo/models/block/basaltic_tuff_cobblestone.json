@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "jemsgeo:block/basaltic_tuff_cobblestone"
+  }
+}

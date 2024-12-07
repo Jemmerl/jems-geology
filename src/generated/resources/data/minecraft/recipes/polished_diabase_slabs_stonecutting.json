@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_diabase_stone"
+  },
+  "result": "jemsgeo:polished_diabase_slab",
+  "count": 2
+}

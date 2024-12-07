@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/gravel_detritus",
+    "particle": "jemsgeo:block/gravel_detritus",
+    "overlay": "jemsgeo:block/ore/poor_native_gold"
+  }
+}

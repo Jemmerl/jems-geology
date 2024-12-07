@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "jemsgeo:block/syenite_cobblestone",
+    "bottom": "jemsgeo:block/syenite_cobblestone",
+    "top": "jemsgeo:block/syenite_cobblestone"
+  }
+}

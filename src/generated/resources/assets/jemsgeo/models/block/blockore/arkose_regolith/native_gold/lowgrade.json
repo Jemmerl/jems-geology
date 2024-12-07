@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/arkose_regolith",
+    "particle": "jemsgeo:block/arkose_regolith",
+    "overlay": "jemsgeo:block/ore/poor_native_gold"
+  }
+}

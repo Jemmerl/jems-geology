@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:gneiss_cobblestone"
+  },
+  "result": "jemsgeo:gneiss_cobble_slab",
+  "count": 2
+}

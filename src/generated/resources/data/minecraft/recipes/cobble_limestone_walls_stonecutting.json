@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:limestone_cobblestone"
+  },
+  "result": "jemsgeo:limestone_cobble_wall",
+  "count": 2
+}

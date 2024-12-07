@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_diorite_stone"
+  },
+  "result": "jemsgeo:diorite_cobble_wall",
+  "count": 2
+}

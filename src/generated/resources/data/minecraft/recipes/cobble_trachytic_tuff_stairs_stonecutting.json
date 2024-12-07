@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:trachytic_tuff_cobblestone"
+  },
+  "result": "jemsgeo:trachytic_tuff_cobble_stairs",
+  "count": 1
+}

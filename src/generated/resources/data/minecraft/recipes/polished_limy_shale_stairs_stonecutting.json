@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_limy_shale_stone"
+  },
+  "result": "jemsgeo:polished_limy_shale_stairs",
+  "count": 1
+}

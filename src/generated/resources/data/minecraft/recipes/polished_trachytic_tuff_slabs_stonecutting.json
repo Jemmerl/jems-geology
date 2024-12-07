@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_trachytic_tuff_stone"
+  },
+  "result": "jemsgeo:polished_trachytic_tuff_slab",
+  "count": 2
+}

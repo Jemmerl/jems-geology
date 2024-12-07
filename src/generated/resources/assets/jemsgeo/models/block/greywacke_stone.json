@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/greywacke_stone",
+    "up": "jemsgeo:block/greywacke_stone",
+    "down": "jemsgeo:block/greywacke_stone",
+    "north": "jemsgeo:block/greywacke_stone",
+    "south": "jemsgeo:block/greywacke_stone",
+    "east": "jemsgeo:block/greywacke_stone",
+    "west": "jemsgeo:block/greywacke_stone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/peridotite_stone",
+    "up": "jemsgeo:block/peridotite_stone",
+    "down": "jemsgeo:block/peridotite_stone",
+    "north": "jemsgeo:block/peridotite_stone",
+    "south": "jemsgeo:block/peridotite_stone",
+    "east": "jemsgeo:block/peridotite_stone",
+    "west": "jemsgeo:block/peridotite_stone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/trachytic_tuff_stone",
+    "up": "jemsgeo:block/trachytic_tuff_stone",
+    "down": "jemsgeo:block/trachytic_tuff_stone",
+    "north": "jemsgeo:block/trachytic_tuff_stone",
+    "south": "jemsgeo:block/trachytic_tuff_stone",
+    "east": "jemsgeo:block/trachytic_tuff_stone",
+    "west": "jemsgeo:block/trachytic_tuff_stone"
+  }
+}

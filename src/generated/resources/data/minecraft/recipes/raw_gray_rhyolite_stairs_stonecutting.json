@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:gray_rhyolite_stone"
+  },
+  "result": "jemsgeo:gray_rhyolite_stairs",
+  "count": 1
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_quartzite_stone"
+  },
+  "result": "jemsgeo:quartzite_cobble_wall",
+  "count": 2
+}

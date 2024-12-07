@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:shale_cobblestone"
+  },
+  "result": "jemsgeo:shale_cobble_stairs",
+  "count": 1
+}

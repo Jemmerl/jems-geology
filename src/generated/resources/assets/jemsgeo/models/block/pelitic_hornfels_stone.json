@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/pelitic_hornfels_stone",
+    "up": "jemsgeo:block/pelitic_hornfels_stone",
+    "down": "jemsgeo:block/pelitic_hornfels_stone",
+    "north": "jemsgeo:block/pelitic_hornfels_stone",
+    "south": "jemsgeo:block/pelitic_hornfels_stone",
+    "east": "jemsgeo:block/pelitic_hornfels_stone",
+    "west": "jemsgeo:block/pelitic_hornfels_stone"
+  }
+}

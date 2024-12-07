@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_gneiss_stone"
+  },
+  "result": "jemsgeo:gneiss_cobble_wall",
+  "count": 2
+}

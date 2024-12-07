@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_peridotite_stone"
+  },
+  "result": "jemsgeo:peridotite_cobble_wall",
+  "count": 2
+}

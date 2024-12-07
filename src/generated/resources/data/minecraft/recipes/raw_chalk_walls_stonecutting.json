@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:chalk_stone"
+  },
+  "result": "jemsgeo:chalk_wall",
+  "count": 2
+}

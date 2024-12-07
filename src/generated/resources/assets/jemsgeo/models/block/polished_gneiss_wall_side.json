@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "jemsgeo:block/polished_gneiss_stone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/schist_stone",
+    "up": "jemsgeo:block/schist_stone",
+    "down": "jemsgeo:block/schist_stone",
+    "north": "jemsgeo:block/schist_stone",
+    "south": "jemsgeo:block/schist_stone",
+    "east": "jemsgeo:block/schist_stone",
+    "west": "jemsgeo:block/schist_stone"
+  }
+}

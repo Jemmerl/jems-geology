@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/serpentine_stone",
+    "particle": "jemsgeo:block/serpentine_stone",
+    "overlay": "jemsgeo:block/ore/poor_magnetite"
+  }
+}

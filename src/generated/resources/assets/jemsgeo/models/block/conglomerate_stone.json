@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/conglomerate_stone",
+    "up": "jemsgeo:block/conglomerate_stone",
+    "down": "jemsgeo:block/conglomerate_stone",
+    "north": "jemsgeo:block/conglomerate_stone",
+    "south": "jemsgeo:block/conglomerate_stone",
+    "east": "jemsgeo:block/conglomerate_stone",
+    "west": "jemsgeo:block/conglomerate_stone"
+  }
+}

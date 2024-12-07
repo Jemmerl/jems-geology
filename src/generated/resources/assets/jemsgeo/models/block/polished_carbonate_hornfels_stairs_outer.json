@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/polished_carbonate_hornfels_stone",
+    "bottom": "jemsgeo:block/polished_carbonate_hornfels_stone",
+    "top": "jemsgeo:block/polished_carbonate_hornfels_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:carbonate_hornfels_cobblestone"
+  },
+  "result": "jemsgeo:carbonate_hornfels_cobble_slab",
+  "count": 2
+}

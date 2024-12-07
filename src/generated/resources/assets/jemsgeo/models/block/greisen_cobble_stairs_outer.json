@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/greisen_cobblestone",
+    "bottom": "jemsgeo:block/greisen_cobblestone",
+    "top": "jemsgeo:block/greisen_cobblestone"
+  }
+}

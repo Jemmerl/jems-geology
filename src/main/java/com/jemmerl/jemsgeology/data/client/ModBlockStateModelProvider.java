@@ -70,6 +70,11 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 stairsBlock((StairsBlock) geoRegistry.getCobbleStairs(), cobbleRL);
                 wallBlock((WallBlock) geoRegistry.getCobbleWall(), cobbleRL);
 
+                simpleBlock(geoRegistry.getPolishedStone());
+                slabBlock((SlabBlock) geoRegistry.getPolishedSlab(), polishedRL, polishedRL);
+                stairsBlock((StairsBlock) geoRegistry.getPolishedStairs(), polishedRL);
+                wallBlock((WallBlock) geoRegistry.getPolishedWall(), polishedRL);
+
                 models().withExistingParent("block/" +
                                 Objects.requireNonNull(geoRegistry.getRawWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
@@ -79,10 +84,10 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                                 Objects.requireNonNull(geoRegistry.getCobbleWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", cobbleRL);
-
-                simpleBlock(geoRegistry.getPolishedStone());
-                slabBlock((SlabBlock) geoRegistry.getPolishedSlab(), polishedRL, polishedRL);
-                stairsBlock((StairsBlock) geoRegistry.getPolishedStairs(), polishedRL);
+                models().withExistingParent("block/" +
+                                Objects.requireNonNull(geoRegistry.getPolishedWall().getRegistryName()).getPath() +
+                                "_inventory", mcLoc("block/wall_inventory"))
+                        .texture("wall", cobbleRL);
             }
         }
     }

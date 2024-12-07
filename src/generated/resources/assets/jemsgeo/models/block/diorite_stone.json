@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/diorite_stone",
+    "up": "jemsgeo:block/diorite_stone",
+    "down": "jemsgeo:block/diorite_stone",
+    "north": "jemsgeo:block/diorite_stone",
+    "south": "jemsgeo:block/diorite_stone",
+    "east": "jemsgeo:block/diorite_stone",
+    "west": "jemsgeo:block/diorite_stone"
+  }
+}

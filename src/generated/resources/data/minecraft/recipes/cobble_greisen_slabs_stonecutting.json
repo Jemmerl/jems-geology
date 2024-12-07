@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:greisen_cobblestone"
+  },
+  "result": "jemsgeo:greisen_cobble_slab",
+  "count": 2
+}

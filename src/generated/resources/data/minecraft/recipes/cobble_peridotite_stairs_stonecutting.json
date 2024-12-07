@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:peridotite_cobblestone"
+  },
+  "result": "jemsgeo:peridotite_cobble_stairs",
+  "count": 1
+}

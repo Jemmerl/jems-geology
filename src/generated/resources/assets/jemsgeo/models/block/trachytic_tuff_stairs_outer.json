@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/trachytic_tuff_stone",
+    "bottom": "jemsgeo:block/trachytic_tuff_stone",
+    "top": "jemsgeo:block/trachytic_tuff_stone"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/rhyolitic_tuff_stone",
+    "up": "jemsgeo:block/rhyolitic_tuff_stone",
+    "down": "jemsgeo:block/rhyolitic_tuff_stone",
+    "north": "jemsgeo:block/rhyolitic_tuff_stone",
+    "south": "jemsgeo:block/rhyolitic_tuff_stone",
+    "east": "jemsgeo:block/rhyolitic_tuff_stone",
+    "west": "jemsgeo:block/rhyolitic_tuff_stone"
+  }
+}
