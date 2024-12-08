@@ -18,7 +18,7 @@ public class ModItemGroups {
     public static final ItemGroup JEMGEO_COBBLE_GROUP = new ItemGroup("jemsgeo_cobbles_tab") {
         @Override
         public ItemStack createIcon() {
-            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getRockItem().getDefaultInstance();
+            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getCobbles().asItem().getDefaultInstance();
         }
     };
 
@@ -47,7 +47,7 @@ public class ModItemGroups {
         @Override
         public ItemStack createIcon() {
             return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT)
-                    .getStoneOre(ModGeoOres.DIAMOND, Grade.NORMAL).asItem().getDefaultInstance();
+                    .getStoneOre(ModGeoOres.OLIVINE, Grade.NORMAL).asItem().getDefaultInstance();
         }
     };
 

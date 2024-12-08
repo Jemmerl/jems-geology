@@ -3,6 +3,6 @@
   "ingredient": {
     "item": "jemsgeo:polished_conglomerate_stone"
   },
-  "result": "jemsgeo:conglomerate_cobble_wall",
+  "result": "jemsgeo:polished_conglomerate_wall",
   "count": 2
 }

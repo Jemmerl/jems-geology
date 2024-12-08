@@ -77,7 +77,7 @@ public class ModGeoOres {
     //          REGISTRY METHODS        //
     //////////////////////////////////////
 
-    public static final LinkedHashSet<String> PROTECTED_ORES = new LinkedHashSet<>(Arrays.asList("none", "diamond"));
+    public static final LinkedHashSet<String> PROTECTED_ORES = new LinkedHashSet<>(Arrays.asList("none", "olivine"));
 
     public static void init() {
         JemsGeology.LOGGER.info("Registering GeoOres from source: " + JemsGeology.MOD_ID);

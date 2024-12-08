@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "jemsgeo:block/trachytic_tuff_cobblestone"
+    "wall": "jemsgeo:block/polished_trachytic_tuff_stone"
   }
 }

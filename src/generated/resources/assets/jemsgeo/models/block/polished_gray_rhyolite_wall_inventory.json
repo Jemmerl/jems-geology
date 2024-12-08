@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/wall_inventory",
   "textures": {
-    "wall": "jemsgeo:block/gray_rhyolite_cobblestone"
+    "wall": "jemsgeo:block/polished_gray_rhyolite_stone"
   }
 }

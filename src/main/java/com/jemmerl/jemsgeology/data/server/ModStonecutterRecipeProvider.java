@@ -85,7 +85,7 @@ public class ModStonecutterRecipeProvider extends RecipeProvider {
                         .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(polished), geoRegistry.getCobbleWall(), 2)
+                                Ingredient.fromItems(polished), geoRegistry.getPolishedWall(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
                         .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_walls_stonecutting");
             }

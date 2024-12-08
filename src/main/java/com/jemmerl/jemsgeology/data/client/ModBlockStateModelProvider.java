@@ -87,7 +87,7 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 models().withExistingParent("block/" +
                                 Objects.requireNonNull(geoRegistry.getPolishedWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
-                        .texture("wall", cobbleRL);
+                        .texture("wall", polishedRL);
             }
         }
     }
