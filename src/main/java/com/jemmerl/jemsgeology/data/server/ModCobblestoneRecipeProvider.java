@@ -24,7 +24,7 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
                 .Instance.forItems(ItemPredicate.Builder.create().tag(ModTags.Items.JEMSGEO_ROCKS).build());
 
         for (GeoType stone : GeoType.values()) {
-            if (stone.hasCobble() && !stone.equals(GeoType.PAHOEHOE)) {
+            if (stone.hasCobble()) {
                 GeoRegistry registry = ModBlocks.GEO_BLOCKS.get(stone);
                 Item rockItem = registry.getRockItem();
 

@@ -41,7 +41,6 @@ public class ModBlocks {
     private static final Block.Properties GRAVEL_PROP = AbstractBlock.Properties.create(Material.SAND)
             .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
 
-    // TODO need to test this happens after other mods put ores in.
     public static final ImmutableMap<String, OreType> REGISTERED_ORES = GeoOreRegistryAPI.getRegisteredOres();
 
     public static final LinkedHashMap<GeoType, GeoRegistry> GEO_BLOCKS = new LinkedHashMap<>();

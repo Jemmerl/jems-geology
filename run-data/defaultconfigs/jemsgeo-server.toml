@@ -10,3 +10,7 @@
 	#Range: 1 ~ 2
 	stoneHardnessMultiplier = 1
 
+["Debug Options"]
+	#Debug ore-type registration methods/API - Default false
+	debugOreRegistry = true
+

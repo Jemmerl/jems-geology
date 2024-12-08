@@ -33,7 +33,6 @@ public class JemsGeology
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModGeoOres.init();
-        System.out.println("done register ores");
 
         ModEntities.register(eventBus);
         ModBlocks.register(eventBus);
@@ -51,7 +50,7 @@ public class JemsGeology
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        System.out.println("done setup");
+
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

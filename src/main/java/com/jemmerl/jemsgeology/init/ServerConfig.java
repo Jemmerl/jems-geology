@@ -13,9 +13,16 @@ public class ServerConfig {
     private static final int stoneDepthMultiplier = 1;
     private static final int stoneDepthMultiplierStart = 50;
 
+    // Debug Options
+    private static final boolean debugOreRegistry = true;
+
+
     public static ForgeConfigSpec.IntValue STONE_HARD_MULT;
     public static ForgeConfigSpec.IntValue STONE_DEPTH_MULT;
     public static ForgeConfigSpec.IntValue STONE_DEPTH_MULT_START;
+
+    // Debug Options
+    public static ForgeConfigSpec.BooleanValue DEBUG_ORE_REG;
 
     static {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -27,6 +34,12 @@ public class ServerConfig {
                 .defineInRange("stoneDepthMultiplier", stoneDepthMultiplier, 1, 2);
         STONE_DEPTH_MULT_START = builder.comment("depth multiplier start, recommended y=50")
                 .defineInRange("stoneDepthMultiplierStart", stoneDepthMultiplierStart, 0, 65535);
+        builder.pop();
+
+
+        builder.push("Debug Options");
+        DEBUG_ORE_REG = builder.comment("Debug ore-type registration methods/API - Default false")
+                        .define("debugOreRegistry", debugOreRegistry);
         builder.pop();
 
 

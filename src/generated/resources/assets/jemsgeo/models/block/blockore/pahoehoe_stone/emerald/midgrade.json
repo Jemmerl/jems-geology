@@ -1,9 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent_sides",
-  "textures": {
-    "particle": "jemsgeo:block/pahoehoe_stone1",
-    "ends": "jemsgeo:block/pahoehoe_stone1",
-    "sides": "jemsgeo:block/pahoehoe_stone2",
-    "overlay": "jemsgeo:block/ore/emerald"
-  }
-}

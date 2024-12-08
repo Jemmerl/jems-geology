@@ -12,6 +12,8 @@ public class OreType /*implements IStringSerializable*/ {
 
     private final String name;
     private final String source;
+    private final OreLootProvider oreLootProvider;
+
     private final boolean hasPoorOre;
 
     private final boolean hasPresetOre;
@@ -30,6 +32,9 @@ public class OreType /*implements IStringSerializable*/ {
     public OreType(String name, String source, boolean hasPoorOre, boolean hasPresetOre, Item presetOreItem, boolean hasPresetPoorOre, Item presetPoorOreItem) {
         this.name = name.toLowerCase(Locale.ROOT);
         this.source = source;
+        this.oreLootProvider = oreLootProvider;
+
+
         this.hasPoorOre = hasPoorOre;
 
         this.hasPresetOre = hasPresetOre;

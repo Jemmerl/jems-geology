@@ -50,7 +50,6 @@ public enum GeoType {
     ANDESITE("andesite",                GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.STONE),
     TRACHYTE("trachyte",                GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.STONE),
     BASALT("basalt",                    GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.STONE),
-    PAHOEHOE("pahoehoe",                GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, false, MaterialColor.STONE), //todo keep?? also edit block model to have side textures on bottom
     SCORIA("scoria",                    GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.STONE),
     RHYOLITIC_TUFF("rhyolitic_tuff",    GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.STONE),
     TRACHYTIC_TUFF("trachytic_tuff",    GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.STONE),
@@ -158,7 +157,5 @@ public enum GeoType {
     ////////////////////////////////////
 
     // List of blocks with a different side texture
-    public static List<GeoType> SIDE_TEXTURE_MODELS = Collections.singletonList(
-            GeoType.PAHOEHOE
-    );
+    public static List<GeoType> SIDE_TEXTURE_MODELS = Collections.emptyList();
 }

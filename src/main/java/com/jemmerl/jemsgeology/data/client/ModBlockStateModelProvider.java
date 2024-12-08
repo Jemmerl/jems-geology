@@ -39,16 +39,13 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
 
             // Cobble based blocks and regolith/ores
             if (geoRegistry.hasCobble()) {
+                simpleBlock(geoRegistry.getCobbles());
+                simpleBlock(geoRegistry.getCobblestone());
 
-                if (geoRegistry.getGeoType() != GeoType.PAHOEHOE) {
-                    simpleBlock(geoRegistry.getCobbles());
-                    simpleBlock(geoRegistry.getCobblestone());
-
-                    for (Block block: geoRegistry.getRegolithGeoBlocks()) {
-                        if (block instanceof IGeoBlock) {
-                            buildSimpleOreBlock(block,
-                                    Objects.requireNonNull(geoRegistry.getRegolith().getRegistryName()).getPath());
-                        }
+                for (Block block: geoRegistry.getRegolithGeoBlocks()) {
+                    if (block instanceof IGeoBlock) {
+                        buildSimpleOreBlock(block,
+                                Objects.requireNonNull(geoRegistry.getRegolith().getRegistryName()).getPath());
                     }
                 }
             }

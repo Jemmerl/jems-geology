@@ -3,6 +3,7 @@ package com.jemmerl.jemsgeology.api;
 import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.ServerConfig;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 
 import java.util.LinkedHashMap;
@@ -30,12 +31,20 @@ public class GeoOreRegistryAPI {
             return null;
         }
         ORE_TYPES.put(name, oreType);
-        System.out.println("registered " + name);//TODO DEBUG
+
+        // DEBUG
+        if (ServerConfig.DEBUG_ORE_REG.get()) {
+            JemsGeology.LOGGER.info("Registered ore-type named \"" + name + "\" from source: \"" + oreType.getSource() + "\"");
+        }
+
         return oreType;
     }
 
     public static ImmutableMap<String, OreType> getRegisteredOres() {
-        System.out.println("got registered ores");//TODO DEBUG
+        // DEBUG
+        if (ServerConfig.DEBUG_ORE_REG.get()) {
+            JemsGeology.LOGGER.info("Retrieved " + ORE_TYPES.size() + " registered ores");
+        }
         return ImmutableMap.copyOf(ORE_TYPES);
     }
 
