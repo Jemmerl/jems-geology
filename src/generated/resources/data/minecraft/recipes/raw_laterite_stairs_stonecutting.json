@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:laterite_stone"
+  },
+  "result": "jemsgeo:laterite_stairs",
+  "count": 1
+}

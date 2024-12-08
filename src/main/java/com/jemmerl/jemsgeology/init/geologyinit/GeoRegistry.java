@@ -45,7 +45,8 @@ public class GeoRegistry {
         this.geoType = geoType;
         hasCobble = geoType.hasCobble();
 
-        baseStone = ModBlocks.registerStoneGeoBlock(geoType);
+        baseStone = geoType.getGeoGroup().isDetritus() ?
+                ModBlocks.registerDetritusGeoBlock(geoType) : ModBlocks.registerStoneGeoBlock(geoType);
         regolith = hasCobble ? ModBlocks.registerRegolithGeoBlock(geoType) : null;
         cobbles = hasCobble ? ModBlocks.registerCobblesBlock(geoType) : null;
         cobblestone = hasCobble ? ModBlocks.registerCobblestoneBlock(geoType) : null;
@@ -77,6 +78,9 @@ public class GeoRegistry {
     public boolean hasCobble() { return hasCobble; }
     public GeoType getGeoType() { return geoType; }
 
+    // TODO at the end of time (development), if base detritus blocks are never used (because sand-detritus with no
+    //  ore is literally sand), then use a SWITCH statement in getBaseStone to remove them and return vanilla blocks.
+    //  until then, its literally 6 more blocks out of like 20000, so who cares.
     public Block getBaseStone() { return baseStone.get(); }
     public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
 

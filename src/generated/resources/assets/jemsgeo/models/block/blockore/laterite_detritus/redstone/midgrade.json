@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/laterite_detritus",
-    "particle": "jemsgeo:block/laterite_detritus",
-    "overlay": "jemsgeo:block/ore/redstone"
-  }
-}

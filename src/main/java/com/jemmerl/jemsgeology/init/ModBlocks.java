@@ -3,9 +3,7 @@ package com.jemmerl.jemsgeology.init;
 import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.blocks.FallingCobbleBlock;
-import com.jemmerl.jemsgeology.blocks.RegolithGeoBlock;
-import com.jemmerl.jemsgeology.blocks.StoneGeoBlock;
+import com.jemmerl.jemsgeology.blocks.*;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
@@ -31,21 +29,17 @@ public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS
             = DeferredRegister.create(ForgeRegistries.BLOCKS, JemsGeology.MOD_ID);
 
-    //todo fix(?) polished walls all appearing side by side in creative inv
+    private static final Block.Properties DIRT_PROP = AbstractBlock.Properties.create(Material.EARTH)
+            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.5f);
 
+    private static final Block.Properties CLAY_PROP = AbstractBlock.Properties.create(Material.CLAY)
+            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
 
-//
-//    private static final Block.Properties DIRT_PROP = AbstractBlock.Properties.create(Material.EARTH)
-//            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.5f);
-//
-//    private static final Block.Properties CLAY_PROP = AbstractBlock.Properties.create(Material.CLAY)
-//            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
-//
-//    private static final Block.Properties SAND_PROP = AbstractBlock.Properties.create(Material.SAND)
-//            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.SAND).hardnessAndResistance(0.5f);
-//
-//    private static final Block.Properties GRAVEL_PROP = AbstractBlock.Properties.create(Material.SAND)
-//            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
+    private static final Block.Properties SAND_PROP = AbstractBlock.Properties.create(Material.SAND)
+            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.SAND).hardnessAndResistance(0.5f);
+
+    private static final Block.Properties GRAVEL_PROP = AbstractBlock.Properties.create(Material.SAND)
+            .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
 
     // TODO need to test this happens after other mods put ores in.
     public static final ImmutableMap<String, OreType> REGISTERED_ORES = GeoOreRegistryAPI.getRegisteredOres();
@@ -69,18 +63,12 @@ public class ModBlocks {
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
     }
 
-    // For ore bearing stone blocks
-    public static <T extends Block>RegistryObject<T> registerStoneGeoBlock(GeoType geoType, OreType oreType, Grade grade) {
+    // For ore-bearing stone blocks
+    public static <T extends Block>RegistryObject<T> registerStoneOreBlock(GeoType geoType, OreType oreType, Grade grade) {
         String blockTypeName = (geoType.getGeoGroup().isDetritus()) ? "_detritus" : "_stone";
         String name = geoType.getName() + blockTypeName + "/" + oreType.getName() + "/" + grade.getName();
         Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(getStoneProp(geoType), geoType, oreType, grade);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
-    }
-
-    public static <T extends Block>RegistryObject<T> registerCobblesBlock(GeoType geoType) {
-        String name = geoType.getName() + "_cobbles";
-        Supplier<T> blockSupplier = () -> (T) new FallingCobbleBlock(getCobblesProp(geoType), geoType);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
     }
 
     // For base regolith blocks
@@ -90,11 +78,49 @@ public class ModBlocks {
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
     }
 
-    // For ore bearing regolith blocks
-    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType, OreType oreType, Grade grade) {
+    // For ore-bearing regolith blocks
+    public static <T extends Block>RegistryObject<T> registerRegolithOreBlock(GeoType geoType, OreType oreType, Grade grade) {
         String name = geoType.getName() + "_regolith/" + oreType.getName() + "/" + grade.getName();
         Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, oreType, grade);
         return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
+    }
+
+    // For base detritus blocks
+    public static <T extends Block>RegistryObject<T> registerDetritusGeoBlock(GeoType geoType) {
+        String name = geoType.getName() + "_detritus";
+        return registerBlock(name, buildDetritusBlock(geoType, ModGeoOres.NONE, Grade.NONE), ModItemGroups.JEMGEO_BASE_STONE_GROUP);
+    }
+
+    // For ore-bearing detritus blocks
+    public static <T extends Block>RegistryObject<T> registerDetritusOreBlock(GeoType geoType, OreType oreType, Grade grade) {
+        String name = geoType.getName() + "_detritus/" + oreType.getName() + "/" + grade.getName();
+        return registerBlock(name, buildDetritusBlock(geoType, oreType, grade), ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
+    }
+
+    // Build the correct detritus block given its geology type
+    private static <T extends Block>Supplier<T> buildDetritusBlock(GeoType geoType, OreType oreType, Grade grade) {
+        switch (geoType) {
+            case DIRT:
+                return () -> (T) new BaseGeoBlock(DIRT_PROP, GeoType.DIRT, oreType, grade);
+            case COARSE_DIRT:
+                return () -> (T) new BaseGeoBlock(DIRT_PROP, GeoType.COARSE_DIRT, oreType, grade);
+            case CLAY:
+                return () -> (T) new BaseGeoBlock(CLAY_PROP, GeoType.CLAY, oreType, grade);
+            case SAND:
+                return () -> (T) new FallingBaseGeoBlock(SAND_PROP, GeoType.SAND, oreType, grade);
+            case RED_SAND:
+                return () -> (T) new FallingBaseGeoBlock(SAND_PROP, GeoType.RED_SAND, oreType, grade);
+            case GRAVEL:
+                return () -> (T) new FallingBaseGeoBlock(GRAVEL_PROP, GeoType.GRAVEL, oreType, grade);
+            default:
+                return null;
+        }
+    }
+
+    public static <T extends Block>RegistryObject<T> registerCobblesBlock(GeoType geoType) {
+        String name = geoType.getName() + "_cobbles";
+        Supplier<T> blockSupplier = () -> (T) new FallingCobbleBlock(getCobblesProp(geoType), geoType);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
     }
 
 

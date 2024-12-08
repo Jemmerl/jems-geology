@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/laterite_stone",
+    "up": "jemsgeo:block/laterite_stone",
+    "down": "jemsgeo:block/laterite_stone",
+    "north": "jemsgeo:block/laterite_stone",
+    "south": "jemsgeo:block/laterite_stone",
+    "east": "jemsgeo:block/laterite_stone",
+    "west": "jemsgeo:block/laterite_stone"
+  }
+}

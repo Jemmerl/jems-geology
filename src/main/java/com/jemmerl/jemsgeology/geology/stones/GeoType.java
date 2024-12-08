@@ -28,6 +28,12 @@ public enum GeoType {
     SUBBITUMINOUS_COAL("sub-bituminous_coal",   GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.STONE),
     BITUMINOUS_COAL("bituminous_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.STONE),
     ANTHRACITE_COAL("anthracite_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.STONE),
+    LATERITE("laterite",                        GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.REGOLITH, true, MaterialColor.DIRT),
+    // Note: Laterites are most commonly clay-soils, but can be compacted into rocks, especially after exposure.
+    //  Laterite rocks have even been used for construction, so it has been promoted.
+    //  Laterite is registered as a sedimentary rock, but its primary generation form will be as its regolith.
+    // TODO most laterites are, well, lateritic. But do not forget karst bauxite (also laterites kinda)
+    //  also maybe rename laterite regolith manually to just laterite or laterite soil?
 
     // Hydrothermal
     QUARTZ("quartz",        GeoGroup.HYDROTHERMAL, WeatheringType.REGOLITH, WeatheringType.NONE, true, MaterialColor.QUARTZ),
@@ -85,7 +91,6 @@ public enum GeoType {
     DIRT("dirt",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.DIRT),
     COARSE_DIRT("coarse_dirt",  GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.DIRT),
     CLAY("clay",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.DIRT),
-    LATERITE("laterite",        GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.DIRT),
 
     // Falling Detritus
     SAND("sand",            GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, MaterialColor.DIRT),

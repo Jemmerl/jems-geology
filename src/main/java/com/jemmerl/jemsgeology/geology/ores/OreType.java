@@ -73,13 +73,4 @@ public class OreType /*implements IStringSerializable*/ {
     public Item getPresetPoorOreItem() {
         return presetPoorOreItem;
     }
-
-    public Item getOreItem(boolean poorOre) {
-        if (poorOre) {
-            if (hasPresetPoorOre) return presetPoorOreItem;
-        } else {
-            if (hasPresetOre) return presetOreItem;
-        }
-        return ModItems.ORE_ITEMS.get(this).getOreItem(poorOre);
-    }
 }
