@@ -1,9 +1,8 @@
 package com.jemmerl.jemsgeology.geology.ores;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.init.ModItems;
+import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -12,37 +11,38 @@ public class OreType /*implements IStringSerializable*/ {
 
     private final String name;
     private final String source;
-    private final OreLootProvider oreLootProvider;
 
     private final boolean hasPoorOre;
+    private final OreLoot oreLoot;
+    private final OreLoot poorOreLoot;
 
-    private final boolean hasPresetOre;
-    private final boolean hasPresetPoorOre;
-    private final Item presetOreItem;
-    private final Item presetPoorOreItem;
-
-    public OreType(String name, String source, boolean hasPoorOre) {
-        this(name, source, hasPoorOre, false, Items.AIR, false, Items.AIR);
+    public OreType(String name, String source) {
+        this(name, source, false, ModGeoOres.EMPTY, ModGeoOres.EMPTY);
     }
 
-    public OreType(String name, String source, boolean hasPoorOre, boolean hasPresetOre, Item presetOreItem) {
-        this(name, source, hasPoorOre, hasPresetOre, presetOreItem, false, Items.AIR);
+    // Simplify commonly used (by me ofc) code, but also easy to see on the registration page if it has poor ore or not
+    public static OreType of(String name, String source, boolean hasPoorOre, OreLoot oreLootBoth) {
+        if (hasPoorOre) {
+            return new OreType(name, source, true, oreLootBoth, oreLootBoth);
+        } else {
+            return new OreType(name, source, false, oreLootBoth, ModGeoOres.EMPTY);
+        }
     }
 
-    public OreType(String name, String source, boolean hasPoorOre, boolean hasPresetOre, Item presetOreItem, boolean hasPresetPoorOre, Item presetPoorOreItem) {
+    // crimmas gift ideas
+    // t goggles 100, ski pants 32
+    // b first aid kit. good size but compact- one i use for rockhounding?
+    // g thermonuclear warheads (too much?)
+
+    public OreType(String name, String source, boolean hasPoorOre, OreLoot oreLoot, OreLoot poorOreLoot) {
         this.name = name.toLowerCase(Locale.ROOT);
         this.source = source;
-        this.oreLootProvider = oreLootProvider;
-
 
         this.hasPoorOre = hasPoorOre;
+        this.oreLoot = oreLoot;
+        this.poorOreLoot = poorOreLoot;
 
-        this.hasPresetOre = hasPresetOre;
-        this.presetOreItem = presetOreItem;
-        this.hasPresetPoorOre = hasPresetPoorOre;
-        this.presetPoorOreItem = presetPoorOreItem;
-
-        if (!hasPoorOre && hasPresetPoorOre) {
+        if (!hasPoorOre && poorOreLoot.hasPresetOre()) {
             JemsGeology.LOGGER.warn("OreType \"" + name + "\" from source \"" + source + "\" has a pre-set poor ore item without enabling poor ore.");
         }
     }
@@ -64,18 +64,18 @@ public class OreType /*implements IStringSerializable*/ {
     }
 
     public boolean hasPresetOre() {
-        return hasPresetOre;
+        return oreLoot.hasPresetOre();
     }
 
     public boolean hasPresetPoorOre() {
-        return hasPresetPoorOre;
+        return poorOreLoot.hasPresetOre();
     }
 
     public Item getPresetOreItem() {
-        return presetOreItem;
+        return oreLoot.getPresetOreItem();
     }
 
     public Item getPresetPoorOreItem() {
-        return presetPoorOreItem;
+        return poorOreLoot.getPresetOreItem();
     }
 }

@@ -1,11 +1,18 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
+import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.loot.*;
@@ -13,6 +20,8 @@ import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -21,6 +30,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ModLootTableProvider extends LootTableProvider {
+
     public ModLootTableProvider(DataGenerator dataGeneratorIn) {
         super(dataGeneratorIn);
     }
@@ -38,9 +48,11 @@ public class ModLootTableProvider extends LootTableProvider {
 //            LootTableManager.validateLootTable(validationTracker, entry.getKey(), entry.getValue());
     }
 
+    // Generate loot tables for blocks
     private static class ModBlockLootTables extends BlockLootTables {
         @Override
         protected void addTables() {
+
             for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
                 boolean hasCobble = geoRegistry.hasCobble();
 
