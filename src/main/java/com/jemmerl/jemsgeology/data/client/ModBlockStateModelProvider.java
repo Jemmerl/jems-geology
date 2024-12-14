@@ -37,11 +37,8 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 }
             }
 
-            // Cobble based blocks and regolith/ores
-            if (geoRegistry.hasCobble()) {
-                simpleBlock(geoRegistry.getCobbles());
-                simpleBlock(geoRegistry.getCobblestone());
-
+            // Regolith/ores
+            if (geoRegistry.hasRegolith()) {
                 for (Block block: geoRegistry.getRegolithGeoBlocks()) {
                     if (block instanceof IGeoBlock) {
                         buildSimpleOreBlock(block,
@@ -50,8 +47,11 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 }
             }
 
-            // Decorative stone variants
+            // Decorative stone variants / cobbles
             if (geoRegistry.hasCobble()) {
+                simpleBlock(geoRegistry.getCobbles());
+                simpleBlock(geoRegistry.getCobblestone());
+
                 ResourceLocation baseStoneRL = modLoc("block/" +
                         Objects.requireNonNull(geoRegistry.getBaseStone().getRegistryName()).getPath());
                 ResourceLocation cobbleRL = modLoc("block/" +

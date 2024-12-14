@@ -59,7 +59,7 @@ public class ModBlocks {
         String blockTypeName = (geoType.getGeoGroup().isDetritus()) ? "_detritus" : "_stone";
         String name = geoType.getName() + blockTypeName;
         Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(getStoneProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_BASE_STONE_GROUP);
     }
 
     // For ore-bearing stone blocks
@@ -67,33 +67,33 @@ public class ModBlocks {
         String blockTypeName = (geoType.getGeoGroup().isDetritus()) ? "_detritus" : "_stone";
         String name = geoType.getName() + blockTypeName + "/" + oreType.getName() + "/" + grade.getName();
         Supplier<T> blockSupplier = () -> (T) new StoneGeoBlock(getStoneProp(geoType), geoType, oreType, grade);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
     }
 
     // For base regolith blocks
     public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType) {
         String name = geoType.getName() + "_regolith";
         Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_BASE_STONE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_BASE_STONE_GROUP);
     }
 
     // For ore-bearing regolith blocks
     public static <T extends Block>RegistryObject<T> registerRegolithOreBlock(GeoType geoType, OreType oreType, Grade grade) {
         String name = geoType.getName() + "_regolith/" + oreType.getName() + "/" + grade.getName();
         Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, oreType, grade);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
     }
 
     // For base detritus blocks
     public static <T extends Block>RegistryObject<T> registerDetritusGeoBlock(GeoType geoType) {
         String name = geoType.getName() + "_detritus";
-        return registerBlock(name, buildDetritusBlock(geoType, ModGeoOres.NONE, Grade.NONE), ModItemGroups.JEMGEO_BASE_STONE_GROUP);
+        return registerBlock(name, buildDetritusBlock(geoType, ModGeoOres.NONE, Grade.NONE), ModItemGroups.JEMSGEO_BASE_STONE_GROUP);
     }
 
     // For ore-bearing detritus blocks
     public static <T extends Block>RegistryObject<T> registerDetritusOreBlock(GeoType geoType, OreType oreType, Grade grade) {
         String name = geoType.getName() + "_detritus/" + oreType.getName() + "/" + grade.getName();
-        return registerBlock(name, buildDetritusBlock(geoType, oreType, grade), ModItemGroups.JEMGEO_ORE_BLOCK_GROUP);
+        return registerBlock(name, buildDetritusBlock(geoType, oreType, grade), ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
     }
 
     // Build the correct detritus block given its geology type
@@ -119,7 +119,7 @@ public class ModBlocks {
     public static <T extends Block>RegistryObject<T> registerCobblesBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobbles";
         Supplier<T> blockSupplier = () -> (T) new FallingCobbleBlock(getCobblesProp(geoType), geoType);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_COBBLE_GROUP);
     }
 
 
@@ -130,7 +130,7 @@ public class ModBlocks {
     public static <T extends Block>RegistryObject<T> registerCobblestoneBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobblestone";
         Supplier<T> blockSupplier = () -> (T) new Block(getCobblestoneProp(geoType));
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMGEO_COBBLE_GROUP);
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_COBBLE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStoneBlock(GeoType geoType) {

@@ -1,7 +1,6 @@
 package com.jemmerl.jemsgeology.geology.ores;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.item.Item;
 
 import java.util.Locale;
@@ -13,36 +12,31 @@ public class OreType /*implements IStringSerializable*/ {
     private final String source;
 
     private final boolean hasPoorOre;
-    private final OreLoot oreLoot;
-    private final OreLoot poorOreLoot;
+    private final GeoLoot geoLoot;
+    private final GeoLoot poorGeoLoot;
 
     public OreType(String name, String source) {
-        this(name, source, false, ModGeoOres.EMPTY, ModGeoOres.EMPTY);
+        this(name, source, false, GeoLoot.EMPTY, GeoLoot.EMPTY);
     }
 
     // Simplify commonly used (by me ofc) code, but also easy to see on the registration page if it has poor ore or not
-    public static OreType of(String name, String source, boolean hasPoorOre, OreLoot oreLootBoth) {
+    public static OreType of(String name, String source, boolean hasPoorOre, GeoLoot geoLootBoth) {
         if (hasPoorOre) {
-            return new OreType(name, source, true, oreLootBoth, oreLootBoth);
+            return new OreType(name, source, true, geoLootBoth, geoLootBoth);
         } else {
-            return new OreType(name, source, false, oreLootBoth, ModGeoOres.EMPTY);
+            return new OreType(name, source, false, geoLootBoth, GeoLoot.EMPTY);
         }
     }
 
-    // crimmas gift ideas
-    // t goggles 100, ski pants 32
-    // b first aid kit. good size but compact- one i use for rockhounding?
-    // g thermonuclear warheads (too much?)
-
-    public OreType(String name, String source, boolean hasPoorOre, OreLoot oreLoot, OreLoot poorOreLoot) {
+    public OreType(String name, String source, boolean hasPoorOre, GeoLoot geoLoot, GeoLoot poorGeoLoot) {
         this.name = name.toLowerCase(Locale.ROOT);
         this.source = source;
 
         this.hasPoorOre = hasPoorOre;
-        this.oreLoot = oreLoot;
-        this.poorOreLoot = poorOreLoot;
+        this.geoLoot = geoLoot;
+        this.poorGeoLoot = poorGeoLoot;
 
-        if (!hasPoorOre && poorOreLoot.hasPresetOre()) {
+        if (!hasPoorOre && poorGeoLoot.hasPresetDrop()) {
             JemsGeology.LOGGER.warn("OreType \"" + name + "\" from source \"" + source + "\" has a pre-set poor ore item without enabling poor ore.");
         }
     }
@@ -64,18 +58,18 @@ public class OreType /*implements IStringSerializable*/ {
     }
 
     public boolean hasPresetOre() {
-        return oreLoot.hasPresetOre();
+        return geoLoot.hasPresetDrop();
     }
 
     public boolean hasPresetPoorOre() {
-        return poorOreLoot.hasPresetOre();
+        return poorGeoLoot.hasPresetDrop();
     }
 
     public Item getPresetOreItem() {
-        return oreLoot.getPresetOreItem();
+        return geoLoot.getPresetDrop();
     }
 
     public Item getPresetPoorOreItem() {
-        return poorOreLoot.getPresetOreItem();
+        return poorGeoLoot.getPresetDrop();
     }
 }

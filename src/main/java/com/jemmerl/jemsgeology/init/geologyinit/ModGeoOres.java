@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.init.geologyinit;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.ores.OreLoot;
+import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import net.minecraft.item.Items;
 import net.minecraft.loot.ConstantRange;
@@ -14,10 +14,6 @@ import static com.jemmerl.jemsgeology.api.GeoOreRegistryAPI.registerOreType;
 
 public class ModGeoOres {
 
-    public static final OreLoot EMPTY = new OreLoot(ConstantRange.of(0), false);
-    public static final OreLoot SINGLE_DROP_NO_FORTUNE = new OreLoot();
-
-
     //////////////////////////
     //      ORE TYPES       //
     //////////////////////////
@@ -26,17 +22,17 @@ public class ModGeoOres {
     public static final OreType NONE = new OreType("none", JemsGeology.MOD_ID);
 
     // Vanilla
-    public static final OreType LAPIS = registerOreType(new OreType("lapis", JemsGeology.MOD_ID, false, buildLapisOreLoot(), EMPTY));
-    public static final OreType REDSTONE = registerOreType(new OreType("redstone", JemsGeology.MOD_ID, false, buildRedstoneOreLoot(), EMPTY));
-    public static final OreType EMERALD = registerOreType(new OreType("emerald", JemsGeology.MOD_ID, false, buildEmeraldOreLoot(), EMPTY));
-    public static final OreType NATIVE_GOLD = registerOreType(OreType.of("native_gold", JemsGeology.MOD_ID, true, SINGLE_DROP_NO_FORTUNE));
+    public static final OreType LAPIS = registerOreType(new OreType("lapis", JemsGeology.MOD_ID, false, buildLapisOreLoot(), GeoLoot.EMPTY));
+    public static final OreType REDSTONE = registerOreType(new OreType("redstone", JemsGeology.MOD_ID, false, buildRedstoneOreLoot(), GeoLoot.EMPTY));
+    public static final OreType EMERALD = registerOreType(new OreType("emerald", JemsGeology.MOD_ID, false, buildEmeraldOreLoot(), GeoLoot.EMPTY));
+    public static final OreType NATIVE_GOLD = registerOreType(OreType.of("native_gold", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE));
 
     // Vanilla-plus (olivine spawns with diamond; hematite, limonite, magnetite replace iron)
-    public static final OreType DIAMOND = registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true, buildDiamondOreLoot(), SINGLE_DROP_NO_FORTUNE));
-    public static final OreType OLIVINE = registerOreType(OreType.of("olivine", JemsGeology.MOD_ID, false, SINGLE_DROP_NO_FORTUNE));
-    public static final OreType HEMATITE = registerOreType(OreType.of("hematite", JemsGeology.MOD_ID, true, SINGLE_DROP_NO_FORTUNE));
-    public static final OreType LIMONITE = registerOreType(OreType.of("limonite", JemsGeology.MOD_ID, true, SINGLE_DROP_NO_FORTUNE));
-    public static final OreType MAGNETITE = registerOreType(OreType.of("magnetite", JemsGeology.MOD_ID, true, SINGLE_DROP_NO_FORTUNE));
+    public static final OreType DIAMOND = registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true, buildDiamondOreLoot(), GeoLoot.SINGLE_DROP_NO_FORTUNE));
+    public static final OreType OLIVINE = registerOreType(OreType.of("olivine", JemsGeology.MOD_ID, false, GeoLoot.SINGLE_DROP_NO_FORTUNE));
+    public static final OreType HEMATITE = registerOreType(OreType.of("hematite", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE));
+    public static final OreType LIMONITE = registerOreType(OreType.of("limonite", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE));
+    public static final OreType MAGNETITE = registerOreType(OreType.of("magnetite", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE));
 
     // Modded-based
 //    public static final OreType APATITE = GeoOreRegistryAPI.registerOreType(new OreType("apatite", JemsGeology.MOD_ID, false, SINGLE_DROP_NO_FORTUNE, SINGLE_DROP_NO_FORTUNE))));
@@ -91,20 +87,20 @@ public class ModGeoOres {
     //      ORE-LOOT BUILDERS       //
     //////////////////////////////////
 
-    private static OreLoot buildLapisOreLoot() {
-        return new OreLoot(RandomValueRange.of(4f, 9f), true, OreLoot.FortuneFormula.ORE_DROPS, true, Items.LAPIS_LAZULI);
+    private static GeoLoot buildLapisOreLoot() {
+        return new GeoLoot(RandomValueRange.of(4f, 9f), true, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.LAPIS_LAZULI);
     }
 
-    private static OreLoot buildRedstoneOreLoot() {
-        return new OreLoot(RandomValueRange.of(4f, 5f), true, OreLoot.FortuneFormula.UNIFORM, true, Items.REDSTONE);
+    private static GeoLoot buildRedstoneOreLoot() {
+        return new GeoLoot(RandomValueRange.of(4f, 5f), true, GeoLoot.FortuneFormula.UNIFORM, true, Items.REDSTONE);
     }
 
-    private static OreLoot buildEmeraldOreLoot() {
-        return new OreLoot(ConstantRange.of(1), true, OreLoot.FortuneFormula.ORE_DROPS, true, Items.EMERALD);
+    private static GeoLoot buildEmeraldOreLoot() {
+        return new GeoLoot(ConstantRange.of(1), true, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.EMERALD);
     }
 
-    private static OreLoot buildDiamondOreLoot() {
-        return new OreLoot(ConstantRange.of(1), false, OreLoot.FortuneFormula.ORE_DROPS, true, Items.DIAMOND);
+    private static GeoLoot buildDiamondOreLoot() {
+        return new GeoLoot(ConstantRange.of(1), false, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.DIAMOND);
     }
 
 

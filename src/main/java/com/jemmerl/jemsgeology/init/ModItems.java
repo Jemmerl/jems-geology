@@ -25,7 +25,7 @@ public class ModItems {
     // MISC //
     //////////
 
-    public static final RegistryObject<Item> MORTAR = ITEMS.register("lime_mortar", () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_MISC_GROUP)));
+    public static final RegistryObject<Item> MORTAR = ITEMS.register("lime_mortar", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_MISC_GROUP)));
     public static final RegistryObject<Item> WOODEN_QUARRY_TOOL = ITEMS.register("wooden_quarry_tool", () -> new QuarryItem(ItemTier.WOOD));
     public static final RegistryObject<Item> STONE_QUARRY_TOOL = ITEMS.register("stone_quarry_tool", () -> new QuarryItem(ItemTier.STONE));
     public static final RegistryObject<Item> IRON_QUARRY_TOOL = ITEMS.register("iron_quarry_tool", () -> new QuarryItem(ItemTier.IRON));
@@ -37,6 +37,13 @@ public class ModItems {
     //////////
     // Ores //
     //////////
+
+    public static final RegistryObject<Item> ROCKSALT = ITEMS.register("rocksalt", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
+    public static final RegistryObject<Item> GYPSUM = ITEMS.register("gypsum", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
+    public static final RegistryObject<Item> LIGNITE_COAL = ITEMS.register("lignite_coal", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
+    public static final RegistryObject<Item> SUBBITUMINOUS_COAL = ITEMS.register("sub-bituminous_coal", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
+    public static final RegistryObject<Item> BITUMINOUS_COAL = ITEMS.register("bituminous_coal", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
+    public static final RegistryObject<Item> ANTHRACITE_COAL = ITEMS.register("anthracite_coal", () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
 
     public static final LinkedHashMap<OreType, OreItemRegistry> ORE_ITEMS = new LinkedHashMap<>();
     static {
@@ -52,15 +59,15 @@ public class ModItems {
 
     // Rock Item Creation and Registration
     public static RegistryObject<Item> registerRockItem(GeoType geoType) {
-        return ITEMS.register((geoType.getName() + "_rock"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_COBBLE_GROUP)));
+        return ITEMS.register((geoType.getName() + "_rock"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_COBBLE_GROUP)));
     }
 
     public static RegistryObject<Item> registerOreItem(OreType oreType) {
-        return ITEMS.register((oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
+        return ITEMS.register((oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
     }
 
     public static RegistryObject<Item> registerPoorOreItem(OreType oreType) {
-        return ITEMS.register(("poor_" + oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMGEO_ORES_GROUP)));
+        return ITEMS.register(("poor_" + oreType.getName() + "_ore"), () -> new Item(new Item.Properties().group(ModItemGroups.JEMSGEO_ORES_GROUP)));
     }
 
     // Item registry method

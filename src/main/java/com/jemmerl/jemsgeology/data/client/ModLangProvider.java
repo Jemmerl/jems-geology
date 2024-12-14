@@ -53,8 +53,6 @@ public class ModLangProvider extends LanguageProvider {
 
         // Blocks
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            boolean hasCobble = geoRegistry.hasCobble();
-
             if (geoRegistry.getGeoType().getGeoGroup().isDetritus()) {
                 for (Block block: geoRegistry.getStoneGeoBlocks()) {
                     nameDetritusOreBlock(block);
@@ -65,13 +63,15 @@ public class ModLangProvider extends LanguageProvider {
                 }
             }
 
-            if (hasCobble) {
-                nameCobblesBlock(geoRegistry.getCobbles());
-                nameCobblestoneBlock(geoRegistry.getCobblestone());
-
+            if (geoRegistry.hasRegolith()) {
                 for (Block block: geoRegistry.getRegolithGeoBlocks()) {
                     nameRegolithOreBlock(block);
                 }
+            }
+
+            if (geoRegistry.hasCobble()) {
+                nameCobblesBlock(geoRegistry.getCobbles());
+                nameCobblestoneBlock(geoRegistry.getCobblestone());
 
                 for (Block block: geoRegistry.getDecorBlocks()) {
                     nameStoneDecorBlock(block);

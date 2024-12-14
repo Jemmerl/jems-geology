@@ -6,6 +6,6 @@ import net.minecraft.item.TieredItem;
 
 public class QuarryItem extends TieredItem {
     public QuarryItem(ItemTier tierIn) {
-        super(tierIn, new Properties().group(ModItemGroups.JEMGEO_MISC_GROUP));
+        super(tierIn, new Properties().group(ModItemGroups.JEMSGEO_MISC_GROUP));
     }
 }

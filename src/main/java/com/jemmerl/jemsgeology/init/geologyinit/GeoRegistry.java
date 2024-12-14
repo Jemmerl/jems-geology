@@ -19,6 +19,7 @@ import java.util.Map;
 public class GeoRegistry {
 
     private final GeoType geoType;
+    private final boolean hasRegolith;
     private final boolean hasCobble;
 
     private final RegistryObject<Block> baseStone;
@@ -43,11 +44,16 @@ public class GeoRegistry {
 
     public GeoRegistry(GeoType geoType) {
         this.geoType = geoType;
+        hasRegolith = geoType.hasRegolith();
         hasCobble = geoType.hasCobble();
 
         baseStone = geoType.getGeoGroup().isDetritus() ?
                 ModBlocks.registerDetritusGeoBlock(geoType) : ModBlocks.registerStoneGeoBlock(geoType);
-        regolith = hasCobble ? ModBlocks.registerRegolithGeoBlock(geoType) : null;
+        regolith = hasRegolith ? ModBlocks.registerRegolithGeoBlock(geoType) : null;
+
+        this.stoneOreRegistry =  fillOreRegistry(geoType, false);
+        this.regolithOreRegistry = hasRegolith ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
+
         cobbles = hasCobble ? ModBlocks.registerCobblesBlock(geoType) : null;
         cobblestone = hasCobble ? ModBlocks.registerCobblestoneBlock(geoType) : null;
         rockItem = hasCobble ? ModItems.registerRockItem(geoType) : null;
@@ -65,9 +71,6 @@ public class GeoRegistry {
         polishedStairs = hasCobble ? ModBlocks.registerPolishedStairs(geoType,
                 () -> polishedStone.get().getDefaultState()) : null;
         polishedWall = hasCobble ? ModBlocks.registerPolishedStoneWall(geoType) : null;
-
-        this.stoneOreRegistry =  fillOreRegistry(geoType, false);
-        this.regolithOreRegistry = hasCobble ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
     }
 
 
@@ -76,6 +79,7 @@ public class GeoRegistry {
     //////////////////////////////
 
     public boolean hasCobble() { return hasCobble; }
+    public boolean hasRegolith() { return hasRegolith; }
     public GeoType getGeoType() { return geoType; }
 
     // TODO at the end of time (development), if base detritus blocks are never used (because sand-detritus with no
@@ -99,7 +103,7 @@ public class GeoRegistry {
     }
 
     public Block getRegolithOre(OreType oreType, Grade grade) {
-        if (!hasCobble) return getStoneOre(oreType, grade);
+        if (!hasRegolith) return getStoneOre(oreType, grade);
 
         if (oreType.hasOre()) {
             switch (grade) {
@@ -116,7 +120,7 @@ public class GeoRegistry {
 
     // GeoTypes with no cobble use their base stone as their own regolith
     public Block getRegolith() {
-        return hasCobble ? regolith.get() : baseStone.get();
+        return hasRegolith ? regolith.get() : baseStone.get();
     }
     public Block getCobbles() { return cobbles.get(); }
     public Block getCobblestone() { return cobblestone.get(); }
@@ -158,7 +162,7 @@ public class GeoRegistry {
     // Get all geo-blocks (aka not including cobbles and cobblestones)
     public List<Block> getAllGeoBlocks() {
         List<Block> allGeoBlocks = new ArrayList<>(getStoneGeoBlocks());
-        if (hasCobble) allGeoBlocks.addAll(getRegolithGeoBlocks());
+        if (hasRegolith) allGeoBlocks.addAll(getRegolithGeoBlocks());
         return allGeoBlocks;
     }
 
@@ -179,7 +183,7 @@ public class GeoRegistry {
     // Get all ore-bearing geo-blocks
     public List<Block> getAllOreBlocks() {
         List<Block> allOreBlocks = new ArrayList<>(getStoneOreBlocks());
-        if (hasCobble) allOreBlocks.addAll(getRegolithOreBlocks());
+        if (hasRegolith) allOreBlocks.addAll(getRegolithOreBlocks());
         return allOreBlocks;
     }
 

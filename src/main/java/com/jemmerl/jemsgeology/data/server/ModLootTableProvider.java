@@ -52,7 +52,6 @@ public class ModLootTableProvider extends LootTableProvider {
     private static class ModBlockLootTables extends BlockLootTables {
         @Override
         protected void addTables() {
-
             for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
                 boolean hasCobble = geoRegistry.hasCobble();
 
@@ -61,13 +60,15 @@ public class ModLootTableProvider extends LootTableProvider {
                     registerDetritusLootTables(geoRegistry);
                 } else {
                     // Loot Tables for base stone/stone ores
-                    registerStoneLootTables(geoRegistry, hasCobble);
+                    registerStoneLootTables(geoRegistry);
+                }
+
+                if (geoRegistry.hasRegolith()) {
+                    // Loot Tables for regolith/regolith ores
+                    registerRegolithLootTables(geoRegistry);
                 }
 
                 if (hasCobble) {
-                    // Loot Tables for regolith/regolith ores
-                    registerRegolithLootTables(geoRegistry);
-
                     registerCobblesLootTable(geoRegistry);
                     registerDropSelfLootTable(geoRegistry.getCobblestone());
 
@@ -100,8 +101,16 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         // BASE STONES
-        private void registerStoneLootTables(GeoRegistry geoRegistry, boolean hasCobble) {
+        private void registerStoneLootTables(GeoRegistry geoRegistry) {
+            // register base stone
+                // if cobble, drop cobbles
+                // if no cobble, drop self TEMP
 
+            //todo how to implement drops for blocks w/o cobbles? maybe an ore-loot table
+
+            // register ores
+                // if cobble, drop cobble and ores
+                // if no cobble, drop ores and self w/o ores
         }
 
         // REGOLITH
