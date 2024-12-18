@@ -118,6 +118,7 @@ public class GeoRegistry {
         return regolith.get();
     }
 
+    // It is expected that methods calling these do appropriate checks to avoid null returns
     // GeoTypes with no cobble use their base stone as their own regolith
     public Block getRegolith() {
         return hasRegolith ? regolith.get() : baseStone.get();
@@ -137,6 +138,15 @@ public class GeoRegistry {
     public Block getPolishedStairs() { return this.polishedStairs.get(); }
     public Block getPolishedWall() { return this.polishedWall.get(); }
 
+    public Item getDropItem() {
+        if (hasCobble) {
+            return getRockItem();
+        } else if (geoType.getGeoLoot().hasPresetDrop()) {
+            return geoType.getGeoLoot().getPresetDrop();
+        } else {
+            return baseStone.get().asItem();
+        }
+    }
 
     //////////////////////////////
     //          SETTERS         //

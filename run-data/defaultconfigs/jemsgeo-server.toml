@@ -1,4 +1,10 @@
 
+["Quarrying and Mining Options"]
+	#Disable silktouch enchantment on geo-stone blocks? Forces needing the quarrying chisel - Default true
+	disableSilktouch = true
+	#Disable fortune enchantment on geo-stone blocks? Default - false
+	disableFortune = false
+
 ["Stone Property Options"]
 	#depth multiplier, recommended 20, 1 to disable
 	#Range: 1 ~ 2

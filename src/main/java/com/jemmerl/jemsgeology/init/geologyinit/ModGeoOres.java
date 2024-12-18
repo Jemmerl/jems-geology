@@ -88,19 +88,19 @@ public class ModGeoOres {
     //////////////////////////////////
 
     private static GeoLoot buildLapisOreLoot() {
-        return new GeoLoot(RandomValueRange.of(4f, 9f), true, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.LAPIS_LAZULI);
+        return new GeoLoot(RandomValueRange.of(4f, 9f), true, GeoLoot.FortuneFormula.ORE_DROPS, true, ()->Items.LAPIS_LAZULI);
     }
 
     private static GeoLoot buildRedstoneOreLoot() {
-        return new GeoLoot(RandomValueRange.of(4f, 5f), true, GeoLoot.FortuneFormula.UNIFORM, true, Items.REDSTONE);
+        return new GeoLoot(RandomValueRange.of(4f, 5f), true, GeoLoot.FortuneFormula.UNIFORM, true, ()->Items.REDSTONE);
     }
 
     private static GeoLoot buildEmeraldOreLoot() {
-        return new GeoLoot(ConstantRange.of(1), true, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.EMERALD);
+        return new GeoLoot(ConstantRange.of(1), true, GeoLoot.FortuneFormula.ORE_DROPS, true, ()->Items.EMERALD);
     }
 
     private static GeoLoot buildDiamondOreLoot() {
-        return new GeoLoot(ConstantRange.of(1), false, GeoLoot.FortuneFormula.ORE_DROPS, true, Items.DIAMOND);
+        return new GeoLoot(ConstantRange.of(1), false, GeoLoot.FortuneFormula.ORE_DROPS, true, ()->Items.DIAMOND);
     }
 
 

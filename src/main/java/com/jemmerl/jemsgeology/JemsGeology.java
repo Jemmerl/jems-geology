@@ -35,8 +35,8 @@ public class JemsGeology
         ModGeoOres.init();
 
         ModEntities.register(eventBus);
-        ModBlocks.register(eventBus);
         ModItems.register(eventBus);
+        ModBlocks.register(eventBus);
 
         eventBus.addListener(this::setup);
         eventBus.addListener(this::doClientStuff);

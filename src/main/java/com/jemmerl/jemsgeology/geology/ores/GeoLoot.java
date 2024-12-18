@@ -5,11 +5,14 @@ import net.minecraft.item.Items;
 import net.minecraft.loot.BinomialRange;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.IRandomRange;
+import net.minecraftforge.fml.RegistryObject;
+
+import java.util.function.Supplier;
 
 public class GeoLoot {
 
     // Commonly used for stone drops
-    public static final GeoLoot BASIC_ROCKS = new GeoLoot(BinomialRange.of(3, 0.65f), false);
+    public static final GeoLoot BASIC_ROCKS = new GeoLoot(BinomialRange.of(5, 0.65f), false);
 
     // Commonly used for ore drops
     public static final GeoLoot EMPTY = new GeoLoot(ConstantRange.of(0), false);
@@ -19,25 +22,25 @@ public class GeoLoot {
     private final boolean affectedByFortune;
     private final FortuneFormula fortuneFormula;
     private final boolean hasPresetDrop;
-    private final Item presetDrop;
+    private final Supplier<Item> presetDrop;
 
     public GeoLoot() {
-        this(ConstantRange.of(1), false, FortuneFormula.ORE_DROPS, false, Items.AIR);
+        this(ConstantRange.of(1), false, FortuneFormula.ORE_DROPS, false, ()->Items.AIR);
     }
 
     public GeoLoot(IRandomRange itemRange, boolean affectedByFortune) {
-        this(itemRange, affectedByFortune, FortuneFormula.ORE_DROPS, false, Items.AIR);
+        this(itemRange, affectedByFortune, FortuneFormula.ORE_DROPS, false, ()->Items.AIR);
     }
 
     public GeoLoot(IRandomRange itemRange, boolean affectedByFortune, FortuneFormula bonusFormula) {
-        this(itemRange, affectedByFortune, bonusFormula, false, Items.AIR);
+        this(itemRange, affectedByFortune, bonusFormula, false, ()->Items.AIR);
     }
 
-    public GeoLoot(IRandomRange itemRange, Item presetDrop) {
+    public GeoLoot(IRandomRange itemRange, Supplier<Item> presetDrop) {
         this(itemRange, false, FortuneFormula.ORE_DROPS, true, presetDrop);
     }
 
-    public GeoLoot(IRandomRange itemRange, boolean affectedByFortune, FortuneFormula fortuneFormula, boolean hasPresetDrop, Item presetDrop) {
+    public GeoLoot(IRandomRange itemRange, boolean affectedByFortune, FortuneFormula fortuneFormula, boolean hasPresetDrop, Supplier<Item> presetDrop) {
         this.itemRange = itemRange;
         this.affectedByFortune = affectedByFortune;
         this.fortuneFormula = fortuneFormula;
@@ -50,7 +53,7 @@ public class GeoLoot {
     }
 
     public Item getPresetDrop() {
-        return presetDrop;
+        return presetDrop.get();
     }
 
     public boolean isAffectedByFortune() {

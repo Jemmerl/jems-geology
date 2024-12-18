@@ -13,15 +13,15 @@ public class OreItemRegistry {
 
     public OreItemRegistry(OreType oreType) {
         this.oreType = oreType;
-        this.oreItem = oreType.hasPresetOre() ? null : ModItems.registerOreItem(oreType);
-        this.poorOreItem = (oreType.hasPresetPoorOre() || !oreType.hasPoorOre()) ? null : ModItems.registerPoorOreItem(oreType);
+        this.oreItem = oreType.getGeoLoot().hasPresetDrop() ? null : ModItems.registerOreItem(oreType);
+        this.poorOreItem = (oreType.getPoorGeoLoot().hasPresetDrop() || !oreType.hasPoorOre()) ? null : ModItems.registerPoorOreItem(oreType);
     }
 
     public Item getOreItem(boolean poorOre) {
         if (poorOre && oreType.hasPoorOre()) {
-            return oreType.hasPresetPoorOre() ? oreType.getPresetPoorOreItem() : poorOreItem.get();
+            return oreType.getPoorGeoLoot().hasPresetDrop() ? oreType.getPoorGeoLoot().getPresetDrop() : poorOreItem.get();
         }
-        return oreType.hasPresetOre() ? oreType.getPresetOreItem() : oreItem.get();
+        return oreType.getGeoLoot().hasPresetDrop() ? oreType.getGeoLoot().getPresetDrop() : oreItem.get();
     }
 
 }

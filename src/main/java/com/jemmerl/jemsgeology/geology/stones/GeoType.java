@@ -4,6 +4,7 @@ import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.Item;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.RandomValueRange;
 
@@ -29,10 +30,10 @@ public enum GeoType {
     CLAYSTONE("claystone",                      GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
     SILTSTONE("siltstone",                      GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
     CONGLOMERATE("conglomerate",                GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
-    LIGNITE_COAL("lignite_coal",                GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(1,3), ModItems.LIGNITE_COAL.get())),
-    SUBBITUMINOUS_COAL("sub-bituminous_coal",   GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,4), ModItems.SUBBITUMINOUS_COAL.get())),
-    BITUMINOUS_COAL("bituminous_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(3,5), ModItems.BITUMINOUS_COAL.get())),
-    ANTHRACITE_COAL("anthracite_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(3,5), ModItems.ANTHRACITE_COAL.get())),
+    LIGNITE_COAL("lignite_coal",                GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(1,3), ModItems.LIGNITE_COAL)),
+    SUBBITUMINOUS_COAL("sub-bituminous_coal",   GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,4), ModItems.SUBBITUMINOUS_COAL)),
+    BITUMINOUS_COAL("bituminous_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(3,5), ModItems.BITUMINOUS_COAL)),
+    ANTHRACITE_COAL("anthracite_coal",          GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(3,5), ModItems.ANTHRACITE_COAL)),
     LATERITE("laterite",                        GeoGroup.SEDIMENTARY, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.DIRT),
     // Note: Laterites are most commonly clay-soils, but can be compacted into rocks, especially after exposure.
     //  Laterite rocks have even been used for construction, so it has been promoted.
@@ -44,8 +45,8 @@ public enum GeoType {
     QUARTZ("quartz",        GeoGroup.HYDROTHERMAL, WeatheringType.REGOLITH, WeatheringType.NONE, true, true, MaterialColor.QUARTZ),
 
     // Evaporites
-    ROCKSALT("rocksalt",    GeoGroup.EVAPORITE, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,5), ModItems.ROCKSALT.get())),
-    GYPSUM("gypsum",        GeoGroup.EVAPORITE, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,5), ModItems.GYPSUM.get())),
+    ROCKSALT("rocksalt",    GeoGroup.EVAPORITE, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,5), ModItems.ROCKSALT)),
+    GYPSUM("gypsum",        GeoGroup.EVAPORITE, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.STONE, new GeoLoot(RandomValueRange.of(2,5), ModItems.GYPSUM)),
 
     // Extrusive Igneous
     GRAY_RHYOLITE("gray_rhyolite",      GeoGroup.EXTRUSIVE, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
@@ -92,14 +93,14 @@ public enum GeoType {
     GREISEN("greisen",                          GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
 
     // Stable Detritus
-    DIRT("dirt",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.DIRT.asItem())),
-    COARSE_DIRT("coarse_dirt",  GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.COARSE_DIRT.asItem())),
-    CLAY("clay",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.CLAY.asItem())),
+    DIRT("dirt",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.DIRT::asItem)),
+    COARSE_DIRT("coarse_dirt",  GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.COARSE_DIRT::asItem)),
+    CLAY("clay",                GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.CLAY::asItem)),
 
     // Falling Detritus
-    SAND("sand",            GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.SAND.asItem())),
-    RED_SAND("red_sand",    GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.RED_SAND.asItem())),
-    GRAVEL("gravel",        GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.GRAVEL.asItem()));
+    SAND("sand",            GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.SAND::asItem)),
+    RED_SAND("red_sand",    GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.RED_SAND::asItem)),
+    GRAVEL("gravel",        GeoGroup.DETRITUS, WeatheringType.NONE, WeatheringType.NONE, false, false, MaterialColor.DIRT, new GeoLoot(ConstantRange.of(1), Blocks.GRAVEL::asItem));
 
     private final String name;
     private final GeoGroup geoGroup;
@@ -155,6 +156,10 @@ public enum GeoType {
         return hasCobble;
     }
 
+    public GeoLoot getGeoLoot() {
+        return geoLoot;
+    }
+
     public MaterialColor getMaterialColor() {
         return materialColor;
     }
@@ -166,7 +171,6 @@ public enum GeoType {
     public float getResistAdj() {
         return 0F;
     }
-
 
     //TODO may move to its own class down the line. or maybe remove all together, if stones become API'd like ores
     ////////////////////////////////////

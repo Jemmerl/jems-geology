@@ -5,17 +5,33 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
+import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
+import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
+import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geologyinit.OreItemRegistry;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.advancements.criterion.EnchantmentPredicate;
+import net.minecraft.advancements.criterion.ItemPredicate;
+import net.minecraft.advancements.criterion.MinMaxBounds;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
+import net.minecraft.block.BeetrootBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.loot.*;
+import net.minecraft.loot.conditions.*;
+import net.minecraft.loot.functions.ApplyBonus;
+import net.minecraft.loot.functions.ExplosionDecay;
 import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
@@ -50,19 +66,28 @@ public class ModLootTableProvider extends LootTableProvider {
 
     // Generate loot tables for blocks
     private static class ModBlockLootTables extends BlockLootTables {
+        // Copied from BlockLootTables, as it is private
+        private static final ILootCondition.IBuilder SILK_TOUCH = MatchTool.builder(
+                ItemPredicate.Builder.create()
+                        .enchantment(new EnchantmentPredicate(Enchantments.SILK_TOUCH, MinMaxBounds.IntBound.atLeast(1))));
+
         @Override
         protected void addTables() {
             for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
                 boolean hasCobble = geoRegistry.hasCobble();
 
-                if (geoRegistry.getGeoType().getGeoGroup().isDetritus()) {
-                    // Loot Tables for base stone/stone ores
-                    registerDetritusLootTables(geoRegistry);
-                } else {
-                    // Loot Tables for base stone/stone ores
-                    registerStoneLootTables(geoRegistry);
-                }
+                registerStoneLootTables(geoRegistry);
 
+//                if (geoRegistry.getGeoType().getGeoGroup().isDetritus()) {
+//                    // Loot Tables for base stone/stone ores
+//                    registerDetritusLootTables(geoRegistry);
+//                } else {
+//                    // Loot Tables for base stone/stone ores
+//
+//                }
+
+                //TODO regolith drops are identical
+                //TODO redstone ore dropping too much with fortune
                 if (geoRegistry.hasRegolith()) {
                     // Loot Tables for regolith/regolith ores
                     registerRegolithLootTables(geoRegistry);
@@ -81,10 +106,8 @@ public class ModLootTableProvider extends LootTableProvider {
                     registerDropSelfLootTable(geoRegistry.getPolishedStone());
                     registerDropSelfLootTable(geoRegistry.getPolishedSlab());
                     registerDropSelfLootTable(geoRegistry.getPolishedStairs());
-                } else {
-                    // TODO TEMP! Handles ore-less base stones with no cobble/regolith (evaporites) as well as detritus
-                    registerDropSelfLootTable(geoRegistry.getBaseStone());
-                }
+                    registerDropSelfLootTable(geoRegistry.getPolishedWall());
+               }
             }
         }
 
@@ -102,35 +125,135 @@ public class ModLootTableProvider extends LootTableProvider {
 
         // BASE STONES
         private void registerStoneLootTables(GeoRegistry geoRegistry) {
-            // register base stone
-                // if cobble, drop cobbles
-                // if no cobble, drop self TEMP
-
-            //todo how to implement drops for blocks w/o cobbles? maybe an ore-loot table
-
-            // register ores
-                // if cobble, drop cobble and ores
-                // if no cobble, drop ores and self w/o ores
+            registerStoneNoOreLoot(geoRegistry);
+            for (OreType oreType : GeoOreRegistryAPI.getRegisteredOres().values()) {
+                registerStoneOreLoot(geoRegistry, oreType, Grade.NORMAL);
+                if (oreType.hasPoorOre()) {
+                    registerStoneOreLoot(geoRegistry, oreType, Grade.POOR);
+                }
+            }
         }
 
         // REGOLITH
         private void registerRegolithLootTables(GeoRegistry geoRegistry) {
+            registerRegolithNoOreLoot(geoRegistry);
+            for (OreType oreType : GeoOreRegistryAPI.getRegisteredOres().values()) {
+                registerRegolithOreLoot(geoRegistry, oreType, Grade.NORMAL);
+                if (oreType.hasPoorOre()) {
+                    registerRegolithOreLoot(geoRegistry, oreType, Grade.POOR);
+                }
 
+            }
         }
 
-        // DETRITUS
-        private void registerDetritusLootTables(GeoRegistry geoRegistry) {
 
+        /////////////////////////////////////////////////////////////////////////////////////
+
+        private void registerStoneNoOreLoot(GeoRegistry geoRegistry) {
+            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+            Block block = geoRegistry.getBaseStone().getBlock();
+
+            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
+                    .addLootPool(LootPool.builder().addEntry(rockEntry))));
+        }
+
+        private void registerStoneOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
+            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+
+            Block block = geoRegistry.getStoneOre(oreType, grade);
+            LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
+
+            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
+                    .addLootPool(LootPool.builder().addEntry(rockEntry))
+                    .addLootPool(LootPool.builder().addEntry(oreEntry))));
+        }
+
+        private void registerRegolithNoOreLoot(GeoRegistry geoRegistry) {
+            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+            Block block = geoRegistry.getRegolith().getBlock();
+
+            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
+                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(rockEntry)))
+                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH).addEntry(ItemLootEntry.builder(block.asItem()))));
+        }
+
+        private void registerRegolithOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
+            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+
+            Block block = geoRegistry.getRegolithOre(oreType, grade);
+            LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
+
+            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
+                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(rockEntry))
+                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(oreEntry)))
+                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH).addEntry(ItemLootEntry.builder(block.asItem()))));
         }
 
 
 
 
+//        // Register a block with the ability to be silk-touched. More accepting than existing methods.
+//        private void withSilkTouch(Block block, LootEntry.Builder<?> lootEntry) {
+//            registerLootTable(block, LootTable.builder()
+//                    .addLootPool(LootPool.builder()
+//                            .rolls(ConstantRange.of(1))
+//                            .acceptCondition(SILK_TOUCH)
+//                            .acceptCondition(SurvivesExplosion.builder())
+//                            .addEntry(ItemLootEntry.builder(block)
+//                                    .alternatively(lootEntry))));
+//        }
+
+
+//        // Register a base stone/detritus ore block with the ability to be silk-touched
+//        private LootTable.Builder buildBaseStoneOreLootTable(Block block, LootEntry.Builder<?> oreEntry, LootEntry.Builder<?> rockEntry) {
+//            return buildOreLootTable(block, oreEntry)
+//                    .addLootPool(LootPool.builder()
+//                            .rolls(ConstantRange.of(1))
+//                            .acceptCondition(SILK_TOUCH.inverted())
+//                            .acceptCondition(SurvivesExplosion.builder())
+//                            .addEntry(rockEntry));
+//        }
 
 
 
+        // Build the loot entry component for ore drops
+        private LootEntry.Builder<?> buildOreLootEntry(OreType oreType, Grade grade) {
+            Item oreItem;
+            GeoLoot geoLoot;
+            switch (grade) {
+                //case RICH:
+                case POOR:
+                    oreItem = ModItems.ORE_ITEMS.get(oreType).getOreItem(true).asItem();
+                    geoLoot = oreType.getPoorGeoLoot();
+                    break;
+                case NORMAL:
+                default: // NONE should not happen anyway
+                    oreItem = ModItems.ORE_ITEMS.get(oreType).getOreItem(false).asItem();
+                    geoLoot = oreType.getGeoLoot();
+            }
+            return buildOreLootEntry(geoLoot, oreItem);
+        }
 
+        private LootEntry.Builder<?> buildOreLootEntry(GeoLoot geoLoot, Item oreItem) {
+            ItemLootEntry.Builder<?> builder = ItemLootEntry.builder(oreItem)
+                    .acceptFunction(ExplosionDecay.builder())
+                    .acceptFunction(SetCount.builder(geoLoot.getItemRange()));
 
+            if (geoLoot.isAffectedByFortune()) {
+                switch (geoLoot.getFortuneFormula()) {
+                    case UNIFORM:
+                        builder.acceptFunction(ApplyBonus.uniformBonusCount(Enchantments.FORTUNE));
+                        break;
+                    case BINOMIAL:
+                        builder.acceptFunction(ApplyBonus.binomialWithBonusCount(Enchantments.FORTUNE, 0.5714286F, 3));
+                        break;
+                    case ORE_DROPS:
+                    default:
+                        builder.acceptFunction(ApplyBonus.oreDrops(Enchantments.FORTUNE));
+                };
+            }
+            return builder;
+        }
 
         // Don't worry about this.
         @Override

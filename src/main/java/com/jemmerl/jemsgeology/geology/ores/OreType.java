@@ -53,23 +53,15 @@ public class OreType /*implements IStringSerializable*/ {
         return hasPoorOre;
     }
 
+    public GeoLoot getGeoLoot() {
+        return geoLoot;
+    }
+
+    public GeoLoot getPoorGeoLoot() {
+        return poorGeoLoot;
+    }
+
     public boolean hasOre() {
         return !Objects.equals(name, "none");
-    }
-
-    public boolean hasPresetOre() {
-        return geoLoot.hasPresetDrop();
-    }
-
-    public boolean hasPresetPoorOre() {
-        return poorGeoLoot.hasPresetDrop();
-    }
-
-    public Item getPresetOreItem() {
-        return geoLoot.getPresetDrop();
-    }
-
-    public Item getPresetPoorOreItem() {
-        return poorGeoLoot.getPresetDrop();
     }
 }

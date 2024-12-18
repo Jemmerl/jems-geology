@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "jemsgeo:item/sub-bituminous_coal_ore"
+  }
+}
