@@ -1,16 +1,15 @@
 package com.jemmerl.jemsgeology;
 
-import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.ModEntities;
-import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.ServerConfig;
+import com.jemmerl.jemsgeology.init.*;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -38,7 +37,7 @@ public class JemsGeology
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
 
-        eventBus.addListener(this::setup);
+        eventBus.addListener(this::commonSetup);
         eventBus.addListener(this::doClientStuff);
 
         // Register ourselves for server and other game events we are interested in
@@ -49,8 +48,8 @@ public class JemsGeology
                 .resolve(FMLConfig.defaultConfigPath()).resolve(MOD_ID + "-server.toml"));
     }
 
-    private void setup(final FMLCommonSetupEvent event) {
-
+    private void commonSetup(final FMLCommonSetupEvent event) {
+        ModLootConditionTypes.registerLootConditions();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {

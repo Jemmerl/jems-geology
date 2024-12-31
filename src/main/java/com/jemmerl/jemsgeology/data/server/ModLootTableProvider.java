@@ -87,7 +87,6 @@ public class ModLootTableProvider extends LootTableProvider {
 //                }
 
                 //TODO regolith drops are identical
-                //TODO redstone ore dropping too much with fortune
                 if (geoRegistry.hasRegolith()) {
                     // Loot Tables for regolith/regolith ores
                     registerRegolithLootTables(geoRegistry);

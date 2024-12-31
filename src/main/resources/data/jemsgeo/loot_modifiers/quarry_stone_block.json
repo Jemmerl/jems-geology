@@ -1,0 +1,8 @@
+{
+  "type": "jemsgeo:quarry_stone_block",
+  "conditions": [
+    {
+      "condition": "jemsgeo:is_geostone"
+    }
+  ]
+}
