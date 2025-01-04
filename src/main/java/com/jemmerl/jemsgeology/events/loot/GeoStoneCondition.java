@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.jemmerl.jemsgeology.blocks.StoneGeoBlock;
 import com.jemmerl.jemsgeology.init.ModLootConditionTypes;
-import com.jemmerl.jemsgeology.init.ModTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.loot.ILootSerializer;
 import net.minecraft.loot.LootConditionType;
@@ -27,9 +26,6 @@ public class GeoStoneCondition implements ILootCondition {
     @Override
     public boolean test(LootContext lootContext) {
         BlockState blockState = lootContext.get(LootParameters.BLOCK_STATE);
-
-        if (blockState != null) System.out.println((blockState.getBlock() instanceof StoneGeoBlock));
-
         return (blockState != null) && (blockState.getBlock() instanceof StoneGeoBlock);
     }
 

@@ -33,7 +33,7 @@ public class GeoOreRegistryAPI {
         ORE_TYPES.put(name, oreType);
 
         // DEBUG
-        if (ServerConfig.DEBUG_ORE_REG.get()) {
+        if (ServerConfig.DEBUG_ORE_REGISTRY.get()) {
             JemsGeology.LOGGER.info("Registered ore-type named \"" + name + "\" from source: \"" + oreType.getSource() + "\"");
         }
 
@@ -42,7 +42,7 @@ public class GeoOreRegistryAPI {
 
     public static ImmutableMap<String, OreType> getRegisteredOres() {
         // DEBUG
-        if (ServerConfig.DEBUG_ORE_REG.get()) {
+        if (ServerConfig.DEBUG_ORE_REGISTRY.get()) {
             JemsGeology.LOGGER.info("Retrieved " + ORE_TYPES.size() + " registered ores");
         }
         return ImmutableMap.copyOf(ORE_TYPES);

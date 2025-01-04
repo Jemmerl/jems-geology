@@ -3,6 +3,9 @@ package com.jemmerl.jemsgeology;
 import com.jemmerl.jemsgeology.init.*;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
+import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
+import com.jemmerl.jemsgeology.init.worldgen.ModFeaturePlacements;
+import com.jemmerl.jemsgeology.init.worldgen.ModFeatures;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -36,6 +39,8 @@ public class JemsGeology
         ModEntities.register(eventBus);
         ModItems.register(eventBus);
         ModBlocks.register(eventBus);
+        ModFeaturePlacements.register(eventBus);
+        ModFeatures.register(eventBus);
 
         eventBus.addListener(this::commonSetup);
         eventBus.addListener(this::doClientStuff);
@@ -50,6 +55,11 @@ public class JemsGeology
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         ModLootConditionTypes.registerLootConditions();
+
+        // Don't remove lambda in case needed later
+        DeferredWorkQueue.runLater(() -> {
+            ModConfiguredFeatures.registerConfiguredFeatures();
+        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
