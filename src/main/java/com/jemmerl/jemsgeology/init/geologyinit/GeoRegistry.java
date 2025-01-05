@@ -43,43 +43,28 @@ public class GeoRegistry {
     private final RegistryObject<Block> polishedWall;
 
     // guaranteed
-
-    // chiseled
-
-    // small bricks
-    // small bricks slab
-    // small bricks stairs
-    // small bricks wall
-
-    // mossy small bricks
-    // mossy small bricks slab
-    // mossy small bricks stairs
-    // mossy small bricks wall
-
-    // mossy cobble
-    // mossy cobble slab
-    // mossy cobble stairs
-    // mossy cobble wall
-
-
-
-
-    // if strong stone
-
-    // pillar
-
-    // large bricks
-    // large bricks slab
-    // large bricks stairs
-    // large bricks wall
-
-    // mossy large bricks
-    // mossy large bricks slab
-    // mossy large bricks stairs
-    // mossy large bricks wall
-
-
     // BUTTONS AND PRESSURE PLATES?!
+
+    // chiseled --------------- needs texture
+    // pillar --------------- needs texture
+
+    // bricks --------------- needs texture
+    // bricks slab
+    // bricks stairs
+    // bricks wall
+
+    // mossy bricks --------------- needs texture
+    // mossy bricks slab
+    // mossy bricks stairs
+    // mossy bricks wall
+
+    // MOSSY COBBLESTONE ARE SOLID NOT LIKE COBBLES
+    // mossy cobblestone --------------- needs texture
+    // mossy cobblestone slab
+    // mossy cobblestone stairs
+    // mossy cobblestone wall
+
+
 
     public GeoRegistry(GeoType geoType) {
         this.geoType = geoType;
@@ -93,18 +78,20 @@ public class GeoRegistry {
         this.stoneOreRegistry =  fillOreRegistry(geoType, false);
         this.regolithOreRegistry = hasRegolith ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
 
+        rockItem = hasCobble ? ModItems.registerRockItem(geoType) : null;
+
         cobbles = hasCobble ? ModBlocks.registerCobblesBlock(geoType) : null;
         cobblestone = hasCobble ? ModBlocks.registerCobblestoneBlock(geoType) : null;
-        rockItem = hasCobble ? ModItems.registerRockItem(geoType) : null;
+        cobbleSlab = hasCobble ? ModBlocks.registerCobbleSlab(geoType) : null;
+        cobbleStairs = hasCobble ? ModBlocks.registerCobbleStairs(geoType,
+                () -> cobblestone.get().getDefaultState()) : null;
+        cobbleWall = hasCobble ? ModBlocks.registerCobbleWall(geoType) : null;
 
         rawSlab = hasCobble ? ModBlocks.registerRawStoneSlab(geoType) : null;
         rawStairs = hasCobble ? ModBlocks.registerRawStoneStairs(geoType,
                 () -> baseStone.get().getDefaultState()) : null;
         rawWall = hasCobble ? ModBlocks.registerRawStoneWall(geoType) : null;
-        cobbleSlab = hasCobble ? ModBlocks.registerCobbleSlab(geoType) : null;
-        cobbleStairs = hasCobble ? ModBlocks.registerCobbleStairs(geoType,
-                () -> cobblestone.get().getDefaultState()) : null;
-        cobbleWall = hasCobble ? ModBlocks.registerCobbleWall(geoType) : null;
+
         polishedStone = hasCobble ? ModBlocks.registerPolishedStoneBlock(geoType) : null;
         polishedSlab = hasCobble ? ModBlocks.registerPolishedSlab(geoType) : null;
         polishedStairs = hasCobble ? ModBlocks.registerPolishedStairs(geoType,

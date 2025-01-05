@@ -1,5 +1,6 @@
 package com.jemmerl.jemsgeology;
 
+import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.*;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
@@ -40,6 +41,12 @@ public class JemsGeology
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModGeoOres.init();
+
+//        String str = "";
+//        for (GeoType geoType: GeoType.values()) {
+//            str = str + "\n " + geoType.getName();
+//        }
+//        System.out.println(str);
 
         ModEntities.register(eventBus);
         ModItems.register(eventBus);
