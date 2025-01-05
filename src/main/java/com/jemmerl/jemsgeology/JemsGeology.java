@@ -24,7 +24,12 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-// The value here should match an entry in the META-INF/mods.toml file
+/*
+TODO board
+    - handle silverfish??
+    - mossy and cracked variants
+ */
+
 @Mod(JemsGeology.MOD_ID)
 public class JemsGeology
 {
@@ -68,5 +73,6 @@ public class JemsGeology
             for(Block block: geoRegistry.getAllOreBlocks())
                 RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
         }
+        RenderTypeLookup.setRenderLayer(ModBlocks.LICHEN_BLOCK.get(), RenderType.getCutout());
     }
 }

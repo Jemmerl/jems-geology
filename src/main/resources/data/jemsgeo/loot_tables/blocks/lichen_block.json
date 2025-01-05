@@ -1,0 +1,149 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "up": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "down": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "north": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "south": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "east": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:lichen_block",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:lichen_block",
+              "properties": {
+                "west": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

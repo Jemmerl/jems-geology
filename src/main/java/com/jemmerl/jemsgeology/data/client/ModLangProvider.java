@@ -24,6 +24,7 @@ public class ModLangProvider extends LanguageProvider {
     protected void addTranslations() {
 
         // Misc items and stuff
+        add("block." + JemsGeology.MOD_ID + ".lichen_block", "Lichen");
         add("item." + JemsGeology.MOD_ID + ".lime_mortar", "Lime Mortar");
         add("item." + JemsGeology.MOD_ID + ".wooden_quarry_tool", "Wooden Quarrying Chisel");
         add("item." + JemsGeology.MOD_ID + ".stone_quarry_tool", "Stone Quarrying Chisel");

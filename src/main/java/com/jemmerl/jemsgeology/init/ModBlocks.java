@@ -50,6 +50,10 @@ public class ModBlocks {
         }
     }
 
+    public static final RegistryObject<Block> LICHEN_BLOCK = registerBlock("lichen_block", () -> new LichenBlock(
+            AbstractBlock.Properties.create(Material.TALL_PLANTS).hardnessAndResistance(0.2F).sound(SoundType.VINE).doesNotBlockMovement()
+    ), ModItemGroups.JEMSGEO_MISC_GROUP);
+
     ///////////////////////////////
     //      NATURAL BLOCKS       //
     ///////////////////////////////

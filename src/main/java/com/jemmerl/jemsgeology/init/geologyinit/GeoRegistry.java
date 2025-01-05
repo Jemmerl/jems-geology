@@ -42,6 +42,45 @@ public class GeoRegistry {
     private final RegistryObject<Block> polishedStairs;
     private final RegistryObject<Block> polishedWall;
 
+    // guaranteed
+
+    // chiseled
+
+    // small bricks
+    // small bricks slab
+    // small bricks stairs
+    // small bricks wall
+
+    // mossy small bricks
+    // mossy small bricks slab
+    // mossy small bricks stairs
+    // mossy small bricks wall
+
+    // mossy cobble
+    // mossy cobble slab
+    // mossy cobble stairs
+    // mossy cobble wall
+
+
+
+
+    // if strong stone
+
+    // pillar
+
+    // large bricks
+    // large bricks slab
+    // large bricks stairs
+    // large bricks wall
+
+    // mossy large bricks
+    // mossy large bricks slab
+    // mossy large bricks stairs
+    // mossy large bricks wall
+
+
+    // BUTTONS AND PRESSURE PLATES?!
+
     public GeoRegistry(GeoType geoType) {
         this.geoType = geoType;
         hasRegolith = geoType.hasRegolith();

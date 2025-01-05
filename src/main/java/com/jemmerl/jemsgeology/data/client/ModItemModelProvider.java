@@ -26,7 +26,7 @@ public class ModItemModelProvider extends ItemModelProvider {
             String path = regBlock.getId().getPath();
             String regName = Objects.requireNonNull(regBlock.get().getRegistryName()).toString();
 
-            if (!(regName.contains("pahoehoe") && !regName.contains("_stone"))) {
+            if (!(regName.contains("lichen") && !regName.contains("_stone"))) {
                 ModelFile blockItemGenerated;
                 if (regName.contains("grade")) {
                     blockItemGenerated = getExistingFile(modLoc("block/blockore/" + path));

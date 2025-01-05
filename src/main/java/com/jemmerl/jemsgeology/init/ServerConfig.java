@@ -28,7 +28,7 @@ public class ServerConfig {
 
     // Debug Options
     private static final boolean debugOreRegistry = true; // Debug ore-type registration methods/API - Default false
-    private static final boolean debugFeatureRemover = false; // Debug the biome feature remover - Default false
+    private static final boolean debugFeatureRemover = false; // Debug the biome vanilla feature remover - Default false
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@ public class ServerConfig {
         builder.push("Debug Options");
         DEBUG_ORE_REGISTRY = builder.comment("Debug ore-type registration methods/API - Default false")
                         .define("debugOreRegistry", debugOreRegistry);
-        DEBUG_FEATURE_REMOVER = builder.comment("Debug the biome feature remover - Default false")
+        DEBUG_FEATURE_REMOVER = builder.comment("Debug the biome vanilla feature remover - Default false")
                 .define("debugFeatureRemover", debugFeatureRemover);
         builder.pop();
 
