@@ -25,7 +25,6 @@ public class GeoRegistry {
     private final RegistryObject<Block> baseStone;
     private final RegistryObject<Block> regolith;
     private final RegistryObject<Block> cobbles;
-    private final RegistryObject<Block> cobblestone;
     private final RegistryObject<Item> rockItem;
 
     private final LinkedHashMap<OreType, OreBlockRegistry> stoneOreRegistry;
@@ -34,36 +33,36 @@ public class GeoRegistry {
     private final RegistryObject<Block> rawSlab;
     private final RegistryObject<Block> rawStairs;
     private final RegistryObject<Block> rawWall;
+
+    private final RegistryObject<Block> cobblestone;
     private final RegistryObject<Block> cobbleSlab;
     private final RegistryObject<Block> cobbleStairs;
     private final RegistryObject<Block> cobbleWall;
+
+    private final RegistryObject<Block> mossyCobblestone;
+    private final RegistryObject<Block> mossyCobbleSlab;
+    private final RegistryObject<Block> mossyCobbleStairs;
+    private final RegistryObject<Block> mossyCobbleWall;
+
     private final RegistryObject<Block> polishedStone;
     private final RegistryObject<Block> polishedSlab;
     private final RegistryObject<Block> polishedStairs;
     private final RegistryObject<Block> polishedWall;
 
-    // guaranteed
-    // BUTTONS AND PRESSURE PLATES?!
+    private final RegistryObject<Block> bricks;
+    private final RegistryObject<Block> brickSlab;
+    private final RegistryObject<Block> brickStairs;
+    private final RegistryObject<Block> brickWall;
 
-    // chiseled --------------- needs texture
-    // pillar --------------- needs texture
+    private final RegistryObject<Block> mossyBricks;
+    private final RegistryObject<Block> mossyBrickSlab;
+    private final RegistryObject<Block> mossyBrickStairs;
+    private final RegistryObject<Block> mossyBrickWall;
 
-    // bricks --------------- needs texture
-    // bricks slab
-    // bricks stairs
-    // bricks wall
-
-    // mossy bricks --------------- needs texture
-    // mossy bricks slab
-    // mossy bricks stairs
-    // mossy bricks wall
-
-    // MOSSY COBBLESTONE ARE SOLID NOT LIKE COBBLES
-    // mossy cobblestone --------------- needs texture
-    // mossy cobblestone slab
-    // mossy cobblestone stairs
-    // mossy cobblestone wall
-
+    private final RegistryObject<Block> chiseled;
+    private final RegistryObject<Block> pillar;
+    private final RegistryObject<Block> button;
+    private final RegistryObject<Block> pressureplate;
 
 
     public GeoRegistry(GeoType geoType) {
@@ -87,6 +86,12 @@ public class GeoRegistry {
                 () -> cobblestone.get().getDefaultState()) : null;
         cobbleWall = hasCobble ? ModBlocks.registerCobbleWall(geoType) : null;
 
+        mossyCobblestone = hasCobble ? ModBlocks.registerMossyCobblestoneBlock(geoType) : null;
+        mossyCobbleSlab = hasCobble ? ModBlocks.registerMossyCobbleSlab(geoType) : null;
+        mossyCobbleStairs = hasCobble ? ModBlocks.registerMossyCobbleStairs(geoType,
+                () -> mossyCobblestone.get().getDefaultState()) : null;
+        mossyCobbleWall = hasCobble ? ModBlocks.registerMossyCobbleWall(geoType) : null;
+
         rawSlab = hasCobble ? ModBlocks.registerRawStoneSlab(geoType) : null;
         rawStairs = hasCobble ? ModBlocks.registerRawStoneStairs(geoType,
                 () -> baseStone.get().getDefaultState()) : null;
@@ -97,6 +102,23 @@ public class GeoRegistry {
         polishedStairs = hasCobble ? ModBlocks.registerPolishedStairs(geoType,
                 () -> polishedStone.get().getDefaultState()) : null;
         polishedWall = hasCobble ? ModBlocks.registerPolishedStoneWall(geoType) : null;
+
+        bricks = hasCobble ? ModBlocks.registerBricksBlock(geoType) : null;
+        brickSlab = hasCobble ? ModBlocks.registerBrickSlab(geoType) : null;
+        brickStairs = hasCobble ? ModBlocks.registerBrickStairs(geoType,
+                () -> bricks.get().getDefaultState()) : null;
+        brickWall = hasCobble ? ModBlocks.registerBrickWall(geoType) : null;
+
+        mossyBricks = hasCobble ? ModBlocks.registerMossyBricksBlock(geoType) : null;
+        mossyBrickSlab = hasCobble ? ModBlocks.registerMossyBrickSlab(geoType) : null;
+        mossyBrickStairs = hasCobble ? ModBlocks.registerMossyBrickStairs(geoType,
+                () -> mossyBricks.get().getDefaultState()) : null;
+        mossyBrickWall = hasCobble ? ModBlocks.registerMossyBrickWall(geoType) : null;
+
+        chiseled = hasCobble ? ModBlocks.registerChiseledBlock(geoType) : null;
+        pillar = hasCobble ? ModBlocks.registerPillarBlock(geoType) : null;
+        button = hasCobble ? ModBlocks.registerButtonBlock(geoType) : null;
+        pressureplate = hasCobble ? ModBlocks.registerPressurePlateBlock(geoType) : null;
     }
 
 
@@ -159,10 +181,27 @@ public class GeoRegistry {
     public Block getCobbleSlab() { return this.cobbleSlab.get(); }
     public Block getCobbleStairs() { return this.cobbleStairs.get(); }
     public Block getCobbleWall() { return this.cobbleWall.get(); }
+    public Block getMossyCobblestone() { return mossyCobblestone.get(); }
+    public Block getMossyCobbleSlab() { return this.mossyCobbleSlab.get(); }
+    public Block getMossyCobbleStairs() { return this.mossyCobbleStairs.get(); }
+    public Block getMossyCobbleWall() { return this.mossyCobbleWall.get(); }
     public Block getPolishedStone() { return this.polishedStone.get(); }
     public Block getPolishedSlab() { return this.polishedSlab.get(); }
     public Block getPolishedStairs() { return this.polishedStairs.get(); }
     public Block getPolishedWall() { return this.polishedWall.get(); }
+    public Block getBricks() { return this.bricks.get(); }
+    public Block getBrickSlab() { return this.brickSlab.get(); }
+    public Block getBrickStairs() { return this.brickStairs.get(); }
+    public Block getBrickWall() { return this.brickWall.get(); }
+    public Block getMossyBricks() { return this.mossyBricks.get(); }
+    public Block getMossyBrickSlab() { return this.mossyBrickSlab.get(); }
+    public Block getMossyBrickStairs() { return this.mossyBrickStairs.get(); }
+    public Block getMossyBrickWall() { return this.mossyBrickWall.get(); }
+
+    public Block getChiseled() { return this.chiseled.get(); }
+    public Block getPillar() { return this.pillar.get(); }
+    public Block getButton() { return this.button.get(); }
+    public Block getPressurePlate() { return this.pressureplate.get(); }
 
     public Item getDropItem() {
         if (hasCobble) {

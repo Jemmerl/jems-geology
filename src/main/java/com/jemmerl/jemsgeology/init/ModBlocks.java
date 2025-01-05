@@ -11,6 +11,7 @@ import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
 import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -133,13 +134,59 @@ public class ModBlocks {
 
     public static <T extends Block>RegistryObject<T> registerCobblestoneBlock(GeoType geoType) {
         String name = geoType.getName() + "_cobblestone";
-        Supplier<T> blockSupplier = () -> (T) new Block(getCobblestoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new Block(getDecorCobbleProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_COBBLE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyCobblestoneBlock(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_cobblestone";
+        Supplier<T> blockSupplier = () -> (T) new Block(getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_COBBLE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStoneBlock(GeoType geoType) {
         String name = "polished_" + geoType.getName() + "_stone";
-        Supplier<T> blockSupplier = () -> (T) new Block(getPolishedStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerBricksBlock(GeoType geoType) {
+        String name = geoType.getName() + "_bricks";
+        Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyBricksBlock(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_bricks";
+        Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerChiseledBlock(GeoType geoType) {
+        String name = "chiseled_" + geoType.getName() + "_bricks";
+        Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerPillarBlock(GeoType geoType) {
+        String name = geoType.getName() + "_pillar";
+        Supplier<T> blockSupplier = () -> (T) new RotatedPillarBlock(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerButtonBlock(GeoType geoType) {
+        String name = geoType.getName() + "_button";
+        Supplier<T> blockSupplier = () -> (T) new StoneButtonBlock(
+                AbstractBlock.Properties.create(Material.MISCELLANEOUS)
+                        .doesNotBlockMovement().hardnessAndResistance(0.5F));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerPressurePlateBlock(GeoType geoType) {
+        String name = "chiseled_" + geoType.getName() + "_bricks";
+        Supplier<T> blockSupplier = () -> (T) new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS,
+                AbstractBlock.Properties.create(Material.ROCK, geoType.getMaterialColor())
+                        .setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
@@ -150,19 +197,37 @@ public class ModBlocks {
 
     public static <T extends Block>RegistryObject<T> registerCobbleSlab(GeoType geoType) {
         String name = geoType.getName() + "_cobble_slab";
-        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getDecorCobbleProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyCobbleSlab(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_cobble_slab";
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerRawStoneSlab(GeoType geoType) {
         String name = geoType.getName() + "_slab";
-        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedSlab(GeoType geoType) {
         String name = "polished_" + geoType.getName() + "_slab";
-        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getPolishedStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerBrickSlab(GeoType geoType) {
+        String name = geoType.getName() + "_brick_slab";
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyBrickSlab(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_brick_slab";
+        Supplier<T> blockSupplier = () -> (T) new SlabBlock(getBrickPolishedStoneProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
@@ -173,19 +238,37 @@ public class ModBlocks {
 
     public static <T extends Block>RegistryObject<T> registerCobbleStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
         String name = geoType.getName() + "_cobble_stairs";
-        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getDecorCobbleProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyCobbleStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
+        String name = "mossy_" + geoType.getName() + "_cobble_stairs";
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerRawStoneStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
         String name = geoType.getName() + "_stairs";
-        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
         String name = "polished_" + geoType.getName() + "_stairs";
-        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getPolishedStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerBrickStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
+        String name = geoType.getName() + "_brick_stairs";
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyBrickStairs(GeoType geoType, java.util.function.Supplier<BlockState> state) {
+        String name = "mossy_" + geoType.getName() + "_brick_stairs";
+        Supplier<T> blockSupplier = () -> (T) new StairsBlock(state, getBrickPolishedStoneProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
@@ -196,19 +279,37 @@ public class ModBlocks {
 
     public static <T extends Block>RegistryObject<T> registerCobbleWall(GeoType geoType) {
         String name = geoType.getName() + "_cobble_wall";
-        Supplier<T> blockSupplier = () -> (T) new WallBlock(getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getDecorCobbleProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyCobbleWall(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_cobble_wall";
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerRawStoneWall(GeoType geoType) {
         String name = geoType.getName() + "_wall";
-        Supplier<T> blockSupplier = () -> (T) new WallBlock(getDecorStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getDecorCobbleProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
     public static <T extends Block>RegistryObject<T> registerPolishedStoneWall(GeoType geoType) {
         String name = "polished_" + geoType.getName() + "_wall";
-        Supplier<T> blockSupplier = () -> (T) new WallBlock(getPolishedStoneProp(geoType));
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerBrickWall(GeoType geoType) {
+        String name = geoType.getName() + "_brick_wall";
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
+    public static <T extends Block>RegistryObject<T> registerMossyBrickWall(GeoType geoType) {
+        String name = "mossy_" + geoType.getName() + "_brick_wall";
+        Supplier<T> blockSupplier = () -> (T) new WallBlock(getBrickPolishedStoneProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
@@ -230,20 +331,16 @@ public class ModBlocks {
         return getGeneralStoneProp(geoType).hardnessAndResistance((1.5F + geoType.getHardnessAdj()), (6.0F + geoType.getResistAdj()));
     }
 
-    // TODO make cobbles harder to mine than cobblestone, as one is decorative and one is a Natural Problem
+    // TODO make cobbles harder to mine than cobblestone, as one is building decorative and one is a Natural Problem
     private static AbstractBlock.Properties getCobblesProp(GeoType geoType) {
         return getGeneralStoneProp(geoType).hardnessAndResistance(2F, 7F);
     }
 
-    private static AbstractBlock.Properties getCobblestoneProp(GeoType geoType) {
-        return getGeneralStoneProp(geoType).hardnessAndResistance(2F, 7F);
-    }
-
-    private static AbstractBlock.Properties getDecorStoneProp(GeoType geoType) {
+    private static AbstractBlock.Properties getDecorCobbleProp(GeoType geoType) {
         return getGeneralStoneProp(geoType).hardnessAndResistance(2.0F, 6.0F);
     }
 
-    private static AbstractBlock.Properties getPolishedStoneProp(GeoType geoType) {
+    private static AbstractBlock.Properties getBrickPolishedStoneProp(GeoType geoType) {
         return getGeneralStoneProp(geoType).hardnessAndResistance(1.5F, 6.0F);
     }
 
