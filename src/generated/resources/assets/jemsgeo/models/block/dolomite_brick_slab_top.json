@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "side": "jemsgeo:block/dolomite_bricks",
+    "bottom": "jemsgeo:block/dolomite_bricks",
+    "top": "jemsgeo:block/dolomite_bricks"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mudstone_bricks"
+  },
+  "result": "jemsgeo:mudstone_brick_wall",
+  "count": 2
+}

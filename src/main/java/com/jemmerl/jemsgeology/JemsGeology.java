@@ -42,6 +42,7 @@ public class JemsGeology
 
         ModGeoOres.init();
 
+//        USED FOR GETTING ALL THE STONE BLOCK NAMES EASILY
 //        String str = "";
 //        for (GeoType geoType: GeoType.values()) {
 //            str = str + "\n " + geoType.getName();

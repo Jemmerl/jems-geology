@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_amphibolite_bricks"
+  },
+  "result": "jemsgeo:mossy_amphibolite_brick_slab",
+  "count": 2
+}

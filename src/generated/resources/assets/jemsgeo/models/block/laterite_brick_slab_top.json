@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "side": "jemsgeo:block/laterite_bricks",
+    "bottom": "jemsgeo:block/laterite_bricks",
+    "top": "jemsgeo:block/laterite_bricks"
+  }
+}

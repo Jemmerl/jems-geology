@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:syenite_bricks"
+  },
+  "result": "jemsgeo:syenite_brick_stairs",
+  "count": 1
+}

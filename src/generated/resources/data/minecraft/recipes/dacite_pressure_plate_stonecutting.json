@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:dacite_stone"
+  },
+  "result": "jemsgeo:dacite_pressure_plate",
+  "count": 3
+}

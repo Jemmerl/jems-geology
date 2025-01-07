@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_phyllite_bricks"
+  },
+  "result": "jemsgeo:mossy_phyllite_brick_slab",
+  "count": 2
+}

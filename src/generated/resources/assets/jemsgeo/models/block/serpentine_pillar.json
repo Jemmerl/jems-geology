@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/serpentine_pillar",
+    "end": "jemsgeo:block/serpentine_pillar_top"
+  }
+}

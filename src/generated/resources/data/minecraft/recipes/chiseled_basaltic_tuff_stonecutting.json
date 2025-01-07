@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:basaltic_tuff_stone"
+  },
+  "result": "jemsgeo:chiseled_basaltic_tuff",
+  "count": 1
+}

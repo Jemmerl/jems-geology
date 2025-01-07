@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "jemsgeo:block/mossy_granodiorite_cobblestone",
+    "bottom": "jemsgeo:block/mossy_granodiorite_cobblestone",
+    "top": "jemsgeo:block/mossy_granodiorite_cobblestone"
+  }
+}

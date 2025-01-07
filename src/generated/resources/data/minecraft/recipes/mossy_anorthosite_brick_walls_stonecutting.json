@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_anorthosite_bricks"
+  },
+  "result": "jemsgeo:mossy_anorthosite_brick_wall",
+  "count": 2
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:serpentine_stone"
+  },
+  "result": "jemsgeo:serpentine_button",
+  "count": 4
+}

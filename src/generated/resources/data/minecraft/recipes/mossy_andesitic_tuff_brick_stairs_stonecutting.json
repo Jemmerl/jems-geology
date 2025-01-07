@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_andesitic_tuff_bricks"
+  },
+  "result": "jemsgeo:mossy_andesitic_tuff_brick_stairs",
+  "count": 1
+}

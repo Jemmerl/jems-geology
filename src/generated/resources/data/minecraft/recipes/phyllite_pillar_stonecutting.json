@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:phyllite_stone"
+  },
+  "result": "jemsgeo:phyllite_pillar",
+  "count": 1
+}

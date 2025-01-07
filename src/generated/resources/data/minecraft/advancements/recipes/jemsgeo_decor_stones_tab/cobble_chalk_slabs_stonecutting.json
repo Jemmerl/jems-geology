@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "jemsgeo:rocks"
+            "item": "jemsgeo:chalk_rock"
           }
         ]
       }

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:carbonate_hornfels_bricks"
+  },
+  "result": "jemsgeo:carbonate_hornfels_brick_stairs",
+  "count": 1
+}

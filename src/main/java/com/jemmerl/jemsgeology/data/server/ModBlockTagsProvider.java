@@ -91,8 +91,11 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 //                }
 
                 tagVanillaWalls.add(geoRegistry.getCobbleWall());
+                tagVanillaWalls.add(geoRegistry.getMossyCobbleWall());
                 tagVanillaWalls.add(geoRegistry.getRawWall());
                 tagVanillaWalls.add(geoRegistry.getPolishedWall());
+                tagVanillaWalls.add(geoRegistry.getBrickWall());
+                tagVanillaWalls.add(geoRegistry.getMossyBrickWall());
             }
         }
 

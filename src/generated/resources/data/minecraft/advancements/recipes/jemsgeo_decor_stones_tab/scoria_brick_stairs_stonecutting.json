@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:scoria_brick_stairs_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_geostone": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "jemsgeo:scoria_stone"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:scoria_brick_stairs_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_geostone",
+      "has_the_recipe"
+    ]
+  ]
+}

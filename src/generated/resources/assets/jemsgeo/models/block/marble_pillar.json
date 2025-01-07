@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/marble_pillar",
+    "end": "jemsgeo:block/marble_pillar_top"
+  }
+}

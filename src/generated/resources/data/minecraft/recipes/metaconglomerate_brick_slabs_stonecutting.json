@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:metaconglomerate_bricks"
+  },
+  "result": "jemsgeo:metaconglomerate_brick_slab",
+  "count": 2
+}

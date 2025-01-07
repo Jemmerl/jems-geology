@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:amphibolite_stone"
+  },
+  "result": "jemsgeo:amphibolite_bricks",
+  "count": 1
+}

@@ -1,6 +1,20 @@
 
+["Vanilla World-Gen Options"]
+	#No comment
+	disableMineshafts = true
+	#No comment
+	disableWaterLakes = true
+	#No comment
+	disableLavaSprings = true
+	#No comment
+	disableLavaLakes = true
+	#No comment
+	disableWaterSprings = true
+	#No comment
+	disableFossils = true
+
 ["Quarrying and Mining Options"]
-	#Disable silktouch enchantment on geo-stone blocks? Forces needing the quarrying chisel - Default true
+	#Disable silktouch enchantment on geo-stone blocks? Forces needing a quarrying tool - Default true
 	disableSilktouch = true
 	#Disable fortune enchantment on geo-stone blocks? Default - false
 	disableFortune = false
@@ -19,4 +33,6 @@
 ["Debug Options"]
 	#Debug ore-type registration methods/API - Default false
 	debugOreRegistry = true
+	#Debug the biome vanilla feature remover - Default false
+	debugFeatureRemover = false
 

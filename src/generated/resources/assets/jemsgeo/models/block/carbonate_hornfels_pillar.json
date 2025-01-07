@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/carbonate_hornfels_pillar",
+    "end": "jemsgeo:block/carbonate_hornfels_pillar_top"
+  }
+}

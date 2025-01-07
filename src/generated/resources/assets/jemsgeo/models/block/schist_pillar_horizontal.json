@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "jemsgeo:block/schist_pillar",
+    "end": "jemsgeo:block/schist_pillar_top"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:granodiorite_bricks"
+  },
+  "result": "jemsgeo:granodiorite_brick_stairs",
+  "count": 1
+}

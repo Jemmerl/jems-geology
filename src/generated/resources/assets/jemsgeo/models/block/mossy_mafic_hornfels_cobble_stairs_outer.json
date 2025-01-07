@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/mossy_mafic_hornfels_cobblestone",
+    "bottom": "jemsgeo:block/mossy_mafic_hornfels_cobblestone",
+    "top": "jemsgeo:block/mossy_mafic_hornfels_cobblestone"
+  }
+}

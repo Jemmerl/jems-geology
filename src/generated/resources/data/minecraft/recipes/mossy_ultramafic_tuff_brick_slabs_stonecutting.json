@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_ultramafic_tuff_bricks"
+  },
+  "result": "jemsgeo:mossy_ultramafic_tuff_brick_slab",
+  "count": 2
+}

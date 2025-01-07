@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_syenite_bricks"
+  },
+  "result": "jemsgeo:mossy_syenite_brick_slab",
+  "count": 2
+}

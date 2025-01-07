@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:pink_rhyolite_stone"
+  },
+  "result": "jemsgeo:chiseled_pink_rhyolite",
+  "count": 1
+}

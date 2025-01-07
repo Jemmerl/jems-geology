@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:basalt_stone"
+  },
+  "result": "jemsgeo:chiseled_basalt",
+  "count": 1
+}

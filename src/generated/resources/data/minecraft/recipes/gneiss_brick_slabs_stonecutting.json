@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:gneiss_bricks"
+  },
+  "result": "jemsgeo:gneiss_brick_slab",
+  "count": 2
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_laterite_bricks"
+  },
+  "result": "jemsgeo:mossy_laterite_brick_slab",
+  "count": 2
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:kimberlite_stone"
+  },
+  "result": "jemsgeo:kimberlite_bricks",
+  "count": 1
+}

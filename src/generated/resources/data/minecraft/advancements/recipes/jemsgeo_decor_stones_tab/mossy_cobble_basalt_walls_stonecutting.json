@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:mossy_cobble_basalt_walls_stonecutting"
+    ]
+  },
+  "criteria": {
+    "has_rock": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "jemsgeo:basalt_rock"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:mossy_cobble_basalt_walls_stonecutting"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_rock",
+      "has_the_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:anorthosite_stone"
+  },
+  "result": "jemsgeo:chiseled_anorthosite",
+  "count": 1
+}

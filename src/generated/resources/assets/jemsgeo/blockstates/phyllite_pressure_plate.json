@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "jemsgeo:block/phyllite_pressure_plate"
+    },
+    "powered=true": {
+      "model": "jemsgeo:block/phyllite_pressure_plate_down"
+    }
+  }
+}

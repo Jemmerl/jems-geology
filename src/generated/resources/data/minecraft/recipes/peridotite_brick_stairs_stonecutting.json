@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:peridotite_bricks"
+  },
+  "result": "jemsgeo:peridotite_brick_stairs",
+  "count": 1
+}

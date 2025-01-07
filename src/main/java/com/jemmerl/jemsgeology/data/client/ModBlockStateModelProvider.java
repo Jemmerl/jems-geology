@@ -6,11 +6,10 @@ import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.state.properties.AttachFace;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -56,8 +55,14 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                         Objects.requireNonNull(geoRegistry.getBaseStone().getRegistryName()).getPath());
                 ResourceLocation cobbleRL = modLoc("block/" +
                         Objects.requireNonNull(geoRegistry.getCobblestone().getRegistryName()).getPath());
+                ResourceLocation mossyCobbleRL = modLoc("block/" +
+                        Objects.requireNonNull(geoRegistry.getMossyCobblestone().getRegistryName()).getPath());
                 ResourceLocation polishedRL = modLoc("block/" +
                         Objects.requireNonNull(geoRegistry.getPolishedStone().getRegistryName()).getPath());
+                ResourceLocation brickRL = modLoc("block/" +
+                        Objects.requireNonNull(geoRegistry.getBricks().getRegistryName()).getPath());
+                ResourceLocation mossyBrickRL = modLoc("block/" +
+                        Objects.requireNonNull(geoRegistry.getMossyBricks().getRegistryName()).getPath());
 
                 slabBlock((SlabBlock) geoRegistry.getRawSlab(), baseStoneRL, baseStoneRL);
                 stairsBlock((StairsBlock) geoRegistry.getRawStairs(), baseStoneRL);
@@ -67,24 +72,60 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 stairsBlock((StairsBlock) geoRegistry.getCobbleStairs(), cobbleRL);
                 wallBlock((WallBlock) geoRegistry.getCobbleWall(), cobbleRL);
 
+                simpleBlock(geoRegistry.getMossyCobblestone());
+                slabBlock((SlabBlock) geoRegistry.getMossyCobbleSlab(), mossyCobbleRL, mossyCobbleRL);
+                stairsBlock((StairsBlock) geoRegistry.getMossyCobbleStairs(), mossyCobbleRL);
+                wallBlock((WallBlock) geoRegistry.getMossyCobbleWall(), mossyCobbleRL);
+
                 simpleBlock(geoRegistry.getPolishedStone());
                 slabBlock((SlabBlock) geoRegistry.getPolishedSlab(), polishedRL, polishedRL);
                 stairsBlock((StairsBlock) geoRegistry.getPolishedStairs(), polishedRL);
                 wallBlock((WallBlock) geoRegistry.getPolishedWall(), polishedRL);
 
+                simpleBlock(geoRegistry.getBricks());
+                slabBlock((SlabBlock) geoRegistry.getBrickSlab(), brickRL, brickRL);
+                stairsBlock((StairsBlock) geoRegistry.getBrickStairs(), brickRL);
+                wallBlock((WallBlock) geoRegistry.getBrickWall(), brickRL);
+
+                simpleBlock(geoRegistry.getMossyBricks());
+                slabBlock((SlabBlock) geoRegistry.getMossyBrickSlab(), mossyBrickRL, mossyBrickRL);
+                stairsBlock((StairsBlock) geoRegistry.getMossyBrickStairs(), mossyBrickRL);
+                wallBlock((WallBlock) geoRegistry.getMossyBrickWall(), mossyBrickRL);
+
+                simpleBlock(geoRegistry.getChiseled());
+                logBlock((RotatedPillarBlock) geoRegistry.getPillar());
+
+                buttonBlock((AbstractButtonBlock) geoRegistry.getButton(), polishedRL);
+                pressurePlateBlock((PressurePlateBlock) geoRegistry.getPressurePlate(), polishedRL);
+
+
+                // Inventory models
                 models().withExistingParent("block/" +
                                 Objects.requireNonNull(geoRegistry.getRawWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", baseStoneRL);
-
                 models().withExistingParent("block/" +
                                 Objects.requireNonNull(geoRegistry.getCobbleWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", cobbleRL);
                 models().withExistingParent("block/" +
+                                Objects.requireNonNull(geoRegistry.getMossyCobbleWall().getRegistryName()).getPath() +
+                                "_inventory", mcLoc("block/wall_inventory"))
+                        .texture("wall", mossyCobbleRL);
+                models().withExistingParent("block/" +
                                 Objects.requireNonNull(geoRegistry.getPolishedWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", polishedRL);
+                models().withExistingParent("block/" +
+                                Objects.requireNonNull(geoRegistry.getBrickWall().getRegistryName()).getPath() +
+                                "_inventory", mcLoc("block/wall_inventory"))
+                        .texture("wall", brickRL);
+                models().withExistingParent("block/" +
+                                Objects.requireNonNull(geoRegistry.getMossyBrickWall().getRegistryName()).getPath() +
+                                "_inventory", mcLoc("block/wall_inventory"))
+                        .texture("wall", mossyBrickRL);
+
+                buttonInventoryModel(geoRegistry.getButton(), polishedRL);
             }
         }
     }
@@ -166,4 +207,46 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
         return modelFile;
     }
 
+    // Build button blockstate and model files
+    private void buttonBlock(AbstractButtonBlock block, ResourceLocation texture) {
+        getVariantBuilder(block).forAllStates(state -> {
+            ModelFile buttonModel = buildButtonModel(block, state.get(AbstractButtonBlock.POWERED), texture);
+            AttachFace attachFace = state.get(AbstractButtonBlock.FACE);
+            Direction direction = state.get(AbstractButtonBlock.HORIZONTAL_FACING);
+            boolean uvLock = false;
+            int rotX = 0;
+            if (attachFace == AttachFace.CEILING) {
+                direction = direction.getOpposite();
+                rotX = 180;
+            } else if (attachFace == AttachFace.WALL) {
+                rotX = 270;
+                uvLock = true;
+            }
+            return ConfiguredModel.builder().modelFile(buttonModel).rotationX(rotX)
+                    .rotationY((int) direction.getHorizontalAngle()).uvLock(uvLock).build();
+        });
+    }
+
+    private ModelFile buildButtonModel(Block block, boolean activated, ResourceLocation texture) {
+        String name = block.getRegistryName().getPath() + (activated ? "_pressed" : "");
+        String modelLoc = "block/button" + (activated ? "_pressed" : "");
+        return models().singleTexture(name, mcLoc(modelLoc), "texture", texture);
+    }
+
+    private void buttonInventoryModel(Block block, ResourceLocation texture) {
+        models().singleTexture("block/" + block.getRegistryName().getPath() + "_inventory",
+                mcLoc("block/button_inventory"), "texture", texture);
+    }
+
+    // Build pressure plate blockstate and model files
+    private void pressurePlateBlock(PressurePlateBlock block, ResourceLocation texture) {
+        getVariantBuilder(block).forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(buildPressurePlateModel(block, state.get(PressurePlateBlock.POWERED), texture)).build());
+    }
+
+    private ModelFile buildPressurePlateModel(Block block, boolean activated, ResourceLocation texture) {
+        String name = block.getRegistryName().getPath() + (activated ? "_down" : "");
+        String modelLoc = "block/pressure_plate" + (activated ? "_down" : "_up");
+        return models().withExistingParent(name, mcLoc(modelLoc)).texture("texture", texture);
+    }
 }

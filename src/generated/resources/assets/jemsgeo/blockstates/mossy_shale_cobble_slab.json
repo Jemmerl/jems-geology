@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/mossy_shale_cobble_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/mossy_shale_cobble_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/mossy_shale_cobblestone"
+    }
+  }
+}

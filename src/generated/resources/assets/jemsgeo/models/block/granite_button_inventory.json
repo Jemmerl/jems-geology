@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button_inventory",
+  "textures": {
+    "texture": "jemsgeo:block/polished_granite_stone"
+  }
+}

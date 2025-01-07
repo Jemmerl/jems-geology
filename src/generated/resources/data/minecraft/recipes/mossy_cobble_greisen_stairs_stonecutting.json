@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_greisen_cobblestone"
+  },
+  "result": "jemsgeo:mossy_greisen_cobble_stairs",
+  "count": 1
+}

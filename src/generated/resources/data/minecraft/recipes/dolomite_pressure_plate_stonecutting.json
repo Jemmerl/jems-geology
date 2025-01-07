@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:dolomite_stone"
+  },
+  "result": "jemsgeo:dolomite_pressure_plate",
+  "count": 3
+}

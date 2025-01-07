@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_pelitic_hornfels_bricks"
+  },
+  "result": "jemsgeo:mossy_pelitic_hornfels_brick_stairs",
+  "count": 1
+}

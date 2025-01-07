@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:carbonate_hornfels_stone"
+  },
+  "result": "jemsgeo:carbonate_hornfels_pressure_plate",
+  "count": 3
+}

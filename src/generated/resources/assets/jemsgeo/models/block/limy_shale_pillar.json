@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/limy_shale_pillar",
+    "end": "jemsgeo:block/limy_shale_pillar_top"
+  }
+}

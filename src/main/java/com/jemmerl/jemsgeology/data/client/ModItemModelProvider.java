@@ -31,16 +31,9 @@ public class ModItemModelProvider extends ItemModelProvider {
                 if (regName.contains("grade")) {
                     blockItemGenerated = getExistingFile(modLoc("block/blockore/" + path));
                 } else {
-                    if (path.contains("wall")) {
+                    if (path.contains("wall") || path.contains("button")) {
                         blockItemGenerated = getExistingFile(modLoc("block/" + path + "_inventory"));
                         getBuilder("item/" + path).parent(blockItemGenerated);
-//                        ModelFile modelFile;
-//                        modelFile = models().withExistingParent("block/" +
-//                                Objects.requireNonNull(geoRegistry.getCobbleWall().getRegistryName()).getPath() +
-//                                "_inventory", modLoc("block/wall_inventory")).texture("wall", cobbleRL);
-//
-//                        getBuilder("item/" + path).parent(getExistingFile(mcLoc( "block/wall_inventory")))
-//                                .texture("wall", "block/" + path);
                         continue;
                     } else {
                         blockItemGenerated = getExistingFile(modLoc("block/" + path));

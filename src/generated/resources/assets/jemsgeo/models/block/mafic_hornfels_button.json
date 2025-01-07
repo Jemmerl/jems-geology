@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/button",
+  "textures": {
+    "texture": "jemsgeo:block/polished_mafic_hornfels_stone"
+  }
+}

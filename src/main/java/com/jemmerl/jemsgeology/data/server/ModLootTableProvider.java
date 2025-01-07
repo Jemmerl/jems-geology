@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
+import com.jemmerl.jemsgeology.blocks.LichenBlock;
 import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
@@ -95,17 +96,38 @@ public class ModLootTableProvider extends LootTableProvider {
                 if (hasCobble) {
                     registerCobblesLootTable(geoRegistry);
                     registerDropSelfLootTable(geoRegistry.getCobblestone());
-
-                    registerDropSelfLootTable(geoRegistry.getRawSlab());
-                    registerDropSelfLootTable(geoRegistry.getRawStairs());
-                    registerDropSelfLootTable(geoRegistry.getRawWall());
-                    registerDropSelfLootTable(geoRegistry.getCobbleSlab());
+                    registerLootTable(geoRegistry.getCobbleSlab(), BlockLootTables::droppingSlab);
                     registerDropSelfLootTable(geoRegistry.getCobbleStairs());
                     registerDropSelfLootTable(geoRegistry.getCobbleWall());
+
+                    registerDropSelfLootTable(geoRegistry.getMossyCobblestone());
+                    registerLootTable(geoRegistry.getMossyCobbleSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(geoRegistry.getMossyCobbleStairs());
+                    registerDropSelfLootTable(geoRegistry.getMossyCobbleWall());
+
+                    registerLootTable(geoRegistry.getRawSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(geoRegistry.getRawStairs());
+                    registerDropSelfLootTable(geoRegistry.getRawWall());
+
                     registerDropSelfLootTable(geoRegistry.getPolishedStone());
-                    registerDropSelfLootTable(geoRegistry.getPolishedSlab());
+                    registerLootTable(geoRegistry.getPolishedSlab(), BlockLootTables::droppingSlab);
                     registerDropSelfLootTable(geoRegistry.getPolishedStairs());
                     registerDropSelfLootTable(geoRegistry.getPolishedWall());
+
+                    registerDropSelfLootTable(geoRegistry.getBricks());
+                    registerLootTable(geoRegistry.getBrickSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(geoRegistry.getBrickStairs());
+                    registerDropSelfLootTable(geoRegistry.getBrickWall());
+
+                    registerDropSelfLootTable(geoRegistry.getMossyBricks());
+                    registerLootTable(geoRegistry.getMossyBrickSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(geoRegistry.getMossyBrickStairs());
+                    registerDropSelfLootTable(geoRegistry.getMossyBrickWall());
+
+                    registerDropSelfLootTable(geoRegistry.getChiseled());
+                    registerDropSelfLootTable(geoRegistry.getPillar());
+                    registerDropSelfLootTable(geoRegistry.getButton());
+                    registerDropSelfLootTable(geoRegistry.getPressurePlate());
                }
             }
         }
@@ -257,7 +279,7 @@ public class ModLootTableProvider extends LootTableProvider {
         // Don't worry about this.
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return ModBlocks.BLOCKS.getEntries().stream()
+            return ModBlocks.BLOCKS.getEntries().stream().filter(block -> block.get() != ModBlocks.LICHEN_BLOCK.get())
                     .map(RegistryObject::get)
                     .collect(Collectors.toList());
         }

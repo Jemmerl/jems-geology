@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_trachytic_tuff_bricks"
+  },
+  "result": "jemsgeo:mossy_trachytic_tuff_brick_wall",
+  "count": 2
+}

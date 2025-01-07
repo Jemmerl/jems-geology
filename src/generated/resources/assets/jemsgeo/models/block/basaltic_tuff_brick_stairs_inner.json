@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "jemsgeo:block/basaltic_tuff_bricks",
+    "bottom": "jemsgeo:block/basaltic_tuff_bricks",
+    "top": "jemsgeo:block/basaltic_tuff_bricks"
+  }
+}

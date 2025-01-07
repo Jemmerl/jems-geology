@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_calcite_bricks"
+  },
+  "result": "jemsgeo:mossy_calcite_brick_stairs",
+  "count": 1
+}

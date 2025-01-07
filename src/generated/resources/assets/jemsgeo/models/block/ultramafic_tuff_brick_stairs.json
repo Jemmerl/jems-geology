@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/ultramafic_tuff_bricks",
+    "bottom": "jemsgeo:block/ultramafic_tuff_bricks",
+    "top": "jemsgeo:block/ultramafic_tuff_bricks"
+  }
+}

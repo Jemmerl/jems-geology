@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "jemsgeo:block/syenite_pillar",
+    "end": "jemsgeo:block/syenite_pillar_top"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "jemsgeo:block/kimberlite_pillar",
+    "end": "jemsgeo:block/kimberlite_pillar_top"
+  }
+}

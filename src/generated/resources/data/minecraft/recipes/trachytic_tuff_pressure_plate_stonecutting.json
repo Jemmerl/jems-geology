@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:trachytic_tuff_stone"
+  },
+  "result": "jemsgeo:trachytic_tuff_pressure_plate",
+  "count": 3
+}

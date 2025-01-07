@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "jemsgeo:block/ultramafic_tuff_pillar",
+    "end": "jemsgeo:block/ultramafic_tuff_pillar_top"
+  }
+}

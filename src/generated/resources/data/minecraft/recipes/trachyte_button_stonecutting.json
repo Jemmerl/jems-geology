@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:trachyte_stone"
+  },
+  "result": "jemsgeo:trachyte_button",
+  "count": 4
+}

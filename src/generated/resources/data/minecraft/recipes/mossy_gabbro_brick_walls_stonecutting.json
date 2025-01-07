@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_gabbro_bricks"
+  },
+  "result": "jemsgeo:mossy_gabbro_brick_wall",
+  "count": 2
+}

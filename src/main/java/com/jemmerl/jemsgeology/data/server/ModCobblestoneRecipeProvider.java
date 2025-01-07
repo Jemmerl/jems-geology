@@ -20,9 +20,6 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        InventoryChangeTrigger.Instance hasRockTrigger = InventoryChangeTrigger
-                .Instance.forItems(ItemPredicate.Builder.create().tag(ModTags.Items.JEMSGEO_ROCKS).build());
-
         for (GeoType stone : GeoType.values()) {
             if (stone.hasCobble()) {
                 GeoRegistry registry = ModBlocks.GEO_BLOCKS.get(stone);
@@ -34,14 +31,14 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
                         .patternLine("xx")
                         .patternLine("xx")
                         .setGroup("cobbles")
-                        .addCriterion("has_rock", hasRockTrigger)
+                        .addCriterion("has_rock", hasItem(rockItem))
                         .build(consumer);
 
                 // Recipe to break down cobbles
                 ShapelessRecipeBuilder.shapelessRecipe(rockItem, 4)
                         .addIngredient(registry.getCobbles())
                         .setGroup("rocks")
-                        .addCriterion("has_rock", hasRockTrigger)
+                        .addCriterion("has_rock", hasItem(rockItem))
                         .build(consumer);
 
                 // Recipe to craft cobblestone
@@ -52,7 +49,7 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
                         .patternLine("mxm")
                         .patternLine("xxx")
                         .setGroup("cobblestones")
-                        .addCriterion("has_rock", hasRockTrigger)
+                        .addCriterion("has_rock", hasItem(rockItem))
                         .build(consumer);
             }
 

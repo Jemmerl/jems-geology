@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/diorite_brick_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/diorite_brick_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/diorite_bricks"
+    }
+  }
+}

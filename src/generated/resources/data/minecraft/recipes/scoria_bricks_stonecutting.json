@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:scoria_stone"
+  },
+  "result": "jemsgeo:scoria_bricks",
+  "count": 1
+}

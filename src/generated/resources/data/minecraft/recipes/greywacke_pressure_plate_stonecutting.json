@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:greywacke_stone"
+  },
+  "result": "jemsgeo:greywacke_pressure_plate",
+  "count": 3
+}

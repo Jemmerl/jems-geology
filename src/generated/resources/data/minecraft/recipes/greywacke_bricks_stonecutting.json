@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:greywacke_stone"
+  },
+  "result": "jemsgeo:greywacke_bricks",
+  "count": 1
+}

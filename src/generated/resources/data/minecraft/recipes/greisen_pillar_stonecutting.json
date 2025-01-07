@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:greisen_stone"
+  },
+  "result": "jemsgeo:greisen_pillar",
+  "count": 1
+}

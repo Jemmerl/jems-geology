@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_rhyolitic_tuff_bricks"
+  },
+  "result": "jemsgeo:mossy_rhyolitic_tuff_brick_wall",
+  "count": 2
+}

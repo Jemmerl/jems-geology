@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:ultramafic_tuff_stone"
+  },
+  "result": "jemsgeo:ultramafic_tuff_pressure_plate",
+  "count": 3
+}

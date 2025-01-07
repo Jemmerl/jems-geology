@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:marlstone_bricks"
+  },
+  "result": "jemsgeo:marlstone_brick_stairs",
+  "count": 1
+}

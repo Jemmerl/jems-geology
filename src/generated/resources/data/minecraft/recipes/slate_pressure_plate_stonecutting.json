@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:slate_stone"
+  },
+  "result": "jemsgeo:slate_pressure_plate",
+  "count": 3
+}

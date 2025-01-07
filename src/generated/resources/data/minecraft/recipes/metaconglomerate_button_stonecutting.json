@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:metaconglomerate_stone"
+  },
+  "result": "jemsgeo:metaconglomerate_button",
+  "count": 4
+}

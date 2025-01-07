@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/gray_rhyolite_pillar",
+    "end": "jemsgeo:block/gray_rhyolite_pillar_top"
+  }
+}

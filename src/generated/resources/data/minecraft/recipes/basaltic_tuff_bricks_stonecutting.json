@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:basaltic_tuff_stone"
+  },
+  "result": "jemsgeo:basaltic_tuff_bricks",
+  "count": 1
+}

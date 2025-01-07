@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_metaconglomerate_cobblestone"
+  },
+  "result": "jemsgeo:mossy_metaconglomerate_cobble_wall",
+  "count": 2
+}

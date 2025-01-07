@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:rhyolitic_tuff_stone"
+  },
+  "result": "jemsgeo:rhyolitic_tuff_pressure_plate",
+  "count": 3
+}

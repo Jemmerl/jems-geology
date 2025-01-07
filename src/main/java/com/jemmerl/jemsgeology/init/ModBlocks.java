@@ -163,7 +163,7 @@ public class ModBlocks {
     }
 
     public static <T extends Block>RegistryObject<T> registerChiseledBlock(GeoType geoType) {
-        String name = "chiseled_" + geoType.getName() + "_bricks";
+        String name = "chiseled_" + geoType.getName();
         Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
@@ -183,7 +183,7 @@ public class ModBlocks {
     }
 
     public static <T extends Block>RegistryObject<T> registerPressurePlateBlock(GeoType geoType) {
-        String name = "chiseled_" + geoType.getName() + "_bricks";
+        String name = geoType.getName() + "_pressure_plate";
         Supplier<T> blockSupplier = () -> (T) new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS,
                 AbstractBlock.Properties.create(Material.ROCK, geoType.getMaterialColor())
                         .setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F));

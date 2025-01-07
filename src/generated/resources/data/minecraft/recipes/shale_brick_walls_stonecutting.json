@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:shale_bricks"
+  },
+  "result": "jemsgeo:shale_brick_wall",
+  "count": 2
+}

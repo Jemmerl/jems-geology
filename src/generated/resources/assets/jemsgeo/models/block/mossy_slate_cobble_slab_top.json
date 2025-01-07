@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "side": "jemsgeo:block/mossy_slate_cobblestone",
+    "bottom": "jemsgeo:block/mossy_slate_cobblestone",
+    "top": "jemsgeo:block/mossy_slate_cobblestone"
+  }
+}

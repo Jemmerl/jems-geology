@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:ultramafic_tuff_bricks"
+  },
+  "result": "jemsgeo:ultramafic_tuff_brick_slab",
+  "count": 2
+}

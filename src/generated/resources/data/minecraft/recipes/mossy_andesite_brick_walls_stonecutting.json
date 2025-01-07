@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_andesite_bricks"
+  },
+  "result": "jemsgeo:mossy_andesite_brick_wall",
+  "count": 2
+}

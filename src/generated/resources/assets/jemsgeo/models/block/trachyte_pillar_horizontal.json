@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "side": "jemsgeo:block/trachyte_pillar",
+    "end": "jemsgeo:block/trachyte_pillar_top"
+  }
+}

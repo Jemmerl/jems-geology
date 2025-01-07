@@ -291,10 +291,27 @@ public class GeoRegistry {
         allDecorBlocks.add(cobbleSlab.get());
         allDecorBlocks.add(cobbleStairs.get());
         allDecorBlocks.add(cobbleWall.get());
+        allDecorBlocks.add(mossyCobblestone.get());
+        allDecorBlocks.add(mossyCobbleSlab.get());
+        allDecorBlocks.add(mossyCobbleStairs.get());
+        allDecorBlocks.add(mossyCobbleWall.get());
         allDecorBlocks.add(polishedStone.get());
         allDecorBlocks.add(polishedSlab.get());
         allDecorBlocks.add(polishedStairs.get());
         allDecorBlocks.add(polishedWall.get());
+        allDecorBlocks.add(bricks.get());
+        allDecorBlocks.add(brickSlab.get());
+        allDecorBlocks.add(brickStairs.get());
+        allDecorBlocks.add(brickWall.get());
+        allDecorBlocks.add(mossyBricks.get());
+        allDecorBlocks.add(mossyBrickSlab.get());
+        allDecorBlocks.add(mossyBrickStairs.get());
+        allDecorBlocks.add(mossyBrickWall.get());
+        allDecorBlocks.add(chiseled.get());
+        allDecorBlocks.add(pillar.get());
+        allDecorBlocks.add(button.get());
+        allDecorBlocks.add(pressureplate.get());
+
         return allDecorBlocks;
     }
 

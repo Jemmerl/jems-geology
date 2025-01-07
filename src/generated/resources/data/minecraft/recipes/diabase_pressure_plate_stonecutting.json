@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:diabase_stone"
+  },
+  "result": "jemsgeo:diabase_pressure_plate",
+  "count": 3
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "jemsgeo:block/dacite_pillar",
+    "end": "jemsgeo:block/dacite_pillar_top"
+  }
+}

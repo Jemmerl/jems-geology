@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/kimberlite_bricks",
+    "bottom": "jemsgeo:block/kimberlite_bricks",
+    "top": "jemsgeo:block/kimberlite_bricks"
+  }
+}

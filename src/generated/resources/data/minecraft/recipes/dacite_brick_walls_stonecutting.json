@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:dacite_bricks"
+  },
+  "result": "jemsgeo:dacite_brick_wall",
+  "count": 2
+}

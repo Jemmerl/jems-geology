@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_slate_cobblestone"
+  },
+  "result": "jemsgeo:mossy_slate_cobble_stairs",
+  "count": 1
+}

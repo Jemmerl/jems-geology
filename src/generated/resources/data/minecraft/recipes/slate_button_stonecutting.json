@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:slate_stone"
+  },
+  "result": "jemsgeo:slate_button",
+  "count": 4
+}

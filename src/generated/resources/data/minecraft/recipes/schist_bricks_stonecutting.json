@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:schist_stone"
+  },
+  "result": "jemsgeo:schist_bricks",
+  "count": 1
+}
