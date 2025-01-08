@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "jemsgeo:conglomerate_bricks"
+  },
+  "result": "jemsgeo:cracked_conglomerate_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}

@@ -60,6 +60,7 @@ public class GeoRegistry {
     private final RegistryObject<Block> mossyBrickWall;
 
     private final RegistryObject<Block> chiseled;
+    private final RegistryObject<Block> cracked;
     private final RegistryObject<Block> pillar;
     private final RegistryObject<Block> button;
     private final RegistryObject<Block> pressureplate;
@@ -116,6 +117,7 @@ public class GeoRegistry {
         mossyBrickWall = hasCobble ? ModBlocks.registerMossyBrickWall(geoType) : null;
 
         chiseled = hasCobble ? ModBlocks.registerChiseledBlock(geoType) : null;
+        cracked = hasCobble ? ModBlocks.registerCrackedBlock(geoType) : null;
         pillar = hasCobble ? ModBlocks.registerPillarBlock(geoType) : null;
         button = hasCobble ? ModBlocks.registerButtonBlock(geoType) : null;
         pressureplate = hasCobble ? ModBlocks.registerPressurePlateBlock(geoType) : null;
@@ -199,6 +201,7 @@ public class GeoRegistry {
     public Block getMossyBrickWall() { return this.mossyBrickWall.get(); }
 
     public Block getChiseled() { return this.chiseled.get(); }
+    public Block getCracked() { return this.cracked.get(); }
     public Block getPillar() { return this.pillar.get(); }
     public Block getButton() { return this.button.get(); }
     public Block getPressurePlate() { return this.pressureplate.get(); }
@@ -308,6 +311,7 @@ public class GeoRegistry {
         allDecorBlocks.add(mossyBrickStairs.get());
         allDecorBlocks.add(mossyBrickWall.get());
         allDecorBlocks.add(chiseled.get());
+        allDecorBlocks.add(cracked.get());
         allDecorBlocks.add(pillar.get());
         allDecorBlocks.add(button.get());
         allDecorBlocks.add(pressureplate.get());

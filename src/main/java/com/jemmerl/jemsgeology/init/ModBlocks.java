@@ -168,6 +168,12 @@ public class ModBlocks {
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
     }
 
+    public static <T extends Block>RegistryObject<T> registerCrackedBlock(GeoType geoType) {
+        String name = "cracked_" + geoType.getName() + "_bricks";
+        Supplier<T> blockSupplier = () -> (T) new Block(getBrickPolishedStoneProp(geoType));
+        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_DECOR_STONE_GROUP);
+    }
+
     public static <T extends Block>RegistryObject<T> registerPillarBlock(GeoType geoType) {
         String name = geoType.getName() + "_pillar";
         Supplier<T> blockSupplier = () -> (T) new RotatedPillarBlock(getBrickPolishedStoneProp(geoType));

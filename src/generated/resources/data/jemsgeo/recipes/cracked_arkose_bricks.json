@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "jemsgeo:arkose_bricks"
+  },
+  "result": "jemsgeo:cracked_arkose_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}

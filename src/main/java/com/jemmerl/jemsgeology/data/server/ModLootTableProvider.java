@@ -125,6 +125,7 @@ public class ModLootTableProvider extends LootTableProvider {
                     registerDropSelfLootTable(geoRegistry.getMossyBrickWall());
 
                     registerDropSelfLootTable(geoRegistry.getChiseled());
+                    registerDropSelfLootTable(geoRegistry.getCracked());
                     registerDropSelfLootTable(geoRegistry.getPillar());
                     registerDropSelfLootTable(geoRegistry.getButton());
                     registerDropSelfLootTable(geoRegistry.getPressurePlate());

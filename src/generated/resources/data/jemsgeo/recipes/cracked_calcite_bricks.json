@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "jemsgeo:calcite_bricks"
+  },
+  "result": "jemsgeo:cracked_calcite_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}

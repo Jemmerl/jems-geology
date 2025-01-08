@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "jemsgeo:quartzite_bricks"
+  },
+  "result": "jemsgeo:cracked_quartzite_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}

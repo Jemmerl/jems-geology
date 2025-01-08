@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "jemsgeo:peridotite_bricks"
+  },
+  "result": "jemsgeo:cracked_peridotite_bricks",
+  "experience": 0.1,
+  "cookingtime": 200
+}

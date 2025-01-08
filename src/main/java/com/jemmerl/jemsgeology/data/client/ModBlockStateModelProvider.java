@@ -93,6 +93,7 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 wallBlock((WallBlock) geoRegistry.getMossyBrickWall(), mossyBrickRL);
 
                 simpleBlock(geoRegistry.getChiseled());
+                simpleBlock(geoRegistry.getCracked());
                 logBlock((RotatedPillarBlock) geoRegistry.getPillar());
 
                 buttonBlock((AbstractButtonBlock) geoRegistry.getButton(), polishedRL);

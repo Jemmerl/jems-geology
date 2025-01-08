@@ -29,6 +29,7 @@ public final class DataGenerators {
         // Server-side data providers
         gen.addProvider(new ModCobblestoneRecipeProvider(gen));
         gen.addProvider(new ModStonecutterRecipeProvider(gen));
+        gen.addProvider(new ModFurnaceRecipeProvider(gen));
         gen.addProvider(new ModLootTableProvider(gen));
         BlockTagsProvider blocktagsprovider = new ModBlockTagsProvider(gen, JemsGeology.MOD_ID, existingFileHelper);
         gen.addProvider(blocktagsprovider);
