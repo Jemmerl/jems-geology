@@ -1,34 +1,23 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.blocks.LichenBlock;
 import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
-import com.jemmerl.jemsgeology.init.geologyinit.OreItemRegistry;
+import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.MinMaxBounds;
-import net.minecraft.advancements.criterion.StatePropertiesPredicate;
-import net.minecraft.block.BeetrootBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IDataProvider;
 import net.minecraft.data.LootTableProvider;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraft.loot.*;
 import net.minecraft.loot.conditions.*;
 import net.minecraft.loot.functions.ApplyBonus;
@@ -37,8 +26,6 @@ import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -182,7 +169,7 @@ public class ModLootTableProvider extends LootTableProvider {
         private void registerStoneOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
             LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
 
-            Block block = geoRegistry.getStoneOre(oreType, grade);
+            Block block = geoRegistry.getBaseOre(oreType, grade);
             LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()

@@ -3,7 +3,7 @@ package com.jemmerl.jemsgeology.data.client;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
@@ -88,7 +88,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Normal Ore Items
     private void nameNormalOre (Item item) {
-        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String oreName = path.split("_ore", 2)[0].replace('_', ' ');
         String displayName = StringUtils.capitaliseAllWords(oreName);
         add(item, displayName);
@@ -96,7 +96,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Poor Ore Items
     private void namePoorOre (Item item) {
-        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String oreName = path.split("poor_", 2)[1].split("_ore", 2)[0].replace('_', ' ');
         String displayName = "Small " + StringUtils.capitaliseAllWords(oreName);
         add(item, displayName);
@@ -104,7 +104,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Rock Items
     private void nameRockItem (Item item) {
-        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(item.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String rockName = path.split("_rock", 2)[0].replace('_', ' ');
         String displayName = StringUtils.capitaliseAllWords(rockName) + " Cobble";
         add(item, displayName);
@@ -112,21 +112,21 @@ public class ModLangProvider extends LanguageProvider {
 
     // Cobble Blocks
     private void nameCobblesBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName = "Loose " + StringUtils.capitaliseAllWords(path.replace('_', ' '));
         add(block, displayName);
     }
 
     // Cobblestone Blocks
     private void nameCobblestoneBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName = StringUtils.capitaliseAllWords(path.replace('_', ' '));
         add(block, displayName);
     }
 
     // Stone Blocks
     private void nameStoneOreBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("grade")) {
             String[] dividePath = path.split("/", 3);
@@ -146,7 +146,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Regolith Blocks
     private void nameRegolithOreBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("grade")) {
             String[] dividePath = path.split("/", 3);
@@ -165,7 +165,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Detritus Blocks
     private void nameDetritusOreBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("grade")) {
             String[] dividePath = path.split("/", 3);
@@ -185,7 +185,7 @@ public class ModLangProvider extends LanguageProvider {
 
     // Stone Decor Blocks
     private void nameStoneDecorBlock(Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ROOT);
+        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("_stone")) {
             displayName = StringUtils.capitaliseAllWords(path.split("_stone", 2)[0].replace('_', ' '));

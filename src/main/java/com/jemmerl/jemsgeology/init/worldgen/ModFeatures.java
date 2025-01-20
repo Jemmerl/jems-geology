@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.init.worldgen;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.world.features.GeologyFeature;
+import com.jemmerl.jemsgeology.world.features.feature.GeologyFeature;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraftforge.eventbus.api.IEventBus;

@@ -29,6 +29,7 @@ public class ServerConfig {
     // Debug Options
     private static final boolean debugOreRegistry = true; // Debug ore-type registration methods/API - Default false
     private static final boolean debugFeatureRemover = false; // Debug the biome vanilla feature remover - Default false
+    private static final boolean debugBoulderFeature = true; // Debug the boulder feature when placing - Default false
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +54,7 @@ public class ServerConfig {
     // Debug Options
     public static ForgeConfigSpec.BooleanValue DEBUG_ORE_REGISTRY;
     public static ForgeConfigSpec.BooleanValue DEBUG_FEATURE_REMOVER;
+    public static ForgeConfigSpec.BooleanValue DEBUG_BOULDER_FEATURE;
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,6 +112,8 @@ public class ServerConfig {
                         .define("debugOreRegistry", debugOreRegistry);
         DEBUG_FEATURE_REMOVER = builder.comment("Debug the biome vanilla feature remover - Default false")
                 .define("debugFeatureRemover", debugFeatureRemover);
+        DEBUG_BOULDER_FEATURE = builder.comment("Debug the boulder feature when placing - Default false")
+                        .define("debugBoulderFeature", debugBoulderFeature);
         builder.pop();
 
 

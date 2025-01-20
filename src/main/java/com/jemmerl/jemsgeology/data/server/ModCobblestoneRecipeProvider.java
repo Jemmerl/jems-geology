@@ -3,10 +3,7 @@ package com.jemmerl.jemsgeology.data.server;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.ModTags;
-import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.advancements.criterion.ItemPredicate;
+import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import net.minecraft.data.*;
 import net.minecraft.item.Item;
 

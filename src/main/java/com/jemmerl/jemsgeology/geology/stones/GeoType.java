@@ -10,6 +10,7 @@ import net.minecraft.loot.RandomValueRange;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public enum GeoType {
     // surface weathering, subsurface weathering
@@ -124,6 +125,10 @@ public enum GeoType {
         this.hasCobble = hasCobble;
         this.materialColor = materialColor;
         this.geoLoot = geoLoot;
+    }
+
+    public static GeoType fromString(String name) {
+        return valueOf(name.toUpperCase(Locale.ENGLISH));
     }
 
     //TODO note EnumSet is very efficient for enums smile

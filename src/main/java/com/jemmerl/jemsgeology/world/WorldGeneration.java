@@ -1,12 +1,15 @@
 package com.jemmerl.jemsgeology.world;
 
+import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.datafix.codec.DatapackCodec;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.packs.ResourcePackLoader;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -21,14 +24,14 @@ import java.util.function.Supplier;
 public class WorldGeneration {
 
     // Features in UNDERGROUND_ORES stage
-    private static List<LinkedHashMap.SimpleEntry<ConfiguredFeature<?,?>, List<ResourceLocation>>> undergroundOresStageFeatures() {
-        List<LinkedHashMap.SimpleEntry<ConfiguredFeature<?, ?>, List<ResourceLocation>>> allStoneFeatures = new ArrayList<>();
+    private static List<ConfiguredFeature<?, ?>> undergroundOresStageFeatures() {
+        List<ConfiguredFeature<?, ?>> features = new ArrayList<>();
 
-        //allStoneFeatures.add(new AbstractMap.SimpleEntry<>(JemsGeoFeatures.STONE_GEN_CONFIG, null));
+        features.add(ModConfiguredFeatures.GEO_FEATURE_CONFIG);
 
-        //allStoneFeatures.add(new AbstractMap.SimpleEntry<>(JemsGeoFeatures.ORE_CONST_SCATTER_CONFIG, null));
+        //features.add(new AbstractMap.SimpleEntry<>(JemsGeoFeatures.ORE_CONST_SCATTER_CONFIG, null));
 
-        return allStoneFeatures;
+        return features;
     }
 
 //    // Features in UNDERGROUND_DECORATION stage
@@ -85,11 +88,8 @@ public class WorldGeneration {
 
 
             // Featues in UNDERGROUND_ORES stage
-            for (LinkedHashMap.SimpleEntry<ConfiguredFeature<?,?>,List<ResourceLocation>> entry : undergroundOresStageFeatures()) {
-                GenerationStage.Decoration decorationStage = GenerationStage.Decoration.UNDERGROUND_ORES;
-                if ((entry.getValue() == null) || (entry.getValue().contains(biomeLoadingEvent.getName()))) {
-                    biomeLoadingEvent.getGeneration().withFeature(decorationStage.ordinal(),entry::getKey);
-                }
+            for (ConfiguredFeature<?, ?> entry : undergroundOresStageFeatures()) {
+                biomeLoadingEvent.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES.ordinal(), ()->entry);
             }
 
 //            // Featues in UNDERGROUND_DECORATION stage
@@ -111,3 +111,22 @@ public class WorldGeneration {
     }
 
 }
+
+
+// BACKUP old feature list
+//            for (LinkedHashMap.SimpleEntry<ConfiguredFeature<?,?>,List<ResourceLocation>> entry : undergroundOresStageFeatures()) {
+//                GenerationStage.Decoration decorationStage = GenerationStage.Decoration.UNDERGROUND_ORES;
+//                if ((entry.getValue() == null) || (entry.getValue().contains(biomeLoadingEvent.getName()))) {
+//                    biomeLoadingEvent.getGeneration().withFeature(decorationStage.ordinal(),entry::getKey);
+//                }
+//            }
+
+//    private static List<LinkedHashMap.SimpleEntry<ConfiguredFeature<?,?>, List<ResourceLocation>>> undergroundOresStageFeatures() {
+//        List<LinkedHashMap.SimpleEntry<ConfiguredFeature<?, ?>, List<ResourceLocation>>> features = new ArrayList<>();
+//
+//        features.add(new AbstractMap.SimpleEntry<>(ModConfiguredFeatures.GEO_FEATURE_CONFIG, null));
+//
+//        //features.add(new AbstractMap.SimpleEntry<>(JemsGeoFeatures.ORE_CONST_SCATTER_CONFIG, null));
+//
+//        return features;
+//    }

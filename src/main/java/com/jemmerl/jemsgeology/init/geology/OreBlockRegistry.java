@@ -1,4 +1,4 @@
-package com.jemmerl.jemsgeology.init.geologyinit;
+package com.jemmerl.jemsgeology.init.geology;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;

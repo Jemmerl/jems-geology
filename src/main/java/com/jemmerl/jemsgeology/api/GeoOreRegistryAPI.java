@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ServerConfig;
-import com.jemmerl.jemsgeology.init.geologyinit.ModGeoOres;
+import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -18,7 +18,7 @@ public class GeoOreRegistryAPI {
 
     // Todo add override boolean to replace conflict instead of throw warning?
     public static OreType registerOreType(OreType oreType) {
-        String name = oreType.getName().toLowerCase(Locale.ROOT);
+        String name = oreType.getName().toLowerCase(Locale.ENGLISH);
         if ((!Objects.equals(oreType.getSource(), JemsGeology.MOD_ID))  && ModGeoOres.PROTECTED_ORES.contains(name)) {
             JemsGeology.LOGGER.error("Ore add attempt named \"" + name + "\" from source: \"" + oreType.getSource()
                     + "\" attempted to override a protected default ore. Naughty naughty!");

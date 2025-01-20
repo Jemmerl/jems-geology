@@ -1,4 +1,4 @@
-package com.jemmerl.jemsgeology.init.geologyinit;
+package com.jemmerl.jemsgeology.init.geology;
 
 import com.google.common.collect.Maps;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
@@ -138,7 +138,7 @@ public class GeoRegistry {
     public Block getBaseStone() { return baseStone.get(); }
     public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
 
-    public Block getStoneOre(OreType oreType, Grade grade) {
+    public Block getBaseOre(OreType oreType, Grade grade) {
         if (oreType.hasOre()) {
             switch (grade) {
                 case NORMAL:
@@ -153,7 +153,7 @@ public class GeoRegistry {
     }
 
     public Block getRegolithOre(OreType oreType, Grade grade) {
-        if (!hasRegolith) return getStoneOre(oreType, grade);
+        if (!hasRegolith) return getBaseOre(oreType, grade);
 
         if (oreType.hasOre()) {
             switch (grade) {
@@ -203,8 +203,8 @@ public class GeoRegistry {
     public Block getChiseled() { return this.chiseled.get(); }
     public Block getCracked() { return this.cracked.get(); }
     public Block getPillar() { return this.pillar.get(); }
-    public Block getButton() { return this.button.get(); }
-    public Block getPressurePlate() { return this.pressureplate.get(); }
+    public Block getButton() { return this.button.get(); } ////
+    public Block getPressurePlate() { return this.pressureplate.get(); } ////
 
     public Item getDropItem() {
         if (hasCobble) {

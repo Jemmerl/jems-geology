@@ -4,17 +4,14 @@ import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
-import com.jemmerl.jemsgeology.init.geologyinit.OreItemRegistry;
+import com.jemmerl.jemsgeology.init.geology.OreItemRegistry;
 import com.jemmerl.jemsgeology.items.QuarryItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemTier;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.LinkedHashMap;
 

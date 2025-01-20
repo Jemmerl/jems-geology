@@ -29,7 +29,7 @@ public class OreType /*implements IStringSerializable*/ {
     }
 
     public OreType(String name, String source, boolean hasPoorOre, GeoLoot geoLoot, GeoLoot poorGeoLoot) {
-        this.name = name.toLowerCase(Locale.ROOT);
+        this.name = name.toLowerCase(Locale.ENGLISH);
         this.source = source;
 
         this.hasPoorOre = hasPoorOre;

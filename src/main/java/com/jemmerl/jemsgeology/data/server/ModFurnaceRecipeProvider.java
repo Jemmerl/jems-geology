@@ -1,8 +1,7 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
-import net.minecraft.block.Blocks;
+import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;

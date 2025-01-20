@@ -5,7 +5,7 @@ import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geologyinit.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.AttachFace;
@@ -166,8 +166,8 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                     .texture("east", modLoc("block/" + basePath))
                     .texture("west", modLoc("block/" + basePath));
         } else {
-            String oreName = oreType.getName().toLowerCase(Locale.ROOT);
-            String gradeName = grade.getName().toLowerCase(Locale.ROOT);
+            String oreName = oreType.getName().toLowerCase(Locale.ENGLISH);
+            String gradeName = grade.getName().toLowerCase(Locale.ENGLISH);
 
             modelFile = models().withExistingParent("block/blockore/" + basePath + "/" + oreName + "/" + gradeName,
                             modLoc("block/stone_ore_parent"))
@@ -194,8 +194,8 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                     .texture("east", modLoc("block/" + basePath + "2"))
                     .texture("west", modLoc("block/" + basePath + "2"));
         } else {
-            String oreName = oreType.getName().toLowerCase(Locale.ROOT);
-            String gradeName = grade.getName().toLowerCase(Locale.ROOT);
+            String oreName = oreType.getName().toLowerCase(Locale.ENGLISH);
+            String gradeName = grade.getName().toLowerCase(Locale.ENGLISH);
 
             modelFile = models().withExistingParent("block/blockore/" + basePath + "/" + oreName + "/" + gradeName,
                             modLoc("block/stone_ore_parent_sides"))
