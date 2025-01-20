@@ -48,4 +48,8 @@ public class GeoOreRegistryAPI {
         return ImmutableMap.copyOf(ORE_TYPES);
     }
 
+    public static OreType fromString(String oreName) {
+        return ORE_TYPES.getOrDefault(oreName.toLowerCase(Locale.ENGLISH), ModGeoOres.NONE);
+    }
+
 }

@@ -75,17 +75,11 @@ public class WorldGeneration {
             VanillaFeatureRemover.processVegetalDecorations(biomeLoadingEvent);
             VanillaFeatureRemover.processStructures(biomeLoadingEvent);
 
-
-
-
-
             // mandatory removals
 
 
             // config based removals
             //
-
-
 
             // Featues in UNDERGROUND_ORES stage
             for (ConfiguredFeature<?, ?> entry : undergroundOresStageFeatures()) {
