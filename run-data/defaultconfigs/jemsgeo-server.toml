@@ -35,4 +35,6 @@
 	debugOreRegistry = true
 	#Debug the biome vanilla feature remover - Default false
 	debugFeatureRemover = false
+	#Debug the boulder feature when placing - Default false
+	debugBoulderFeature = true
 

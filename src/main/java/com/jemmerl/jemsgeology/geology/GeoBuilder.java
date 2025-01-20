@@ -42,10 +42,14 @@ public class GeoBuilder {
 
     public GeoWrapper[][][] build() {
         // Fill the default array WITHOUT SHALLOW COPYING AN ENTIRE DIMENSION OF IT THIS TIME AAAAAAAAAHHH
-        for (int i = 0; i < wrapperArray.length; i++) {
-            for (int j = 0; j < wrapperArray[0].length; j++) {
-                for (int k = 0; k < wrapperArray[0][0].length; k++) {
-                    wrapperArray[i][j][k] = new GeoWrapper(GeoType.GRAY_RHYOLITE);
+        for (int x = 0; x < wrapperArray.length; x++) {
+            for (int y = 0; y < wrapperArray[0].length; y++) {
+                for (int z = 0; z < wrapperArray[0][0].length; z++) {
+                    if ((y & 8)/8 == 0) {
+                        wrapperArray[x][y][z] = new GeoWrapper(GeoType.GRAY_RHYOLITE);
+                    } else {
+                        wrapperArray[x][y][z] = new GeoWrapper(GeoType.PINK_RHYOLITE);
+                    }
                 }
             }
         }
@@ -57,37 +61,37 @@ public class GeoBuilder {
         return wrapperArray;
     }
 
-    public int[] getHorizontalDeformOffset(int x, int y, int z) {
-        // things that cause horizontal deformation
-        // x/z component of faults
-
-        int age = 0;
-
-        switch (age) {
-            case 1:
-            case 2:
-            default:
-        }
-    }
-
-    public int getYDeformOffset(int x, int y, int z) {
-        // things that cause VERTICAL deformation
-        // y-component of faults
-        // intrusive ign features
-            // sills, batholiths
-        // tilt
-        // buckling
-
-
-
-        int age = 0;
-
-        switch (age) {
-            case 1:
-            case 2:
-            default:
-        }
-    }
+//    public int[] getHorizontalDeformOffset(int x, int y, int z) {
+//        // things that cause horizontal deformation
+//        // x/z component of faults
+//
+//        int age = 0;
+//
+//        switch (age) {
+//            case 1:
+//            case 2:
+//            default:
+//        }
+//    }
+//
+//    public int getYDeformOffset(int x, int y, int z) {
+//        // things that cause VERTICAL deformation
+//        // y-component of faults
+//        // intrusive ign features
+//            // sills, batholiths
+//        // tilt
+//        // buckling
+//
+//
+//
+//        int age = 0;
+//
+//        switch (age) {
+//            case 1:
+//            case 2:
+//            default:
+//        }
+//    }
 
 
 }

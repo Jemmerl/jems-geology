@@ -14,18 +14,18 @@ public class ModTags {
         // forge.tag stone (forge tag?)
         // forge.tag cobblestones
 
-//        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_STONE = createTag("stones");
-//        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_REGOLITH = createTag("regolith");
-//        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_DETRITUS = createTag("detritus");
+        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_STONE = createTag("stones");
+        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_REGOLITH = createTag("regolith");
+        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_DETRITUS = createTag("detritus");
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_COBBLES = createTag("cobbles");
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_COBBLESTONE = createTag("cobblestone");
 //        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_ORE = createTag("ore_blocks");
 ////        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_ORE_HIGH = createTag("highgrade");
 //        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_ORE_MID = createTag("midgrade");
 //        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_ORE_LOW = createTag("lowgrade");
-//        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_NO_ORE = createTag("barren");
+        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_NO_ORE = createTag("barren");
 
-//        public static final Tags.IOptionalNamedTag<Block> DETRITUS = createTag("vanilla_detritus"); // I am not sure this is even used anymore
+        public static final Tags.IOptionalNamedTag<Block> VANILLA_DETRITUS = createTag("vanilla_detritus"); // I am not sure this is even used anymore
         public static final Tags.IOptionalNamedTag<Block> COBBLES_CAN_BREAK = createTag("jemsgeo_cobbles_break"); // Cobbles cannot be supported by...
         public static final Tags.IOptionalNamedTag<Block> COBBLES_CAN_SMASH = createTag("jemsgeo_cobbles_smash"); // Cobbles cannot be STOPPED by...
 

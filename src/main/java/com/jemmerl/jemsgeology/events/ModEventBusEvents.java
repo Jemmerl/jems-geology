@@ -2,6 +2,8 @@ package com.jemmerl.jemsgeology.events;
 
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.events.loot.StoneQuarryModifier;
+import com.jemmerl.jemsgeology.world.capability.chunk.ChunkGennedCapProvider;
+import com.jemmerl.jemsgeology.world.capability.deposit.DepositCapProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
@@ -10,6 +12,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.carver.CaveWorldCarver;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +24,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import javax.annotation.Nonnull;
 
 //bus = Mod.EventBusSubscriber.Bus.MOD
-@Mod.EventBusSubscriber(modid = JemsGeology.MOD_ID)
+@Mod.EventBusSubscriber(modid = JemsGeology.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusEvents {
 
     @SubscribeEvent
@@ -31,41 +34,4 @@ public class ModEventBusEvents {
         ));
     }
 
-//    //@OnlyIn(Dist.DEDICATED_SERVER)
-//    @SubscribeEvent
-//    public static void beforeServerStart(final FMLServerAboutToStartEvent event) {
-//        System.out.println("before ================================================================================================================================");
-//        try {
-//            System.out.println(event.getServer().getWorld(World.OVERWORLD).getSeed());
-//        } catch (NullPointerException e) {
-//
-//        };
-//    }
-//
-//    //@OnlyIn(Dist.DEDICATED_SERVER)
-//    @SubscribeEvent
-//    public static void serverStarting(final FMLServerStartingEvent event) {
-//        System.out.println("during ================================================================================================================================");
-//        try {
-//            System.out.println(event.getServer().getWorld(World.OVERWORLD).getSeed());
-//        } catch (NullPointerException e) {
-//
-//        };
-//    }
-//
-//    //@OnlyIn(Dist.DEDICATED_SERVER)
-//    @SubscribeEvent
-//    public static void serverStarted(final FMLServerStartedEvent event) {
-//        System.out.println("done ================================================================================================================================");
-//        try {
-//            System.out.println(event.getServer().getWorld(World.OVERWORLD).getSeed());
-//        } catch (NullPointerException e) {
-//
-//        };
-//    }
-//
-//    @SubscribeEvent
-//    public static void stuffLoaded(final FMLLoadCompleteEvent event) {
-//        System.out.println("loaded =============================================XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX===================================================");
-//    }
 }
