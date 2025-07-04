@@ -6,7 +6,6 @@ import com.jemmerl.jemsgeology.geology.stones.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 
 public class GeoWrapper {
     private GeoType geoType;
@@ -45,10 +44,11 @@ public class GeoWrapper {
     //public Grade isRegolith() { return isRegolith; }
 
     public Block toGeoBlock(boolean regolith) {
-        if (regolith && geoType.hasRegolith()) {
-            return ModBlocks.GEO_BLOCKS.get(geoType).getRegolithOre(oreType, grade);
-        } else {
-            return ModBlocks.GEO_BLOCKS.get(geoType).getBaseOre(oreType, grade);
-        }
+        return ModBlocks.GEO_BLOCKS.get(geoType).getOreVariant(oreType, grade);
+//        if (regolith && geoType.hasRegolith()) {
+//            return ModBlocks.GEO_BLOCKS.get(geoType).getRegolithOre(oreType, grade);
+//        } else {
+//            return ModBlocks.GEO_BLOCKS.get(geoType).getBaseOre(oreType, grade);
+//        }
     }
 }

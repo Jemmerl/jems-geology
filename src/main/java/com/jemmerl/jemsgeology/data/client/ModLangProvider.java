@@ -25,6 +25,8 @@ public class ModLangProvider extends LanguageProvider {
 
         // Misc items and stuff
         add("block." + JemsGeology.MOD_ID + ".lichen_block", "Lichen");
+        add("block." + JemsGeology.MOD_ID + ".desert_varnish", "Desert Varnish");
+        add("block." + JemsGeology.MOD_ID + ".salt_crust", "Salt Crust");
         add("item." + JemsGeology.MOD_ID + ".lime_mortar", "Lime Mortar");
         add("item." + JemsGeology.MOD_ID + ".wooden_quarry_tool", "Wooden Quarrying Chisel");
         add("item." + JemsGeology.MOD_ID + ".stone_quarry_tool", "Stone Quarrying Chisel");
@@ -55,18 +57,12 @@ public class ModLangProvider extends LanguageProvider {
         // Blocks
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
             if (geoRegistry.getGeoType().getGeoGroup().isDetritus()) {
-                for (Block block: geoRegistry.getStoneGeoBlocks()) {
+                for (Block block: geoRegistry.getAllGeoBlocks()) {
                     nameDetritusOreBlock(block);
                 }
             } else {
-                for (Block block: geoRegistry.getStoneGeoBlocks()) {
-                    nameStoneOreBlock(block);
-                }
-            }
-
-            if (geoRegistry.hasRegolith()) {
-                for (Block block: geoRegistry.getRegolithGeoBlocks()) {
-                    nameRegolithOreBlock(block);
+                for (Block block: geoRegistry.getAllGeoBlocks()) {
+                    nameGeoOreBlock(block);
                 }
             }
 
@@ -125,7 +121,7 @@ public class ModLangProvider extends LanguageProvider {
     }
 
     // Stone Blocks
-    private void nameStoneOreBlock (Block block) {
+    private void nameGeoOreBlock(Block block) {
         String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("grade")) {
@@ -140,25 +136,6 @@ public class ModLangProvider extends LanguageProvider {
         } else {
             String[] dividePath = path.split("_stone", 2);
             displayName = StringUtils.capitaliseAllWords(dividePath[0].replace('_', ' '));
-        }
-        add(block, displayName);
-    }
-
-    // Regolith Blocks
-    private void nameRegolithOreBlock (Block block) {
-        String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
-        String displayName;
-        if (path.contains("grade")) {
-            String[] dividePath = path.split("/", 3);
-            String regolithName = StringUtils.capitaliseAllWords(dividePath[0].replace('_', ' '));
-            String oreName = StringUtils.capitaliseAllWords(dividePath[1].replace('_', ' '));
-            if (dividePath[2].contains("low")) {
-                displayName = "Poor " + oreName + " " + regolithName;
-            } else {
-                displayName = oreName + " " + regolithName;
-            }
-        } else {
-            displayName = StringUtils.capitaliseAllWords(path.replace('_', ' '));
         }
         add(block, displayName);
     }

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "jemsgeo:serpentine_stone"
-  },
-  "result": "jemsgeo:serpentine_pillar",
-  "count": 1
-}

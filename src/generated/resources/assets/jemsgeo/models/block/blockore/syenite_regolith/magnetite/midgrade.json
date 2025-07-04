@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/syenite_regolith",
-    "particle": "jemsgeo:block/syenite_regolith",
-    "overlay": "jemsgeo:block/ore/magnetite"
-  }
-}

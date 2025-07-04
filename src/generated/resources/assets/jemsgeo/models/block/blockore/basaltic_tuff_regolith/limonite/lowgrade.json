@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/basaltic_tuff_regolith",
-    "particle": "jemsgeo:block/basaltic_tuff_regolith",
-    "overlay": "jemsgeo:block/ore/poor_limonite"
-  }
-}

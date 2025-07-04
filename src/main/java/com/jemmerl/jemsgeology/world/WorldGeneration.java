@@ -66,6 +66,7 @@ public class WorldGeneration {
                 default:
             }
 
+            // TODO remove caves for everywhere except limestones? how. Maybe copy and re-implement cave gen classes
             // VanillaFeatureRemovers.processRawGeneration(event)
             VanillaFeatureRemover.processLakes(biomeLoadingEvent);
             VanillaFeatureRemover.processLocalModifications(biomeLoadingEvent);

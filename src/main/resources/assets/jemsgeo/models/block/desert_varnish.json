@@ -1,0 +1,17 @@
+{
+  "parent": "block/thin_block",
+  "textures": {
+    "particle": "jemsgeo:block/desert_varnish",
+    "desert_varnish": "jemsgeo:block/desert_varnish"
+  },
+  "elements": [
+    {
+      "from": [ 0, 0, 0.1 ],
+      "to": [ 16, 16, 0.1 ],
+      "faces": {
+        "north": { "uv": [ 16, 0, 0, 16 ], "texture": "#desert_varnish" },
+        "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#desert_varnish" }
+      }
+    }
+  ]
+}

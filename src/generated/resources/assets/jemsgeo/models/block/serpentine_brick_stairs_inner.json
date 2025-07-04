@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "side": "jemsgeo:block/serpentine_bricks",
-    "bottom": "jemsgeo:block/serpentine_bricks",
-    "top": "jemsgeo:block/serpentine_bricks"
-  }
-}

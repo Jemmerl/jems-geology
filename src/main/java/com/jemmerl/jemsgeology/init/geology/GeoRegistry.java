@@ -1,6 +1,5 @@
 package com.jemmerl.jemsgeology.init.geology;
 
-import com.google.common.collect.Maps;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.geology.stones.GeoType;
@@ -19,16 +18,13 @@ import java.util.Map;
 public class GeoRegistry {
 
     private final GeoType geoType;
-    private final boolean hasRegolith;
     private final boolean hasCobble;
 
-    private final RegistryObject<Block> baseStone;
-    private final RegistryObject<Block> regolith;
+    private final RegistryObject<Block> baseGeoBlock;
     private final RegistryObject<Block> cobbles;
     private final RegistryObject<Item> rockItem;
 
-    private final LinkedHashMap<OreType, OreBlockRegistry> stoneOreRegistry;
-    private final LinkedHashMap<OreType, OreBlockRegistry> regolithOreRegistry;
+    private final LinkedHashMap<OreType, OreBlockRegistry> oreRegistry;
 
     private final RegistryObject<Block> rawSlab;
     private final RegistryObject<Block> rawStairs;
@@ -68,15 +64,12 @@ public class GeoRegistry {
 
     public GeoRegistry(GeoType geoType) {
         this.geoType = geoType;
-        hasRegolith = geoType.hasRegolith();
         hasCobble = geoType.hasCobble();
 
-        baseStone = geoType.getGeoGroup().isDetritus() ?
+        baseGeoBlock = geoType.getGeoGroup().isDetritus() ?
                 ModBlocks.registerDetritusGeoBlock(geoType) : ModBlocks.registerStoneGeoBlock(geoType);
-        regolith = hasRegolith ? ModBlocks.registerRegolithGeoBlock(geoType) : null;
 
-        this.stoneOreRegistry =  fillOreRegistry(geoType, false);
-        this.regolithOreRegistry = hasRegolith ? fillOreRegistry(geoType, true) : Maps.newLinkedHashMap();
+        this.oreRegistry =  fillOreRegistry(geoType);
 
         rockItem = hasCobble ? ModItems.registerRockItem(geoType) : null;
 
@@ -95,7 +88,7 @@ public class GeoRegistry {
 
         rawSlab = hasCobble ? ModBlocks.registerRawStoneSlab(geoType) : null;
         rawStairs = hasCobble ? ModBlocks.registerRawStoneStairs(geoType,
-                () -> baseStone.get().getDefaultState()) : null;
+                () -> baseGeoBlock.get().getDefaultState()) : null;
         rawWall = hasCobble ? ModBlocks.registerRawStoneWall(geoType) : null;
 
         polishedStone = hasCobble ? ModBlocks.registerPolishedStoneBlock(geoType) : null;
@@ -129,50 +122,34 @@ public class GeoRegistry {
     //////////////////////////////
 
     public boolean hasCobble() { return hasCobble; }
-    public boolean hasRegolith() { return hasRegolith; }
     public GeoType getGeoType() { return geoType; }
 
     // TODO at the end of time (development), if base detritus blocks are never used (because sand-detritus with no
     //  ore is literally sand), then use a SWITCH statement in getBaseStone to remove them and return vanilla blocks.
     //  until then, its literally 6 more blocks out of like 20000, so who cares.
-    public Block getBaseStone() { return baseStone.get(); }
-    public BlockState getBaseState() { return getBaseStone().getDefaultState(); } // Makes some stuff cleaner :)
+    public Block getBaseGeoBlock() { return baseGeoBlock.get(); }
+    public BlockState getBaseState() { return getBaseGeoBlock().getDefaultState(); } // Makes some stuff cleaner :)
 
-    public Block getBaseOre(OreType oreType, Grade grade) {
-        if (oreType.hasOre()) {
-            switch (grade) {
-                case NORMAL:
-                    return stoneOreRegistry.get(oreType).getNormalOreBlock().get();
-                case POOR:
-                    return stoneOreRegistry.get(oreType).getPoorOreBlock().get();
-                case NONE:
-                default:
-            }
-        }
-        return baseStone.get();
+    public Block getOreVariant(OreType oreType) {
+        return getOreVariant(oreType, Grade.NORMAL);
     }
 
-    public Block getRegolithOre(OreType oreType, Grade grade) {
-        if (!hasRegolith) return getBaseOre(oreType, grade);
-
+    public Block getOreVariant(OreType oreType, Grade grade) {
         if (oreType.hasOre()) {
             switch (grade) {
                 case NORMAL:
-                    return regolithOreRegistry.get(oreType).getNormalOreBlock().get();
+                    return oreRegistry.get(oreType).getNormalOreBlock().get();
                 case POOR:
-                    return regolithOreRegistry.get(oreType).getPoorOreBlock().get();
+                    return oreRegistry.get(oreType).getPoorOreBlock().get();
                 case NONE:
                 default:
             }
         }
-        return regolith.get();
+        return baseGeoBlock.get();
     }
 
     // It is expected that methods calling these do appropriate checks to avoid null returns
     // GeoTypes with no cobble use their base stone as their own regolith
-    public Block getRegolith() {
-        return hasRegolith ? regolith.get() : baseStone.get();
-    }
     public Block getCobbles() { return cobbles.get(); }
     public Block getCobblestone() { return cobblestone.get(); }
     public Item getRockItem() { return rockItem.get(); }
@@ -203,8 +180,8 @@ public class GeoRegistry {
     public Block getChiseled() { return this.chiseled.get(); }
     public Block getCracked() { return this.cracked.get(); }
     public Block getPillar() { return this.pillar.get(); }
-    public Block getButton() { return this.button.get(); } ////
-    public Block getPressurePlate() { return this.pressureplate.get(); } ////
+    public Block getButton() { return this.button.get(); }
+    public Block getPressurePlate() { return this.pressureplate.get(); }
 
     public Item getDropItem() {
         if (hasCobble) {
@@ -212,7 +189,7 @@ public class GeoRegistry {
         } else if (geoType.getGeoLoot().hasPresetDrop()) {
             return geoType.getGeoLoot().getPresetDrop();
         } else {
-            return baseStone.get().asItem();
+            return baseGeoBlock.get().asItem();
         }
     }
 
@@ -220,10 +197,10 @@ public class GeoRegistry {
     //          SETTERS         //
     //////////////////////////////
 
-    private  LinkedHashMap<OreType, OreBlockRegistry> fillOreRegistry(GeoType geoType, boolean isRegolith) {
+    private  LinkedHashMap<OreType, OreBlockRegistry> fillOreRegistry(GeoType geoType) {
         LinkedHashMap<OreType, OreBlockRegistry> oreMap = new LinkedHashMap<>();
         for (OreType oreType : ModBlocks.REGISTERED_ORES.values()) {
-            oreMap.put(oreType, new OreBlockRegistry(geoType, oreType, isRegolith));
+            oreMap.put(oreType, new OreBlockRegistry(geoType, oreType));
         }
         return oreMap;
     }
@@ -235,56 +212,25 @@ public class GeoRegistry {
 
     // THESE ARE MAINLY TO BE USED DURING INITIALIZATION AND DATA GENERATION
     // The sheer amount of items generated would be excessive during any other stage
-    // These all assume proper checks are being done to ensure no null returns for cobble-less blocks!
+    // <!> These all assume proper checks are being done to ensure no null returns for cobble-less blocks! <!>
 
-    // Get all geo-blocks (aka not including cobbles and cobblestones)
+    // Get all geo-blocks
     public List<Block> getAllGeoBlocks() {
-        List<Block> allGeoBlocks = new ArrayList<>(getStoneGeoBlocks());
-        if (hasRegolith) allGeoBlocks.addAll(getRegolithGeoBlocks());
-        return allGeoBlocks;
-    }
-
-    // Get all stone geo-blocks
-    public List<Block> getStoneGeoBlocks() {
-        List<Block> stoneGeoBlocks = new ArrayList<>(getStoneOreBlocks());
-        stoneGeoBlocks.add(getBaseStone());
+        List<Block> stoneGeoBlocks = new ArrayList<>(getAllOreGeoBlocks());
+        stoneGeoBlocks.add(getBaseGeoBlock());
         return stoneGeoBlocks;
     }
 
-    // Get all regolith geo-blocks
-    public List<Block> getRegolithGeoBlocks() {
-        List<Block> regolithGeoBlocks = new ArrayList<>(getRegolithOreBlocks());
-        regolithGeoBlocks.add(getRegolith());
-        return regolithGeoBlocks;
-    }
-
     // Get all ore-bearing geo-blocks
-    public List<Block> getAllOreBlocks() {
-        List<Block> allOreBlocks = new ArrayList<>(getStoneOreBlocks());
-        if (hasRegolith) allOreBlocks.addAll(getRegolithOreBlocks());
+    public List<Block> getAllOreGeoBlocks() {
+        List<Block> allOreBlocks = new ArrayList<>();
+        for (OreBlockRegistry oreRegistry: oreRegistry.values()) {
+            allOreBlocks.addAll(oreRegistry.getAllGradedOreBlocks());
+        }
         return allOreBlocks;
     }
 
-    // Get all ore-bearing base stone geo-blocks
-    public List<Block> getStoneOreBlocks() {
-        List<Block> allStoneOreBlocks = new ArrayList<>();
-        for (OreBlockRegistry oreRegistry: stoneOreRegistry.values()) {
-            allStoneOreBlocks.addAll(oreRegistry.getAllGradedOreBlocks());
-        }
-        return allStoneOreBlocks;
-    }
-
-    // Get all ore-bearing regolith geo-blocks
-    public List<Block> getRegolithOreBlocks() {
-        List<Block> allRegolithOreBlocks = new ArrayList<>();
-        for (OreBlockRegistry oreRegistry: regolithOreRegistry.values()) {
-            allRegolithOreBlocks.addAll(oreRegistry.getAllGradedOreBlocks());
-        }
-        return allRegolithOreBlocks;
-    }
-
-    public Map<OreType, OreBlockRegistry> getStoneOreRegistry() { return stoneOreRegistry; }
-    public Map<OreType, OreBlockRegistry> getRegolithOreRegistry() { return regolithOreRegistry; }
+    public Map<OreType, OreBlockRegistry> getOreRegistry() { return oreRegistry; }
 
     public List<Block> getDecorBlocks() {
         List<Block> allDecorBlocks = new ArrayList<>();

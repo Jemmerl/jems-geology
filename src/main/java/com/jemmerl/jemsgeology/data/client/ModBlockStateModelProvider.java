@@ -29,20 +29,10 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
             // Base stone/ores
-            for (Block block: geoRegistry.getStoneGeoBlocks()) {
+            for (Block block: geoRegistry.getAllGeoBlocks()) {
                 if (block instanceof IGeoBlock) {
                     buildSimpleOreBlock(block,
-                            Objects.requireNonNull(geoRegistry.getBaseStone().getRegistryName()).getPath());
-                }
-            }
-
-            // Regolith/ores
-            if (geoRegistry.hasRegolith()) {
-                for (Block block: geoRegistry.getRegolithGeoBlocks()) {
-                    if (block instanceof IGeoBlock) {
-                        buildSimpleOreBlock(block,
-                                Objects.requireNonNull(geoRegistry.getRegolith().getRegistryName()).getPath());
-                    }
+                            Objects.requireNonNull(geoRegistry.getBaseGeoBlock().getRegistryName()).getPath());
                 }
             }
 
@@ -52,7 +42,7 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 simpleBlock(geoRegistry.getCobblestone());
 
                 ResourceLocation baseStoneRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getBaseStone().getRegistryName()).getPath());
+                        Objects.requireNonNull(geoRegistry.getBaseGeoBlock().getRegistryName()).getPath());
                 ResourceLocation cobbleRL = modLoc("block/" +
                         Objects.requireNonNull(geoRegistry.getCobblestone().getRegistryName()).getPath());
                 ResourceLocation mossyCobbleRL = modLoc("block/" +

@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "jemsgeo:mossy_serpentine_cobblestone"
-  },
-  "result": "jemsgeo:mossy_serpentine_cobble_slab",
-  "count": 2
-}

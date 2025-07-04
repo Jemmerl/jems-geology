@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/greywacke_regolith",
-    "particle": "jemsgeo:block/greywacke_regolith",
-    "overlay": "jemsgeo:block/ore/redstone"
-  }
-}

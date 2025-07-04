@@ -1,5 +1,6 @@
 {
   "ambientocclusion": false,
+  "parent": "block/thin_block",
   "textures": {
     "particle": "jemsgeo:block/lichen_block_alt1",
     "lichen_block": "jemsgeo:block/lichen_block_alt1"

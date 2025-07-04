@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/quartz_regolith",
-    "particle": "jemsgeo:block/quartz_regolith",
-    "overlay": "jemsgeo:block/ore/poor_hematite"
-  }
-}

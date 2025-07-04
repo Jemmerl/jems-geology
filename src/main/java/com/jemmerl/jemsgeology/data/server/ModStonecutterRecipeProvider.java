@@ -27,7 +27,7 @@ public class ModStonecutterRecipeProvider extends RecipeProvider {
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
             if (geoRegistry.hasCobble()) {
-                Block rawStone = geoRegistry.getBaseStone();
+                Block rawStone = geoRegistry.getBaseGeoBlock();
                 Block cobblestone = geoRegistry.getCobblestone();
                 Block mossyCobblestone = geoRegistry.getMossyCobblestone();
                 Block polished = geoRegistry.getPolishedStone();

@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "jemsgeo:block/lichen_block"
-  }
+  "parent": "jemsgeo:block/lichen_block"
 }

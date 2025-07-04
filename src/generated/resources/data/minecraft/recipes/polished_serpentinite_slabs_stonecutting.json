@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:polished_serpentinite_stone"
+  },
+  "result": "jemsgeo:polished_serpentinite_slab",
+  "count": 2
+}

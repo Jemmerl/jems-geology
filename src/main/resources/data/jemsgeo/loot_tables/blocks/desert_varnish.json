@@ -1,0 +1,149 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "up": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "down": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "north": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "south": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "east": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "jemsgeo:desert_varnish",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "jemsgeo:desert_varnish",
+              "properties": {
+                "west": "true"
+              }
+            },
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "item": "minecraft:shears"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

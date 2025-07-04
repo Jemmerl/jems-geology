@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/red_sandstone_regolith",
-    "particle": "jemsgeo:block/red_sandstone_regolith",
-    "overlay": "jemsgeo:block/ore/olivine"
-  }
-}

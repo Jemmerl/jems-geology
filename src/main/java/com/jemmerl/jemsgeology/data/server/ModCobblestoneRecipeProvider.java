@@ -17,9 +17,9 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        for (GeoType stone : GeoType.values()) {
-            if (stone.hasCobble()) {
-                GeoRegistry registry = ModBlocks.GEO_BLOCKS.get(stone);
+        for (GeoType geoBlock : GeoType.values()) {
+            if (geoBlock.hasCobble()) {
+                GeoRegistry registry = ModBlocks.GEO_BLOCKS.get(geoBlock);
                 Item rockItem = registry.getRockItem();
 
                 // Recipe to craft cobbles

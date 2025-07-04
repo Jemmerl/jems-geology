@@ -11,7 +11,7 @@ public class ModItemGroups {
     public static final ItemGroup JEMSGEO_BASE_STONE_GROUP = new ItemGroup("jemsgeo_base_stones_tab") {
         @Override
         public ItemStack createIcon() {
-            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getBaseStone().asItem().getDefaultInstance();
+            return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT).getBaseGeoBlock().asItem().getDefaultInstance();
         }
     };
 
@@ -47,7 +47,7 @@ public class ModItemGroups {
         @Override
         public ItemStack createIcon() {
             return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT)
-                    .getBaseOre(ModGeoOres.OLIVINE, Grade.NORMAL).asItem().getDefaultInstance();
+                    .getOreVariant(ModGeoOres.OLIVINE, Grade.NORMAL).asItem().getDefaultInstance();
         }
     };
 

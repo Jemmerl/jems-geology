@@ -1,0 +1,20 @@
+{
+  "parent": "block/thin_block",
+  "textures": {
+    "particle": "jemsgeo:block/salt_crust",
+    "salt_crust": "jemsgeo:block/salt_crust"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 1, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0,  0, 16, 16 ], "texture": "#salt_crust", "cullface": "down" },
+        "up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#salt_crust" },
+        "north": { "uv": [ 0, 15, 16, 16 ], "texture": "#salt_crust", "cullface": "north" },
+        "south": { "uv": [ 0, 15, 16, 16 ], "texture": "#salt_crust", "cullface": "south" },
+        "west":  { "uv": [ 0, 15, 16, 16 ], "texture": "#salt_crust", "cullface": "west" },
+        "east":  { "uv": [ 0, 15, 16, 16 ], "texture": "#salt_crust", "cullface": "east" }
+      }
+    }
+  ]
+}

@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/gray_rhyolite_regolith",
-    "particle": "jemsgeo:block/gray_rhyolite_regolith",
-    "overlay": "jemsgeo:block/ore/emerald"
-  }
-}

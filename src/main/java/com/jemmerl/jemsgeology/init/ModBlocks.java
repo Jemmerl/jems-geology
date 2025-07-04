@@ -43,7 +43,6 @@ public class ModBlocks {
             .harvestLevel(0).harvestTool(ToolType.SHOVEL).sound(SoundType.GROUND).hardnessAndResistance(0.6f);
 
     public static final ImmutableMap<String, OreType> REGISTERED_ORES = GeoOreRegistryAPI.getRegisteredOres();
-
     public static final LinkedHashMap<GeoType, GeoRegistry> GEO_BLOCKS = new LinkedHashMap<>();
     static {
         for (GeoType geoType : GeoType.values()) {
@@ -53,6 +52,15 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> LICHEN_BLOCK = registerBlock("lichen_block", () -> new LichenBlock(
             AbstractBlock.Properties.create(Material.TALL_PLANTS).hardnessAndResistance(0.2F).sound(SoundType.VINE).doesNotBlockMovement()
+    ), ModItemGroups.JEMSGEO_MISC_GROUP);
+
+    // TODO FIX MATERIAL AND PROPS
+    public static final RegistryObject<Block> DESERT_VARNISH_BLOCK = registerBlock("desert_varnish", () -> new DesertVarnishBlock(
+            AbstractBlock.Properties.create(Material.TALL_PLANTS).hardnessAndResistance(0.2F).sound(SoundType.VINE).doesNotBlockMovement()
+    ), ModItemGroups.JEMSGEO_MISC_GROUP);
+
+    public static final RegistryObject<Block> SALT_CRUST_BLOCK = registerBlock("salt_crust", () -> new SaltCrustBlock(
+            AbstractBlock.Properties.create(Material.EARTH).harvestLevel(0).sound(SoundType.GROUND).hardnessAndResistance(0.15f)
     ), ModItemGroups.JEMSGEO_MISC_GROUP);
 
     ///////////////////////////////
@@ -75,19 +83,19 @@ public class ModBlocks {
         return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
     }
 
-    // For base regolith blocks
-    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType) {
-        String name = geoType.getName() + "_regolith";
-        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_BASE_STONE_GROUP);
-    }
-
-    // For ore-bearing regolith blocks
-    public static <T extends Block>RegistryObject<T> registerRegolithOreBlock(GeoType geoType, OreType oreType, Grade grade) {
-        String name = geoType.getName() + "_regolith/" + oreType.getName() + "/" + grade.getName();
-        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, oreType, grade);
-        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
-    }
+//    // For base regolith blocks
+//    public static <T extends Block>RegistryObject<T> registerRegolithGeoBlock(GeoType geoType) {
+//        String name = geoType.getName() + "_regolith";
+//        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, ModGeoOres.NONE, Grade.NONE);
+//        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_BASE_STONE_GROUP);
+//    }
+//
+//    // For ore-bearing regolith blocks
+//    public static <T extends Block>RegistryObject<T> registerRegolithOreBlock(GeoType geoType, OreType oreType, Grade grade) {
+//        String name = geoType.getName() + "_regolith/" + oreType.getName() + "/" + grade.getName();
+//        Supplier<T> blockSupplier = () -> (T) new RegolithGeoBlock(getRegolithProp(geoType), geoType, oreType, grade);
+//        return registerBlock(name, blockSupplier, ModItemGroups.JEMSGEO_ORE_BLOCK_GROUP);
+//    }
 
     // For base detritus blocks
     public static <T extends Block>RegistryObject<T> registerDetritusGeoBlock(GeoType geoType) {

@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "item": "jemsgeo:serpentine_bricks"
-  },
-  "result": "jemsgeo:cracked_serpentine_bricks",
-  "experience": 0.1,
-  "cookingtime": 200
-}

@@ -1,8 +1,11 @@
 package com.jemmerl.jemsgeology.data.client;
 
+import com.jemmerl.jemsgeology.blocks.IGeoBlock;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
+import net.minecraft.block.AbstractButtonBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.WallBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -23,24 +26,30 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // Generate block item models
         for (RegistryObject<Block> regBlock : ModBlocks.BLOCKS.getEntries()) {
-            String path = regBlock.getId().getPath();
-            String regName = Objects.requireNonNull(regBlock.get().getRegistryName()).toString();
-
-            if (!(regName.contains("lichen") && !regName.contains("_stone"))) {
-                ModelFile blockItemGenerated;
-                if (regName.contains("grade")) {
-                    blockItemGenerated = getExistingFile(modLoc("block/blockore/" + path));
-                } else {
-                    if (path.contains("wall") || path.contains("button")) {
-                        blockItemGenerated = getExistingFile(modLoc("block/" + path + "_inventory"));
-                        getBuilder("item/" + path).parent(blockItemGenerated);
-                        continue;
-                    } else {
-                        blockItemGenerated = getExistingFile(modLoc("block/" + path));
-                    }
-                }
-                getBuilder("item/" + path).parent(blockItemGenerated);
+            if ((regBlock == ModBlocks.LICHEN_BLOCK)
+                    || (regBlock == ModBlocks.DESERT_VARNISH_BLOCK)
+                    || (regBlock == ModBlocks.SALT_CRUST_BLOCK)) {
+                continue;
             }
+
+            Block block = regBlock.get();
+            String path = regBlock.getId().getPath();
+            //String regName = Objects.requireNonNull(block.getRegistryName()).toString();
+
+            ModelFile blockItemGenerated;
+            //regName.contains("grade")
+            if ((block instanceof IGeoBlock) && (((IGeoBlock)block).getOreType().hasOre())) {
+                blockItemGenerated = getExistingFile(modLoc("block/blockore/" + path));
+            } else if ((block instanceof WallBlock) || (block instanceof AbstractButtonBlock)) {
+                //path.contains("wall")
+                //path.contains("button")
+                blockItemGenerated = getExistingFile(modLoc("block/" + path + "_inventory"));
+                getBuilder("item/" + path).parent(blockItemGenerated);
+                continue;
+            } else {
+                blockItemGenerated = getExistingFile(modLoc("block/" + path));
+            }
+            getBuilder("item/" + path).parent(blockItemGenerated);
         }
 
         // Generate item models excluding blocks

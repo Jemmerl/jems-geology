@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/trachytic_tuff_regolith",
-    "particle": "jemsgeo:block/trachytic_tuff_regolith",
-    "overlay": "jemsgeo:block/ore/olivine"
-  }
-}

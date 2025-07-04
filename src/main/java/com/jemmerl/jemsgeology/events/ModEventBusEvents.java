@@ -2,24 +2,11 @@ package com.jemmerl.jemsgeology.events;
 
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.events.loot.StoneQuarryModifier;
-import com.jemmerl.jemsgeology.world.capability.chunk.ChunkGennedCapProvider;
-import com.jemmerl.jemsgeology.world.capability.deposit.DepositCapProvider;
-import net.minecraft.client.Minecraft;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.NoiseChunkGenerator;
-import net.minecraft.world.gen.carver.CaveWorldCarver;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 
 import javax.annotation.Nonnull;
 

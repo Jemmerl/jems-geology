@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/shale_regolith",
-    "particle": "jemsgeo:block/shale_regolith",
-    "overlay": "jemsgeo:block/ore/lapis"
-  }
-}

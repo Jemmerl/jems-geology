@@ -6,6 +6,16 @@ import net.minecraft.item.Item;
 import java.util.Locale;
 import java.util.Objects;
 
+/* TODO
+    - Rework ore to use a predicate system for drops. Or something more flexible.
+    - Implement restriction modes, such as "regolith only". These should be as minimal as possible, such as for
+        duricretes and stone rock "ores".
+    - Some ores are weathering byproducts only. Should it be manually restricted?
+        - So far, unable to find an example. Limonite discredited.
+    - Since we are reducing block amount with the regolith changes, can add chert as a rock (slightly red so it works as layers and as BIF?) and flint as an ore
+
+ */
+
 public class OreType /*implements IStringSerializable*/ {
 
     private final String name;

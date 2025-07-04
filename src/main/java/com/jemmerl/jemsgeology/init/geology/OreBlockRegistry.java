@@ -17,10 +17,10 @@ public class OreBlockRegistry {
     private final RegistryObject<Block> normalOreBlock;
 //    private final RegistryObject<Block> richOreBlock;
 
-    public OreBlockRegistry(GeoType geoType, OreType oreType, boolean isRegolith) {
+    public OreBlockRegistry(GeoType geoType, OreType oreType) {
         hasPoorOre = oreType.hasPoorOre();
-        poorOreBlock = hasPoorOre ? registerOreBlock(geoType, oreType, Grade.POOR, isRegolith) : null;
-        normalOreBlock = registerOreBlock(geoType, oreType, Grade.NORMAL, isRegolith);
+        poorOreBlock = hasPoorOre ? registerOreBlock(geoType, oreType, Grade.POOR) : null;
+        normalOreBlock = registerOreBlock(geoType, oreType, Grade.NORMAL);
 //        richOreBlock = hasRichOre ? registerOreBlock(geoType, oreType, GradeType.HIGHGRADE, blockType);
     }
 
@@ -40,10 +40,7 @@ public class OreBlockRegistry {
         return gradedOreBlocks;
     }
 
-    private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, Grade grade, boolean isRegolith) {
-        if (isRegolith) {
-            return ModBlocks.registerRegolithOreBlock(geoType, oreType, grade);
-        }
+    private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, Grade grade) {
         return geoType.getGeoGroup().isDetritus() ?
                 ModBlocks.registerDetritusOreBlock(geoType, oreType, grade) :
                 ModBlocks.registerStoneOreBlock(geoType, oreType, grade);

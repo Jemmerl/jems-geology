@@ -27,7 +27,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     protected void registerTags() {
 
         Builder<Block> tagBuilderGeoStone = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_STONE);
-        Builder<Block> tagBuilderGeoRegolith = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_REGOLITH);
+//        Builder<Block> tagBuilderGeoRegolith = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_REGOLITH);
         Builder<Block> tagBuilderGeoDetritus = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_DETRITUS);
         Builder<Block> tagBuilderGeoCobbles = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_COBBLES);
         Builder<Block> tagBuilderGeoCobblestone = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_COBBLESTONE);
@@ -44,14 +44,14 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
             boolean isDetritus = geoRegistry.getGeoType().getGeoGroup().isDetritus();
             boolean hasCobble = geoRegistry.hasCobble();
 
-            tagBuilderNoOre.add(geoRegistry.getBaseStone());
+            tagBuilderNoOre.add(geoRegistry.getBaseGeoBlock());
             if (isDetritus) {
-                tagBuilderGeoDetritus.add(geoRegistry.getBaseStone());
+                tagBuilderGeoDetritus.add(geoRegistry.getBaseGeoBlock());
             } else {
-                tagBuilderGeoStone.add(geoRegistry.getBaseStone());
+                tagBuilderGeoStone.add(geoRegistry.getBaseGeoBlock());
             }
 
-            for (OreBlockRegistry oreBlockRegistry : geoRegistry.getStoneOreRegistry().values()) {
+            for (OreBlockRegistry oreBlockRegistry : geoRegistry.getOreRegistry().values()) {
 //                Block highGrade = oreBlockRegistry.getGradeOre(GradeType.HIGHGRADE).get();
                 Block midGrade = oreBlockRegistry.getNormalOreBlock().get();
                 Block lowGrade = oreBlockRegistry.getPoorOreBlock().get();
@@ -74,22 +74,6 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
             if (hasCobble) {
                 tagBuilderGeoCobbles.add(geoRegistry.getCobbles());
                 tagBuilderGeoCobblestone.add(geoRegistry.getCobblestone());
-
-                tagBuilderGeoRegolith.add(geoRegistry.getRegolith());
-                tagBuilderNoOre.add(geoRegistry.getRegolith());
-                for (OreBlockRegistry oreBlockRegistry : geoRegistry.getRegolithOreRegistry().values()) {
-////                    Block highGrade = oreBlockRegistry.getGradeOre(GradeType.HIGHGRADE).get();
-                    Block midGrade = oreBlockRegistry.getNormalOreBlock().get();
-                    Block lowGrade = oreBlockRegistry.getPoorOreBlock().get();
-//
-////                    tagBuilderOreHigh.add(highGrade);
-//                    tagBuilderOreMid.add(midGrade);
-//                    tagBuilderOreLow.add(lowGrade);
-//
-////                    tagBuilderGeoRegolith.add(highGrade);
-                    tagBuilderGeoRegolith.add(midGrade);
-                    tagBuilderGeoRegolith.add(lowGrade);
-                }
 
                 tagVanillaWalls.add(geoRegistry.getCobbleWall());
                 tagVanillaWalls.add(geoRegistry.getMossyCobbleWall());

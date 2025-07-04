@@ -80,7 +80,7 @@ public enum GeoType {
 
     // Metamorphic
     QUARTZITE("quartzite",                      GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
-    SERPENTINE("serpentine",                    GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
+    SERPENTINITE("serpentinite",                GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
     SCHIST("schist",                            GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
     PHYLLITE("phyllite",                        GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
     SLATE("slate",                              GeoGroup.METAMORPHIC, WeatheringType.NONE, WeatheringType.REGOLITH, true, true, MaterialColor.STONE),
@@ -151,10 +151,6 @@ public enum GeoType {
 
     public WeatheringType getSubSurfaceWeathering() {
         return subSurfaceWeathering;
-    }
-
-    public boolean hasRegolith() {
-        return hasRegolith;
     }
 
     public boolean hasCobble() {

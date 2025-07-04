@@ -26,6 +26,7 @@ import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -73,12 +74,6 @@ public class ModLootTableProvider extends LootTableProvider {
 //                    // Loot Tables for base stone/stone ores
 //
 //                }
-
-                //TODO regolith drops are identical
-                if (geoRegistry.hasRegolith()) {
-                    // Loot Tables for regolith/regolith ores
-                    registerRegolithLootTables(geoRegistry);
-                }
 
                 if (hasCobble) {
                     registerCobblesLootTable(geoRegistry);
@@ -143,24 +138,11 @@ public class ModLootTableProvider extends LootTableProvider {
             }
         }
 
-        // REGOLITH
-        private void registerRegolithLootTables(GeoRegistry geoRegistry) {
-            registerRegolithNoOreLoot(geoRegistry);
-            for (OreType oreType : GeoOreRegistryAPI.getRegisteredOres().values()) {
-                registerRegolithOreLoot(geoRegistry, oreType, Grade.NORMAL);
-                if (oreType.hasPoorOre()) {
-                    registerRegolithOreLoot(geoRegistry, oreType, Grade.POOR);
-                }
-
-            }
-        }
-
-
         /////////////////////////////////////////////////////////////////////////////////////
 
         private void registerStoneNoOreLoot(GeoRegistry geoRegistry) {
             LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
-            Block block = geoRegistry.getBaseStone().getBlock();
+            Block block = geoRegistry.getBaseGeoBlock().getBlock();
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()
                     .addLootPool(LootPool.builder().addEntry(rockEntry))));
@@ -169,35 +151,13 @@ public class ModLootTableProvider extends LootTableProvider {
         private void registerStoneOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
             LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
 
-            Block block = geoRegistry.getBaseOre(oreType, grade);
+            Block block = geoRegistry.getOreVariant(oreType, grade);
             LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()
                     .addLootPool(LootPool.builder().addEntry(rockEntry))
                     .addLootPool(LootPool.builder().addEntry(oreEntry))));
         }
-
-        private void registerRegolithNoOreLoot(GeoRegistry geoRegistry) {
-            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
-            Block block = geoRegistry.getRegolith().getBlock();
-
-            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
-                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(rockEntry)))
-                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH).addEntry(ItemLootEntry.builder(block.asItem()))));
-        }
-
-        private void registerRegolithOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
-            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
-
-            Block block = geoRegistry.getRegolithOre(oreType, grade);
-            LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
-
-            registerLootTable(block, withExplosionDecay(block, LootTable.builder()
-                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(rockEntry))
-                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH.inverted()).addEntry(oreEntry)))
-                    .addLootPool(LootPool.builder().acceptCondition(SILK_TOUCH).addEntry(ItemLootEntry.builder(block.asItem()))));
-        }
-
 
 
 
@@ -264,10 +224,18 @@ public class ModLootTableProvider extends LootTableProvider {
             return builder;
         }
 
+
+
         // Don't worry about this.
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return ModBlocks.BLOCKS.getEntries().stream().filter(block -> block.get() != ModBlocks.LICHEN_BLOCK.get())
+            ArrayList<Block> IGNORE = new ArrayList<>();
+            IGNORE.add(ModBlocks.LICHEN_BLOCK.get());
+            IGNORE.add(ModBlocks.DESERT_VARNISH_BLOCK.get());
+            IGNORE.add(ModBlocks.SALT_CRUST_BLOCK.get());
+
+            return ModBlocks.BLOCKS.getEntries().stream()
+                    .filter(block -> !IGNORE.contains(block.get()))
                     .map(RegistryObject::get)
                     .collect(Collectors.toList());
         }

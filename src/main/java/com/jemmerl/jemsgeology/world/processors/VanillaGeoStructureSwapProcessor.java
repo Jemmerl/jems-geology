@@ -23,7 +23,7 @@ public class VanillaGeoStructureSwapProcessor extends StructureProcessor {
     private static final Map<Block, Block> replacementMap = Util.make(Maps.newHashMap(), (map) -> {
         map.put(Blocks.COBBLESTONE, grayRhyo.getCobblestone());
         map.put(Blocks.MOSSY_COBBLESTONE, grayRhyo.getMossyCobblestone());
-        map.put(Blocks.STONE, grayRhyo.getBaseStone());
+        map.put(Blocks.STONE, grayRhyo.getBaseGeoBlock());
         map.put(Blocks.SMOOTH_STONE, grayRhyo.getPolishedStone());
         map.put(Blocks.STONE_BRICKS, grayRhyo.getBricks());
         map.put(Blocks.MOSSY_STONE_BRICKS, grayRhyo.getMossyBricks());

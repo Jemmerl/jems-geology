@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/carbonate_hornfels_regolith",
-    "particle": "jemsgeo:block/carbonate_hornfels_regolith",
-    "overlay": "jemsgeo:block/ore/diamond"
-  }
-}
