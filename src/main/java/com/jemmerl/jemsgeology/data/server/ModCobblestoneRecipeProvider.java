@@ -1,6 +1,6 @@
 package com.jemmerl.jemsgeology.data.server;
 
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geology.GeoRegistry;

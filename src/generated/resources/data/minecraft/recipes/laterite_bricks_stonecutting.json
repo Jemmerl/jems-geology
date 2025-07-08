@@ -1,7 +1,7 @@
 {
   "type": "minecraft:stonecutting",
   "ingredient": {
-    "item": "jemsgeo:laterite_stone"
+    "item": "jemsgeo:laterite_rego"
   },
   "result": "jemsgeo:laterite_bricks",
   "count": 1

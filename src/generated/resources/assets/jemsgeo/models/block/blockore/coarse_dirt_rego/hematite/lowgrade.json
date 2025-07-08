@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/coarse_dirt_rego",
+    "particle": "jemsgeo:block/coarse_dirt_rego",
+    "overlay": "jemsgeo:block/ore/poor_hematite"
+  }
+}

@@ -11,6 +11,10 @@ import java.util.function.Supplier;
 
 public class GeoLoot {
 
+    // TODO there is a *ton* of improvements to be made here. Predicates, more flexibility,
+    //  and importantly how to handle mods wanting to change them?
+
+
     // Commonly used for stone drops
     public static final GeoLoot BASIC_ROCKS = new GeoLoot(BinomialRange.of(5, 0.65f), false);
 
@@ -52,7 +56,10 @@ public class GeoLoot {
         return hasPresetDrop;
     }
 
-    public Item getPresetDrop() {
+    public Supplier<Item> getPresetDrop() {
+        return presetDrop;
+    }
+    public Item getPresetDropItem() {
         return presetDrop.get();
     }
 

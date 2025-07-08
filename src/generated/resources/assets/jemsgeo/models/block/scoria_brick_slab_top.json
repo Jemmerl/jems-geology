@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "side": "jemsgeo:block/scoria_bricks",
-    "bottom": "jemsgeo:block/scoria_bricks",
-    "top": "jemsgeo:block/scoria_bricks"
-  }
-}

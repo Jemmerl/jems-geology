@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/coarse_dirt_rego",
+    "up": "jemsgeo:block/coarse_dirt_rego",
+    "down": "jemsgeo:block/coarse_dirt_rego",
+    "north": "jemsgeo:block/coarse_dirt_rego",
+    "south": "jemsgeo:block/coarse_dirt_rego",
+    "east": "jemsgeo:block/coarse_dirt_rego",
+    "west": "jemsgeo:block/coarse_dirt_rego"
+  }
+}

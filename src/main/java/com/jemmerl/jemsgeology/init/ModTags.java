@@ -16,7 +16,6 @@ public class ModTags {
 
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_STONE = createTag("stones");
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_REGOLITH = createTag("regolith");
-        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_DETRITUS = createTag("detritus");
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_COBBLES = createTag("cobbles");
         public static final Tags.IOptionalNamedTag<Block> JEMSGEO_COBBLESTONE = createTag("cobblestone");
 //        public static final Tags.IOptionalNamedTag<Block> JEMSGEO_ORE = createTag("ore_blocks");

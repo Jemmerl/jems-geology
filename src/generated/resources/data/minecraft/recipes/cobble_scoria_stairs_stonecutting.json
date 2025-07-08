@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "jemsgeo:scoria_cobblestone"
-  },
-  "result": "jemsgeo:scoria_cobble_stairs",
-  "count": 1
-}

@@ -1,6 +1,6 @@
 package com.jemmerl.jemsgeology.world.features.config;
 
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.world.gen.feature.IFeatureConfig;

@@ -35,7 +35,7 @@ public enum ReplaceStatus {
 
     // Check if the block is some form of GeoBlock detritus
     public static boolean isGeoBlockDetritus(Block block) {
-        return ((block instanceof IGeoBlock) && ((IGeoBlock) block).getGeoType().getGeoGroup().isDetritus());
+        return ((block instanceof IGeoBlock) && ((IGeoBlock) block).getGeoType().getGeoGroup().isRegolith());
     }
 
     // Check if the block is some form of stone (vanilla or GeoBlock)

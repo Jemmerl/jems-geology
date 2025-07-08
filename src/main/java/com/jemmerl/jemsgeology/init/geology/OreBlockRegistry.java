@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.init.geology;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
@@ -41,8 +41,8 @@ public class OreBlockRegistry {
     }
 
     private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, Grade grade) {
-        return geoType.getGeoGroup().isDetritus() ?
-                ModBlocks.registerDetritusOreBlock(geoType, oreType, grade) :
+        return geoType.getGeoGroup().isRegolith() ?
+                ModBlocks.registerRegolithOreBlock(geoType, oreType, grade) :
                 ModBlocks.registerStoneOreBlock(geoType, oreType, grade);
     }
 }

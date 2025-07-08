@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/clay_detritus",
-    "particle": "jemsgeo:block/clay_detritus",
-    "overlay": "jemsgeo:block/ore/lapis"
-  }
-}

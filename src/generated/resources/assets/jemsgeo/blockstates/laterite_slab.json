@@ -7,7 +7,7 @@
       "model": "jemsgeo:block/laterite_slab"
     },
     "type=double": {
-      "model": "jemsgeo:block/laterite_stone"
+      "model": "jemsgeo:block/laterite_rego"
     }
   }
 }

@@ -3,7 +3,7 @@ package com.jemmerl.jemsgeology.data.client;
 import com.jemmerl.jemsgeology.blocks.IGeoBlock;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
 import net.minecraft.block.*;

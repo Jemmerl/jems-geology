@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/limy_shale_stone",
-    "particle": "jemsgeo:block/limy_shale_stone",
-    "overlay": "jemsgeo:block/ore/diamond"
-  }
-}

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/clay_rego",
+    "up": "jemsgeo:block/clay_rego",
+    "down": "jemsgeo:block/clay_rego",
+    "north": "jemsgeo:block/clay_rego",
+    "south": "jemsgeo:block/clay_rego",
+    "east": "jemsgeo:block/clay_rego",
+    "west": "jemsgeo:block/clay_rego"
+  }
+}

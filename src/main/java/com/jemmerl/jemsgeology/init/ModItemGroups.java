@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.init;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;

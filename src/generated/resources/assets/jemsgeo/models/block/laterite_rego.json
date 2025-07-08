@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/laterite_rego",
+    "up": "jemsgeo:block/laterite_rego",
+    "down": "jemsgeo:block/laterite_rego",
+    "north": "jemsgeo:block/laterite_rego",
+    "south": "jemsgeo:block/laterite_rego",
+    "east": "jemsgeo:block/laterite_rego",
+    "west": "jemsgeo:block/laterite_rego"
+  }
+}

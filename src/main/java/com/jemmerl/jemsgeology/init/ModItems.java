@@ -1,9 +1,9 @@
 package com.jemmerl.jemsgeology.init;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.geology.OreItemRegistry;
 import com.jemmerl.jemsgeology.items.QuarryItem;
 import net.minecraft.item.Item;
@@ -20,8 +20,6 @@ public class ModItems {
 
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, JemsGeology.MOD_ID);
-
-    private static Item[] ITEMS1 = {};
 
     //////////
     // MISC //
@@ -60,11 +58,17 @@ public class ModItems {
     public static final RegistryObject<Item> BITUMINOUS_COAL = registerOreItem("bituminous_coal_ore");
     public static final RegistryObject<Item> ANTHRACITE_COAL = registerOreItem("anthracite_coal_ore");
 
-    public static final LinkedHashMap<OreType, OreItemRegistry> ORE_ITEMS = new LinkedHashMap<>();
-    static {
-        for (OreType oreType: GeoOreRegistryAPI.getRegisteredOres().values()) {
-            ORE_ITEMS.put(oreType, new OreItemRegistry(oreType));
+    public static final LinkedHashMap<OreType, OreItemRegistry> ORE_ITEMS = buildOreRegistries();
+    private static LinkedHashMap<OreType, OreItemRegistry> buildOreRegistries() {
+        LinkedHashMap<OreType, OreItemRegistry> oreItems = new LinkedHashMap<>();
+        System.out.println("HERE!");
+        System.out.println(ModGeoOres.getModOreTypes().size());
+        for (OreType oreType: ModGeoOres.getModOreTypes()) {
+            System.out.println(oreType.getName());
+            System.out.println(oreType.getGeoLoot().getPresetDrop().get().getName());
+            oreItems.put(oreType, new OreItemRegistry(oreType));
         }
+        return oreItems;
     }
 
 

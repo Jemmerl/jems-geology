@@ -16,7 +16,6 @@
     "jemsgeo:claystone_rock",
     "jemsgeo:siltstone_rock",
     "jemsgeo:conglomerate_rock",
-    "jemsgeo:laterite_rock",
     "jemsgeo:quartz_rock",
     "jemsgeo:gray_rhyolite_rock",
     "jemsgeo:pink_rhyolite_rock",
@@ -24,7 +23,6 @@
     "jemsgeo:andesite_rock",
     "jemsgeo:trachyte_rock",
     "jemsgeo:basalt_rock",
-    "jemsgeo:scoria_rock",
     "jemsgeo:rhyolitic_tuff_rock",
     "jemsgeo:trachytic_tuff_rock",
     "jemsgeo:andesitic_tuff_rock",
@@ -51,6 +49,7 @@
     "jemsgeo:carbonate_hornfels_rock",
     "jemsgeo:mafic_hornfels_rock",
     "jemsgeo:metaconglomerate_rock",
-    "jemsgeo:greisen_rock"
+    "jemsgeo:greisen_rock",
+    "jemsgeo:laterite_rock"
   ]
 }

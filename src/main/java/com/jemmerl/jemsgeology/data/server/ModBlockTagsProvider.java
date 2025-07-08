@@ -27,8 +27,7 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     protected void registerTags() {
 
         Builder<Block> tagBuilderGeoStone = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_STONE);
-//        Builder<Block> tagBuilderGeoRegolith = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_REGOLITH);
-        Builder<Block> tagBuilderGeoDetritus = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_DETRITUS);
+        Builder<Block> tagBuilderGeoRegolith = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_REGOLITH);
         Builder<Block> tagBuilderGeoCobbles = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_COBBLES);
         Builder<Block> tagBuilderGeoCobblestone = this.getOrCreateBuilder(ModTags.Blocks.JEMSGEO_COBBLESTONE);
 
@@ -41,12 +40,12 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
         Builder<Block> tagVanillaWalls = this.getOrCreateBuilder(BlockTags.WALLS);
 
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            boolean isDetritus = geoRegistry.getGeoType().getGeoGroup().isDetritus();
+            boolean isRegolith = geoRegistry.getGeoType().getGeoGroup().isRegolith();
             boolean hasCobble = geoRegistry.hasCobble();
 
             tagBuilderNoOre.add(geoRegistry.getBaseGeoBlock());
-            if (isDetritus) {
-                tagBuilderGeoDetritus.add(geoRegistry.getBaseGeoBlock());
+            if (isRegolith) {
+                tagBuilderGeoRegolith.add(geoRegistry.getBaseGeoBlock());
             } else {
                 tagBuilderGeoStone.add(geoRegistry.getBaseGeoBlock());
             }
@@ -60,10 +59,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 //                tagBuilderOreMid.add(midGrade);
 //                tagBuilderOreLow.add(lowGrade);
 
-                if (isDetritus) {
-//                    tagBuilderGeoDetritus.add(highGrade);
-                    tagBuilderGeoDetritus.add(midGrade);
-                    tagBuilderGeoDetritus.add(lowGrade);
+                if (isRegolith) {
+//                    tagBuilderGeoRegolith.add(highGrade);
+                    tagBuilderGeoRegolith.add(midGrade);
+                    tagBuilderGeoRegolith.add(lowGrade);
                 } else {
 //                    tagBuilderGeoStone.add(highGrade);
                     tagBuilderGeoStone.add(midGrade);

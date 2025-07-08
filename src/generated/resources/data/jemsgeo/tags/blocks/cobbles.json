@@ -16,7 +16,6 @@
     "jemsgeo:claystone_cobbles",
     "jemsgeo:siltstone_cobbles",
     "jemsgeo:conglomerate_cobbles",
-    "jemsgeo:laterite_cobbles",
     "jemsgeo:quartz_cobbles",
     "jemsgeo:gray_rhyolite_cobbles",
     "jemsgeo:pink_rhyolite_cobbles",
@@ -24,7 +23,6 @@
     "jemsgeo:andesite_cobbles",
     "jemsgeo:trachyte_cobbles",
     "jemsgeo:basalt_cobbles",
-    "jemsgeo:scoria_cobbles",
     "jemsgeo:rhyolitic_tuff_cobbles",
     "jemsgeo:trachytic_tuff_cobbles",
     "jemsgeo:andesitic_tuff_cobbles",
@@ -51,6 +49,7 @@
     "jemsgeo:carbonate_hornfels_cobbles",
     "jemsgeo:mafic_hornfels_cobbles",
     "jemsgeo:metaconglomerate_cobbles",
-    "jemsgeo:greisen_cobbles"
+    "jemsgeo:greisen_cobbles",
+    "jemsgeo:laterite_cobbles"
   ]
 }

@@ -63,8 +63,6 @@ public class JemsGeology
     public JemsGeology() {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModGeoOres.init();
-
 //        USED FOR GETTING ALL THE GEO BLOCK NAMES EASILY
 //        String str = "";
 //        for (GeoType geoType: GeoType.values()) {

@@ -1,23 +1,14 @@
 package com.jemmerl.jemsgeology.geology;
 
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.IWaterTableBase;
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.WTBaseCapability;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTable;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapability;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCapability;
-import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.chunk.*;
-import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.server.ServerWorld;
 
 import java.util.Random;
 

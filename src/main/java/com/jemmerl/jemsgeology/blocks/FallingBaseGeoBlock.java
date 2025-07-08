@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.blocks;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.FallingBlock;
 

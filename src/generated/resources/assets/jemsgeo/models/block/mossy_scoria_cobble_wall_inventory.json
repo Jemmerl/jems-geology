@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/wall_inventory",
-  "textures": {
-    "wall": "jemsgeo:block/mossy_scoria_cobblestone"
-  }
-}

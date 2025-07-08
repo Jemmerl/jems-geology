@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/stairs",
-  "textures": {
-    "side": "jemsgeo:block/polished_scoria_stone",
-    "bottom": "jemsgeo:block/polished_scoria_stone",
-    "top": "jemsgeo:block/polished_scoria_stone"
-  }
-}

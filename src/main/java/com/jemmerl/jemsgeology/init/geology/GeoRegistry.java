@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.init.geology;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.block.Block;
@@ -66,8 +66,8 @@ public class GeoRegistry {
         this.geoType = geoType;
         hasCobble = geoType.hasCobble();
 
-        baseGeoBlock = geoType.getGeoGroup().isDetritus() ?
-                ModBlocks.registerDetritusGeoBlock(geoType) : ModBlocks.registerStoneGeoBlock(geoType);
+        baseGeoBlock = geoType.getGeoGroup().isRegolith() ?
+                ModBlocks.registerRegolithGeoBlock(geoType) : ModBlocks.registerStoneGeoBlock(geoType);
 
         this.oreRegistry =  fillOreRegistry(geoType);
 
@@ -135,7 +135,7 @@ public class GeoRegistry {
     }
 
     public Block getOreVariant(OreType oreType, Grade grade) {
-        if (oreType.hasOre()) {
+        if (oreType.hasOre() && oreType.getGeoPredicate().generatesIn(geoType)) {
             switch (grade) {
                 case NORMAL:
                     return oreRegistry.get(oreType).getNormalOreBlock().get();
@@ -187,7 +187,7 @@ public class GeoRegistry {
         if (hasCobble) {
             return getRockItem();
         } else if (geoType.getGeoLoot().hasPresetDrop()) {
-            return geoType.getGeoLoot().getPresetDrop();
+            return geoType.getGeoLoot().getPresetDropItem();
         } else {
             return baseGeoBlock.get().asItem();
         }
@@ -199,12 +199,13 @@ public class GeoRegistry {
 
     private  LinkedHashMap<OreType, OreBlockRegistry> fillOreRegistry(GeoType geoType) {
         LinkedHashMap<OreType, OreBlockRegistry> oreMap = new LinkedHashMap<>();
-        for (OreType oreType : ModBlocks.REGISTERED_ORES.values()) {
-            oreMap.put(oreType, new OreBlockRegistry(geoType, oreType));
+        for (OreType oreType : ModGeoOres.getModOreTypes()) {
+            if(oreType.getGeoPredicate().generatesIn(geoType)) {
+                oreMap.put(oreType, new OreBlockRegistry(geoType, oreType));
+            }
         }
         return oreMap;
     }
-
 
     //////////////////////////////////////////////
     //          DATA-GEN / LIST BUILDERS        //

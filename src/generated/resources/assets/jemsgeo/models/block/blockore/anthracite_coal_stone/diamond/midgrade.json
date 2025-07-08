@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/anthracite_coal_stone",
-    "particle": "jemsgeo:block/anthracite_coal_stone",
-    "overlay": "jemsgeo:block/ore/diamond"
-  }
-}

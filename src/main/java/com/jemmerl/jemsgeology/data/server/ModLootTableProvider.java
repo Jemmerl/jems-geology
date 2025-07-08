@@ -8,6 +8,7 @@ import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
@@ -130,7 +131,7 @@ public class ModLootTableProvider extends LootTableProvider {
         // BASE STONES
         private void registerStoneLootTables(GeoRegistry geoRegistry) {
             registerStoneNoOreLoot(geoRegistry);
-            for (OreType oreType : GeoOreRegistryAPI.getRegisteredOres().values()) {
+            for (OreType oreType : ModGeoOres.getModOreTypes()) {
                 registerStoneOreLoot(geoRegistry, oreType, Grade.NORMAL);
                 if (oreType.hasPoorOre()) {
                     registerStoneOreLoot(geoRegistry, oreType, Grade.POOR);
@@ -141,7 +142,7 @@ public class ModLootTableProvider extends LootTableProvider {
         /////////////////////////////////////////////////////////////////////////////////////
 
         private void registerStoneNoOreLoot(GeoRegistry geoRegistry) {
-            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
             Block block = geoRegistry.getBaseGeoBlock().getBlock();
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()
@@ -149,10 +150,10 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         private void registerStoneOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
-            LootEntry.Builder<?> rockEntry = buildOreLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
 
             Block block = geoRegistry.getOreVariant(oreType, grade);
-            LootEntry.Builder<?> oreEntry = buildOreLootEntry(oreType, grade);
+            LootEntry.Builder<?> oreEntry = buildGeoLootEntry(oreType, grade);
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()
                     .addLootPool(LootPool.builder().addEntry(rockEntry))
@@ -186,7 +187,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
 
         // Build the loot entry component for ore drops
-        private LootEntry.Builder<?> buildOreLootEntry(OreType oreType, Grade grade) {
+        private LootEntry.Builder<?> buildGeoLootEntry(OreType oreType, Grade grade) {
             Item oreItem;
             GeoLoot geoLoot;
             switch (grade) {
@@ -200,10 +201,10 @@ public class ModLootTableProvider extends LootTableProvider {
                     oreItem = ModItems.ORE_ITEMS.get(oreType).getOreItem(false).asItem();
                     geoLoot = oreType.getGeoLoot();
             }
-            return buildOreLootEntry(geoLoot, oreItem);
+            return buildGeoLootEntry(geoLoot, oreItem);
         }
 
-        private LootEntry.Builder<?> buildOreLootEntry(GeoLoot geoLoot, Item oreItem) {
+        private LootEntry.Builder<?> buildGeoLootEntry(GeoLoot geoLoot, Item oreItem) {
             ItemLootEntry.Builder<?> builder = ItemLootEntry.builder(oreItem)
                     .acceptFunction(ExplosionDecay.builder())
                     .acceptFunction(SetCount.builder(geoLoot.getItemRange()));

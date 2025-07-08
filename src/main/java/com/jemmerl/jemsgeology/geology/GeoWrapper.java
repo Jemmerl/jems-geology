@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.geology;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import net.minecraft.block.Block;
@@ -17,7 +17,7 @@ public class GeoWrapper {
 
     public GeoWrapper(GeoType geoType) {
         this.geoType = geoType;
-        this.oreType = ModGeoOres.NONE;
+        this.oreType = OreType.NONE;
         this.grade = Grade.NONE;
         //this.isRegolith = isRegolith;
     }

@@ -1,25 +1,21 @@
 package com.jemmerl.jemsgeology.world.features.feature;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.stones.GeoType;
+import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ServerConfig;
 import com.jemmerl.jemsgeology.util.ReplaceStatus;
-import com.jemmerl.jemsgeology.util.UtilMethods;
 import com.jemmerl.jemsgeology.world.features.config.BoulderFeatureConfig;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.loot.LootPredicateManager;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class BoulderFeature extends Feature<BoulderFeatureConfig> {

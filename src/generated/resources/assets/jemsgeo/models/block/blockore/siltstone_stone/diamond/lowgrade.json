@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/siltstone_stone",
-    "particle": "jemsgeo:block/siltstone_stone",
-    "overlay": "jemsgeo:block/ore/poor_diamond"
-  }
-}

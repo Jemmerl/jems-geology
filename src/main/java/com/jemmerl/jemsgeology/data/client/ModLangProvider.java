@@ -56,9 +56,9 @@ public class ModLangProvider extends LanguageProvider {
 
         // Blocks
         for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            if (geoRegistry.getGeoType().getGeoGroup().isDetritus()) {
+            if (geoRegistry.getGeoType().getGeoGroup().isRegolith()) {
                 for (Block block: geoRegistry.getAllGeoBlocks()) {
-                    nameDetritusOreBlock(block);
+                    nameRegolithOreBlock(block);
                 }
             } else {
                 for (Block block: geoRegistry.getAllGeoBlocks()) {
@@ -141,12 +141,12 @@ public class ModLangProvider extends LanguageProvider {
     }
 
     // Detritus Blocks
-    private void nameDetritusOreBlock (Block block) {
+    private void nameRegolithOreBlock(Block block) {
         String path = Objects.requireNonNull(block.getRegistryName()).getPath().toLowerCase(Locale.ENGLISH);
         String displayName;
         if (path.contains("grade")) {
             String[] dividePath = path.split("/", 3);
-            String detritusName = StringUtils.capitaliseAllWords(dividePath[0].split("_detritus", 2)[0].replace('_', ' '));
+            String detritusName = StringUtils.capitaliseAllWords(dividePath[0].split("_rego", 2)[0].replace('_', ' '));
             String oreName = StringUtils.capitaliseAllWords(dividePath[1].replace('_', ' '));
             if (dividePath[2].contains("low")) {
                 displayName = "Poor " + oreName + " " + detritusName;
@@ -154,7 +154,7 @@ public class ModLangProvider extends LanguageProvider {
                 displayName = oreName + " " + detritusName;
             }
         } else {
-            String[] dividePath = path.split("_detritus", 2);
+            String[] dividePath = path.split("_rego", 2);
             displayName = StringUtils.capitaliseAllWords(dividePath[0].replace('_', ' '));
         }
         add(block, displayName);

@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/sub-bituminous_coal_stone",
-    "particle": "jemsgeo:block/sub-bituminous_coal_stone",
-    "overlay": "jemsgeo:block/ore/diamond"
-  }
-}

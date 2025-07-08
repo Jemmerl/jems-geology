@@ -93,6 +93,7 @@ public class ServerConfig {
         //      VANILLA WORLD-GEN OPTIONS     //
         ////////////////////////////////////////
 
+        // TODO Null comment for config option Vanilla World-Gen Options, this is invalid and may be disallowed in the future
         builder.push("Vanilla World-Gen Options");
         DISABLE_WATER_LAKES = builder.comment().define("disableWaterLakes", disableWaterLakes);
         DISABLE_LAVA_LAKES = builder.comment().define("disableLavaLakes", disableLavaLakes);

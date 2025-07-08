@@ -1,8 +1,0 @@
-{
-  "parent": "jemsgeo:block/stone_ore_parent",
-  "textures": {
-    "all": "jemsgeo:block/red_sand_detritus",
-    "particle": "jemsgeo:block/red_sand_detritus",
-    "overlay": "jemsgeo:block/ore/poor_magnetite"
-  }
-}
