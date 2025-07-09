@@ -12,6 +12,7 @@ import java.util.*;
 public class GeoOreRegistryAPI {
 
     // I, Jem, use these as hard-coded thingies elsewhere. I won't let you mess with them, sorry :)
+    // todo maybe allow limited changes?
     public static final ImmutableSet<String> PROTECTED_ORES = ImmutableSet.of("none", "diamond", "olivine");
 
     // Used during runtime.

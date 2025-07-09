@@ -34,7 +34,7 @@ public class ModGeoOres {
     public static final OreType FLINT = registerOreType(OreType.of("flint_nodules", JemsGeology.MOD_ID, false, buildFlintOreLoot(), buildFlintGeoPredicate()));
 
     // Vanilla-plus (olivine spawns with diamond; hematite, limonite, magnetite replace iron)
-    public static final OreType DIAMOND = registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true, buildDiamondOreLoot(), GeoLoot.SINGLE_DROP_NO_FORTUNE, buildDiamondGeoPredicate()));
+    public static final OreType DIAMOND = registerOreType(new OreType("diamond", JemsGeology.MOD_ID, true, buildDiamondOreLoot(), GeoLoot.SINGLE_DROP_NO_FORTUNE, GeoPredicate.NOT_DESERT_SAND));
     public static final OreType OLIVINE = registerOreType(OreType.of("olivine", JemsGeology.MOD_ID, false, GeoLoot.SINGLE_DROP_NO_FORTUNE, GeoPredicate.NOT_DESERT_SAND));
     public static final OreType HEMATITE = registerOreType(OreType.of("hematite", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE, GeoPredicate.NOT_DESERT_SAND));
     public static final OreType LIMONITE = registerOreType(OreType.of("limonite", JemsGeology.MOD_ID, true, GeoLoot.SINGLE_DROP_NO_FORTUNE, GeoPredicate.NOT_DESERT_SAND));
@@ -121,11 +121,6 @@ public class ModGeoOres {
     private static GeoPredicate buildFlintGeoPredicate() {
         return new GeoPredicate(EnumSet.of(GeoGroup.REGOLITH, GeoGroup.SEDIMENTARY), EnumSet.noneOf(GeoType.class), false);
     }
-
-    private static GeoPredicate buildDiamondGeoPredicate() {
-        return new GeoPredicate(EnumSet.of(GeoGroup.REGOLITH), EnumSet.of(GeoType.KIMBERLITE), false);
-    }
-
 
     //////////////////////////////////////
     //          REGISTRY METHODS        //

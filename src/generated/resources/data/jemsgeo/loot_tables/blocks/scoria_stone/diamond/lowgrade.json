@@ -1,0 +1,50 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": {
+                "n": 5,
+                "p": 0.65,
+                "type": "minecraft:binomial"
+              }
+            }
+          ],
+          "name": "jemsgeo:scoria_stone"
+        }
+      ]
+    },
+    {
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 1
+            }
+          ],
+          "name": "jemsgeo:poor_diamond_ore"
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ]
+}

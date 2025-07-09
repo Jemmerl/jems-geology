@@ -132,6 +132,7 @@ public class ModLootTableProvider extends LootTableProvider {
         private void registerStoneLootTables(GeoRegistry geoRegistry) {
             registerStoneNoOreLoot(geoRegistry);
             for (OreType oreType : ModGeoOres.getModOreTypes()) {
+                if (!(oreType.hasOre() && oreType.getGeoPredicate().generatesIn(geoRegistry.getGeoType())) ) continue;
                 registerStoneOreLoot(geoRegistry, oreType, Grade.NORMAL);
                 if (oreType.hasPoorOre()) {
                     registerStoneOreLoot(geoRegistry, oreType, Grade.POOR);
