@@ -63,7 +63,13 @@ public class ModBlocks {
             AbstractBlock.Properties.create(Material.TALL_PLANTS).hardnessAndResistance(0.2F).sound(SoundType.VINE).doesNotBlockMovement()
     ), ModItemGroups.JEMSGEO_MISC_GROUP);
 
-    public static final RegistryObject<Block> SALT_CRUST_BLOCK = registerBlock("salt_crust", () -> new SaltCrustBlock(
+    // TODO pick better material? What does does not block movememnt mean? Carpet material as example.
+    // Solid evaporite blocks will be used for thick salt crusts. These are the partials.
+    public static final RegistryObject<Block> THICK_SALT_CRUST_BLOCK = registerBlock("thick_salt_crust", () -> new ThickSaltCrustBlock(
+            AbstractBlock.Properties.create(Material.EARTH).harvestLevel(0).sound(SoundType.GROUND).hardnessAndResistance(0.20f)
+    ), ModItemGroups.JEMSGEO_MISC_GROUP);
+
+    public static final RegistryObject<Block> THIN_SALT_CRUST_BLOCK = registerBlock("thin_salt_crust", () -> new ThinSaltCrustBlock(
             AbstractBlock.Properties.create(Material.EARTH).harvestLevel(0).sound(SoundType.GROUND).hardnessAndResistance(0.15f)
     ), ModItemGroups.JEMSGEO_MISC_GROUP);
 

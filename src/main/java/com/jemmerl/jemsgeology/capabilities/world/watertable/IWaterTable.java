@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ShortNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
@@ -20,7 +21,7 @@ public interface IWaterTable extends INBTSerializable<CompoundNBT> {
     // getChunkWTLevel
 
 
-
+    float getWTHeight(int x, int z, ISeedReader world);
 
 
 
@@ -31,8 +32,6 @@ public interface IWaterTable extends INBTSerializable<CompoundNBT> {
 //    int getBaseWTLevel(int x, int z);
 //    int getBaseWTLevel(BlockPos pos);
 //
-    int getChunkBaseWTLevel(int x, int z, World world);
-    int getChunkBaseWTLevel(ChunkPos pos, World world);
 //
 //    boolean isInWaterTable(BlockPos pos);
 //

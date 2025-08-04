@@ -18,6 +18,21 @@ import java.util.Objects;
 
 public class UtilMethods {
 
+    public static final float[][] gaussKernel3 = new float[][]
+            {   {0.0625f, 0.125f, 0.0625f}  ,
+                {0.125f, 0.25f, 0.125f}     ,
+                {0.0625f, 0.125f, 0.0625f}  };
+
+    // x1 ≤ x ≤ x2 and y1 ≤ y ≤ y2;
+    public static float bilinearLerp(int x, int y, float x1, float x2, float y1, float y2, int Q11, int Q21, int Q12, int Q22) {
+        float x2x = x2-x;
+        float y2y = y2-y;
+        float xx1 = x-x1;
+        float yy1 = y-y1;
+
+        return (y2y*(x2x*Q11 + xx1*Q21) + yy1*(x2x*Q12 + xx1*Q22)) / ((x2-x1)*(y2-y1));
+    }
+
     // Returns a float over a given range mapped to a new range
     public static float remap(float oldVal, float[] oldDomain, float[] newDomain) {
         float oldRange = oldDomain[1] - oldDomain[0];

@@ -38,21 +38,11 @@ public class ModItems {
     // Stone Ores //
     ////////////////
 
-//    @ObjectHolder("rocksalt_ore")
-//    public static final Item ROCKSALT_ORE = null;
-//    @ObjectHolder("gypsum_ore")
-//    public static final Item GYPSUM_ORE = null;
-//    @ObjectHolder("lignite_coal_ore")
-//    public static final Item LIGNITE_COAL_ORE = null;
-//    @ObjectHolder("bituminous_coal_ore")
-//    public static final Item SUBBITUMINOUS_COAL_ORE = null;
-//    @ObjectHolder("bituminous_coal_ore")
-//    public static final Item BITUMINOUS_COAL_ORE = null;
-//    @ObjectHolder("anthracite_coal_ore")
-//    public static final Item ANTHRACITE_COAL_ORE = null;
-
-    public static final RegistryObject<Item> ROCKSALT = registerOreItem("rocksalt_ore");
-    public static final RegistryObject<Item> GYPSUM = registerOreItem("gypsum_ore");
+    public static final RegistryObject<Item> ROCKSALT_ORE = registerOreItem("rocksalt_ore");
+    public static final RegistryObject<Item> GYPSUM_ORE = registerOreItem("gypsum_ore");
+    public static final RegistryObject<Item> ROCKSALT = registerOreItem("rocksalt");
+    public static final RegistryObject<Item> GYPSUM = registerOreItem("gypsum");
+    public static final RegistryObject<Item> BORAX = registerOreItem("borax");
     public static final RegistryObject<Item> LIGNITE_COAL = registerOreItem("lignite_coal_ore");
     public static final RegistryObject<Item> SUBBITUMINOUS_COAL = registerOreItem("sub-bituminous_coal_ore");
     public static final RegistryObject<Item> BITUMINOUS_COAL = registerOreItem("bituminous_coal_ore");
@@ -61,11 +51,7 @@ public class ModItems {
     public static final LinkedHashMap<OreType, OreItemRegistry> ORE_ITEMS = buildOreRegistries();
     private static LinkedHashMap<OreType, OreItemRegistry> buildOreRegistries() {
         LinkedHashMap<OreType, OreItemRegistry> oreItems = new LinkedHashMap<>();
-        System.out.println("HERE!");
-        System.out.println(ModGeoOres.getModOreTypes().size());
         for (OreType oreType: ModGeoOres.getModOreTypes()) {
-            System.out.println(oreType.getName());
-            System.out.println(oreType.getGeoLoot().getPresetDrop().get().getName());
             oreItems.put(oreType, new OreItemRegistry(oreType));
         }
         return oreItems;

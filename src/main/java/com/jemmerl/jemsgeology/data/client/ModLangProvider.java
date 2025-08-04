@@ -26,8 +26,12 @@ public class ModLangProvider extends LanguageProvider {
         // Misc items and stuff
         add("block." + JemsGeology.MOD_ID + ".lichen_block", "Lichen");
         add("block." + JemsGeology.MOD_ID + ".desert_varnish", "Desert Varnish");
-        add("block." + JemsGeology.MOD_ID + ".salt_crust", "Salt Crust");
+        add("block." + JemsGeology.MOD_ID + ".thin_salt_crust", "Thin Salt Crust");
+        add("block." + JemsGeology.MOD_ID + ".thick_salt_crust", "Thick Salt Crust");
         add("item." + JemsGeology.MOD_ID + ".lime_mortar", "Lime Mortar");
+        add("item." + JemsGeology.MOD_ID + ".rocksalt", "Rocksalt Powder");
+        add("item." + JemsGeology.MOD_ID + ".gypsum", "Gypsum Powder");
+        add("item." + JemsGeology.MOD_ID + ".borax", "Borax Powder");
         add("item." + JemsGeology.MOD_ID + ".wooden_quarry_tool", "Wooden Quarrying Chisel");
         add("item." + JemsGeology.MOD_ID + ".stone_quarry_tool", "Stone Quarrying Chisel");
         add("item." + JemsGeology.MOD_ID + ".iron_quarry_tool", "Iron Quarrying Chisel");

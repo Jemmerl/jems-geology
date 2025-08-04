@@ -12,6 +12,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 // My gratitude cannot be expressed enough for oitsjustjose's prior work in developing this, full credit to them
 // https://github.com/oitsjustjose/Geolosys/tree/a8e2ba469a2627bfee862f5d8b99774cc1b5981c
 
+// TODO can this be replaced by storing a bool in the chunk? or just checking for the cap? if has cap, then generated,
+//  because ungernned chunks do not have capabilities yet
+
 public class ChunkGennedCapability implements IChunkGennedCapability {
 
     @CapabilityInject(IChunkGennedCapability.class)

@@ -1,6 +1,7 @@
 package com.jemmerl.jemsgeology.data.client;
 
 import com.jemmerl.jemsgeology.blocks.IGeoBlock;
+import com.jemmerl.jemsgeology.data.DataGenerators;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.block.AbstractButtonBlock;
@@ -26,9 +27,7 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         // Generate block item models
         for (RegistryObject<Block> regBlock : ModBlocks.BLOCKS.getEntries()) {
-            if ((regBlock == ModBlocks.LICHEN_BLOCK)
-                    || (regBlock == ModBlocks.DESERT_VARNISH_BLOCK)
-                    || (regBlock == ModBlocks.SALT_CRUST_BLOCK)) {
+            if (DataGenerators.IGNORE.contains(regBlock)) {
                 continue;
             }
 

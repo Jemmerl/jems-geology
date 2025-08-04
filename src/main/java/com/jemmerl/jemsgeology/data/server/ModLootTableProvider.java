@@ -2,6 +2,7 @@ package com.jemmerl.jemsgeology.data.server;
 
 import com.google.common.collect.ImmutableList;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
+import com.jemmerl.jemsgeology.data.DataGenerators;
 import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
@@ -231,13 +232,8 @@ public class ModLootTableProvider extends LootTableProvider {
         // Don't worry about this.
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            ArrayList<Block> IGNORE = new ArrayList<>();
-            IGNORE.add(ModBlocks.LICHEN_BLOCK.get());
-            IGNORE.add(ModBlocks.DESERT_VARNISH_BLOCK.get());
-            IGNORE.add(ModBlocks.SALT_CRUST_BLOCK.get());
-
-            return ModBlocks.BLOCKS.getEntries().stream()
-                    .filter(block -> !IGNORE.contains(block.get()))
+              return ModBlocks.BLOCKS.getEntries().stream()
+                    .filter(block -> !DataGenerators.IGNORE.contains(block))
                     .map(RegistryObject::get)
                     .collect(Collectors.toList());
         }

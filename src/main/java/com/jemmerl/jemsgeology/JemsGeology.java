@@ -118,7 +118,7 @@ public class JemsGeology
         if (dimName.equals("minecraft:overworld")) {
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "deposit"), new DepositCapProvider());
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "generated_chunks"), new ChunkGennedCapProvider());
-            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table"), new WaterTableCapProvider());
+//            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table"), new WaterTableCapProvider());
             JemsGeology.LOGGER.debug("JemsGeology world-capabilities successfully attached for {}", dimName);
         }
     }
@@ -130,7 +130,7 @@ public class JemsGeology
         String dimName = event.getObject().getWorld().getDimensionKey().getLocation().toString();
 
         if (dimName.equals("minecraft:overworld")) {
-            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table_base"), new WTBaseCapProvider());
+//            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table_base"), new WTBaseCapProvider());
 //            JemsGeology.LOGGER.debug("JemsGeology chunk-capabilities successfully attached for {}", dimName);
 //           System.out.println(event.getObject().getStatus());
 //           System.out.println(event.getObject().isEmpty());

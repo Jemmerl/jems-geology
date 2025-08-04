@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": {
+        "type": "minecraft:uniform",
+        "min": 1,
+        "max": 3
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 90,
+          "name": "jemsgeo:rocksalt"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 8,
+          "name": "jemsgeo:gypsum"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "jemsgeo:borax"
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "function": "minecraft:explosion_decay"
+    }
+  ]
+}

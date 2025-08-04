@@ -42,9 +42,9 @@ public class GeoBuilder {
 //        this.deformHeights = new int[16][this.chunkReader.getMaxHeight()][16];
 
         this.depCap = world.getWorld().getCapability(DepositCapability.DEPOSIT_CAPABILITY)
-                .orElseThrow(() -> new RuntimeException("JemsGeo deposit capability is null..."));
+                .orElseThrow(() -> new RuntimeException("JemsGeo deposit capability is null in \"GeoBuilder\" feature..."));
         this.cpCap = world.getWorld().getCapability(ChunkGennedCapability.CHUNK_GENNED_CAPABILITY)
-                .orElseThrow(() -> new RuntimeException("JemsGeo chunk gen capability is null..."));
+                .orElseThrow(() -> new RuntimeException("JemsGeo chunk gen capability is null in \"GeoBuilder\" feature..."));
 
         //todo how to do the water table for chunk gen? chunk doesnt have capability right now. maybe
         // calculate it manually then redo later, but how to store for later?? because terrain may change
