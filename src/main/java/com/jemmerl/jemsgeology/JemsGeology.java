@@ -1,35 +1,38 @@
 package com.jemmerl.jemsgeology;
 
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.IWaterTableBase;
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.WTBaseCapProvider;
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.WTBaseCapStorage;
-import com.jemmerl.jemsgeology.capabilities.chunk.watertablebase.WTBaseCapability;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapProvider;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.IChunkHeightCap;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapStorage;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapability;
+import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapProvider;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapStorage;
 import com.jemmerl.jemsgeology.init.*;
 import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
-import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
 import com.jemmerl.jemsgeology.init.worldgen.ModFeaturePlacements;
 import com.jemmerl.jemsgeology.init.worldgen.ModFeatures;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapProvider;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapStorage;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapability;
-import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCapability;
+import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCap;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapProvider;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapStorage;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
-import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCapability;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTable;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapProvider;
+import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCap;
+import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTableCap;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -87,10 +90,10 @@ public class JemsGeology
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        CapabilityManager.INSTANCE.register(IDepositCapability.class, new DepositCapStorage(), DepositCapability::new);
-        CapabilityManager.INSTANCE.register(IChunkGennedCapability.class, new ChunkGennedCapStorage(), ChunkGennedCapability::new);
-        CapabilityManager.INSTANCE.register(IWaterTable.class, new WaterTableCapStorage(), WaterTableCapability::new);
-        CapabilityManager.INSTANCE.register(IWaterTableBase.class, new WTBaseCapStorage(), WTBaseCapability::new);
+        CapabilityManager.INSTANCE.register(IDepositCap.class, new DepositCapStorage(), DepositCapability::new);
+        CapabilityManager.INSTANCE.register(IChunkGennedCap.class, new ChunkGennedCapStorage(), ChunkGennedCapability::new);
+        CapabilityManager.INSTANCE.register(IWaterTableCap.class, new WaterTableCapStorage(), WaterTableCapability::new);
+        CapabilityManager.INSTANCE.register(IChunkHeightCap.class, new ChunkHeightCapStorage(), ChunkHeightCapability::new);
 
         ModLootConditionTypes.registerLootConditions();
 
@@ -118,7 +121,8 @@ public class JemsGeology
         if (dimName.equals("minecraft:overworld")) {
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "deposit"), new DepositCapProvider());
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "generated_chunks"), new ChunkGennedCapProvider());
-//            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table"), new WaterTableCapProvider());
+            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table"), new WaterTableCapProvider(event.getObject()));
+
             JemsGeology.LOGGER.debug("JemsGeology world-capabilities successfully attached for {}", dimName);
         }
     }
@@ -130,10 +134,14 @@ public class JemsGeology
         String dimName = event.getObject().getWorld().getDimensionKey().getLocation().toString();
 
         if (dimName.equals("minecraft:overworld")) {
-//            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "water_table_base"), new WTBaseCapProvider());
-//            JemsGeology.LOGGER.debug("JemsGeology chunk-capabilities successfully attached for {}", dimName);
-//           System.out.println(event.getObject().getStatus());
-//           System.out.println(event.getObject().isEmpty());
+            IWaterTableCap wtCap = event.getObject().getWorld().getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY).orElse(null);
+
+            //event.getObject().getWorld().isRemote;
+            int height = Integer.MIN_VALUE;
+            if (wtCap != null) {
+                height = wtCap.getCachedChunkHeight(event.getObject().getPos());
+            }
+            event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "chunk_height"), new ChunkHeightCapProvider(height));
         }
     }
 }

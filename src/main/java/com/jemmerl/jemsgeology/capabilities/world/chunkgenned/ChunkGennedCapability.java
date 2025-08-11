@@ -15,10 +15,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 // TODO can this be replaced by storing a bool in the chunk? or just checking for the cap? if has cap, then generated,
 //  because ungernned chunks do not have capabilities yet
 
-public class ChunkGennedCapability implements IChunkGennedCapability {
+public class ChunkGennedCapability implements IChunkGennedCap {
 
-    @CapabilityInject(IChunkGennedCapability.class)
-    public static final Capability<IChunkGennedCapability> CHUNK_GENNED_CAPABILITY = null;
+    @CapabilityInject(IChunkGennedCap.class)
+    public static final Capability<IChunkGennedCap> CHUNK_GENNED_CAPABILITY = null;
 
     private final ConcurrentLinkedQueue<ChunkPos> generatedChunks;
 

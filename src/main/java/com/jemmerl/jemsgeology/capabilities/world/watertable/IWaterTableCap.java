@@ -8,21 +8,17 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
-public interface IWaterTable extends INBTSerializable<CompoundNBT> {
-
-    // step 1: base chunk height
-    // step 2: render in world
-    // step 3: linerp base chunk
-
-
-
-    // getBlockWTLevel
+public interface IWaterTableCap extends INBTSerializable<CompoundNBT> {
+        // getBlockWTLevel
 
     // getChunkWTLevel
 
-
     float getWTHeight(int x, int z, ISeedReader world);
 
+    @Deprecated // Do not use this unless you are Jem. (Me, the one writing this comment)
+    void cacheChunkHeight(ChunkPos cPos, int chunkHeight);
+    @Deprecated // Do not use this either unless you are Jem. (Me, the one also writing this comment)
+    int getCachedChunkHeight(ChunkPos cPos);
 
 
 //    int getWaterTableHeight(BlockPos pos);

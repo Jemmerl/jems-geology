@@ -1,14 +1,18 @@
 package com.jemmerl.jemsgeology.geology;
 
+import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCap;
+import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTableCap;
+import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapability;
-import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
-import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCapability;
+import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCap;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.gen.Heightmap;
 
 import java.util.Random;
 
@@ -24,11 +28,12 @@ public class GeoBuilder {
 
     private final GeoWrapper[][][] wrapperArray;
 
-    // TODO these can be static!!!
-    private final IDepositCapability depCap;
-    private final IChunkGennedCapability cpCap;
-//    private final IWaterTableBase wtChunkCap;
-
+    // Note: do not make these static, in case this builder is used for multiple dimensions.
+    // If in the future, the standard is to use a different geo-builder implementation/obj per dim, then can be static.
+    //  -> (maybe a GeoBuilderBuilder gets implemented??)
+    private final IDepositCap depCap;
+    private final IChunkGennedCap cgCap;
+    private final IWaterTableCap wtCap;
 
     // TODO I think it may be best to inherently process chunks by the column. If everything is designed that way,
     //  then there should never be issues with post-placing ores as the column can just recalculate.
@@ -43,16 +48,11 @@ public class GeoBuilder {
 
         this.depCap = world.getWorld().getCapability(DepositCapability.DEPOSIT_CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("JemsGeo deposit capability is null in \"GeoBuilder\" feature..."));
-        this.cpCap = world.getWorld().getCapability(ChunkGennedCapability.CHUNK_GENNED_CAPABILITY)
+        this.cgCap = world.getWorld().getCapability(ChunkGennedCapability.CHUNK_GENNED_CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("JemsGeo chunk gen capability is null in \"GeoBuilder\" feature..."));
+        this.wtCap = world.getWorld().getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY)
+                .orElseThrow(() -> new RuntimeException("JemsGeo water table capability is null in \"GeoBuilder\" feature..."));
 
-        //todo how to do the water table for chunk gen? chunk doesnt have capability right now. maybe
-        // calculate it manually then redo later, but how to store for later?? because terrain may change
-        //  by the time caps are added.
-
-
-        //WorldGenRegion
-        //ChunkPrimer
 
 
 
@@ -96,6 +96,16 @@ public class GeoBuilder {
     }
 
     public GeoWrapper[][][] build() {
+        // todo water table height calc can be optimized for world gen.
+        //  maybe a method that returns a 16x16 array of values?
+
+        // Store the world height to be used later.
+        //noinspection deprecation
+        wtCap.cacheChunkHeight(new ChunkPos(cornerPos),
+                world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, cornerPos.add(7,0,7)).getY());
+//        System.out.println(world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, cornerPos.add(7,0,7)).getY());
+
+
         // Fill the default array WITHOUT SHALLOW COPYING AN ENTIRE DIMENSION OF IT THIS TIME AAAAAAAAAHHH
         for (int x = 0; x < wrapperArray.length; x++) {
             for (int y = 0; y < wrapperArray[0].length; y++) {

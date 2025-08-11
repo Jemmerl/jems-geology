@@ -361,9 +361,11 @@ public class ModBlocks {
         return getGeneralStoneProp(geoType).hardnessAndResistance((1.5F + geoType.getHardnessAdj()), (6.0F + geoType.getResistAdj()));
     }
 
-    // TODO make cobbles harder to mine than cobblestone, as one is building decorative and one is a Natural Problem
+    // Loose cobbles are harder to mine than mortared-cobblestone, as they are meant to be a Problem.
+    // BUT they can be harvested with bare hands, like a pile of cobbles, potentially lifesaving in a mine collapse!
     private static AbstractBlock.Properties getCobblesProp(GeoType geoType) {
-        return getGeneralStoneProp(geoType).hardnessAndResistance(2F, 7F);
+        return AbstractBlock.Properties.create(Material.ROCK, geoType.getMaterialColor()).sound(SoundType.STONE)
+                .harvestLevel(0).hardnessAndResistance(5.5F, 7F);
     }
 
     private static AbstractBlock.Properties getDecorCobbleProp(GeoType geoType) {

@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 // https://github.com/oitsjustjose/Geolosys/tree/a8e2ba469a2627bfee862f5d8b99774cc1b5981c
 
 public class ChunkGennedCapProvider implements ICapabilitySerializable<CompoundNBT> {
-    private final IChunkGennedCapability impl = new ChunkGennedCapability();
-    private final LazyOptional<IChunkGennedCapability> cap = LazyOptional.of(() -> impl);
+    private final IChunkGennedCap impl = new ChunkGennedCapability();
+    private final LazyOptional<IChunkGennedCap> cap = LazyOptional.of(() -> impl);
 
     @Override
     @Nonnull

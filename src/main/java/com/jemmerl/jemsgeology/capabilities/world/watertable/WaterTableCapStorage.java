@@ -6,18 +6,17 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nullable;
-import java.util.concurrent.Callable;
 
-public class WaterTableCapStorage implements Capability.IStorage<IWaterTable> {
+public class WaterTableCapStorage implements Capability.IStorage<IWaterTableCap> {
 
     @Nullable
     @Override
-    public INBT writeNBT(Capability<IWaterTable> capability, IWaterTable instance, Direction side) {
+    public INBT writeNBT(Capability<IWaterTableCap> capability, IWaterTableCap instance, Direction side) {
         return instance.serializeNBT();
     }
 
     @Override
-    public void readNBT(Capability<IWaterTable> capability, IWaterTable instance, Direction side, INBT nbt) {
+    public void readNBT(Capability<IWaterTableCap> capability, IWaterTableCap instance, Direction side, INBT nbt) {
         if (nbt instanceof CompoundNBT) {
             instance.deserializeNBT(((CompoundNBT) nbt));
         }

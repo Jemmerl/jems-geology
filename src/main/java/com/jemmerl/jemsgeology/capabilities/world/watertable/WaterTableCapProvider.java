@@ -1,10 +1,11 @@
 package com.jemmerl.jemsgeology.capabilities.world.watertable;
 
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ShortNBT;
 import net.minecraft.util.Direction;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 
@@ -12,8 +13,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class WaterTableCapProvider implements ICapabilitySerializable<CompoundNBT> {
-    private final IWaterTable impl = new WaterTableCapability();
-    private final LazyOptional<IWaterTable> cap = LazyOptional.of(() -> impl);
+    private final IWaterTableCap impl;
+    private final LazyOptional<IWaterTableCap> cap;
+
+    public WaterTableCapProvider(World world) {
+        impl = new WaterTableCapability(world);
+        cap = LazyOptional.of(() -> impl);
+    }
 
     @Override
     @Nonnull

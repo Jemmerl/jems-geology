@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 // https://github.com/oitsjustjose/Geolosys/tree/a8e2ba469a2627bfee862f5d8b99774cc1b5981c
 
 public class DepositCapProvider implements ICapabilitySerializable<CompoundNBT> {
-    private final IDepositCapability impl = new DepositCapability();
-    private final LazyOptional<IDepositCapability> cap = LazyOptional.of(() -> impl);
+    private final IDepositCap impl = new DepositCapability();
+    private final LazyOptional<IDepositCap> cap = LazyOptional.of(() -> impl);
 
     @Override
     @Nonnull

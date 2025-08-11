@@ -1,14 +1,10 @@
 package com.jemmerl.jemsgeology.events;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTable;
-import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability;
 import com.jemmerl.jemsgeology.events.loot.StoneQuarryModifier;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 

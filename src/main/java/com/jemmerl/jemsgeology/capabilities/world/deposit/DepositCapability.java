@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 // My gratitude cannot be expressed enough for oitsjustjose's prior work in developing this, full credit to them
 // https://github.com/oitsjustjose/Geolosys/tree/a8e2ba469a2627bfee862f5d8b99774cc1b5981c
 
-public class DepositCapability implements IDepositCapability {
+public class DepositCapability implements IDepositCap {
 
-    @CapabilityInject(IDepositCapability.class)
-    public static final Capability<IDepositCapability> DEPOSIT_CAPABILITY = null;
+    @CapabilityInject(IDepositCap.class)
+    public static final Capability<IDepositCap> DEPOSIT_CAPABILITY = null;
 
     private final ConcurrentLinkedQueue<ChunkPos> oreGenMap;
     private final ConcurrentHashMap<ChunkPos, ConcurrentLinkedQueue<PendingBlock>> immediatePendingBlocks;

@@ -1,6 +1,8 @@
 package com.jemmerl.jemsgeology.capabilities.world.watertable;
 
 import com.jemmerl.jemsgeology.JemsGeology;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapability;
+import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.IChunkHeightCap;
 import com.jemmerl.jemsgeology.util.UtilMethods;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -10,18 +12,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.AbstractChunkProvider;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.chunk.ChunkPrimerWrapper;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.DimensionSettings;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraftforge.common.capabilities.Capability;
@@ -79,162 +76,194 @@ https://www.mdpi.com/2073-4441/15/21/3865
         project for another day... year... decade?
  */
 
-public class WaterTableCapability implements IWaterTable {
+// TODO SOLUTION
+//  When WT increased/decreased, store currently loaded in a radius around it. Store a countdown to purge w/ unused
 
-    @CapabilityInject(IWaterTable.class)
-    public static final Capability<IWaterTable> WATER_TABLE_CAPABILITY = null;
+// TODO what to store?
+// if only store height, will have to calculate wt base every time. but height may be useful for other things?
+// if globally only store deltas, wont know which way water needs to "flow" when updating
+//  maybe solution: only update WT deltas when loaded? but then boundaries get weird...
 
-    // TODO I believe this means if this cap is attached to another dimension, it could have its own sea level.
-    public final int SEA_LEVEL = getSeaLevel();
-
-
-    // TODO SOLUTION
-    // Use chunk primer dummies to get height first time / when unloaded.
-    // When WT increased/decreased, load and store in a radius around it. Store a countdown to purge w/ the hieght int
-    // cache chunk height in chunk cap. if loaded chunk, use that. else, grab from dummy
-
+// need to store delta (plus/minus), as well as..
+// Can use excel style heat transfer stuff, but thats best over a small area. Running over whole map would be a pain.
+// Could only apply such in areas of interest, but need to avoid evaluating chunks multiple times.
+// Maybe make a temp map that references the original while computing, then overwrites when done??
 
 
+// Take original map. For each mod chunk, process what it takes in / what it puts out (ONLY DIRECT. ADJ CHUNKS)
+// In a new temp map, store those changed values summed for each chunk. Do not remove deltas of 0 in temp map.
+//  -> (prevents repeated add/remove if fluctuating around 0)
+// When done, sum those changes into the original. If a chunk wasnt modified before, then add to map.
+// If any chunk in the modified original = 0 delta, then remove from map.
+// SOUND GOOD!
 
-    // TODO what to store?
-    // if only store height, will have to calculate wt base every time. but height may be useful for other things?
-    // if globally only store deltas, wont know which way water needs to "flow" when updating
-    //  maybe solution: only update WT deltas when loaded? but then boundaries get weird...
-
-    // need to store delta (plus/minus), as well as..
-    // Can use excel style heat transfer stuff, but thats best over a small area. Running over whole map would be a pain.
-    // Could only apply such in areas of interest, but need to avoid evaluating chunks multiple times.
-    // Maybe make a temp map that references the original while computing, then overwrites when done??
-
-
-    // Take original map. For each mod chunk, process what it takes in / what it puts out (ONLY DIRECT. ADJ CHUNKS)
-    // In a new temp map, store those changed values summed for each chunk. Do not remove deltas of 0 in temp map.
-    //  -> (prevents repeated add/remove if fluctuating around 0)
-    // When done, sum those changes into the original. If a chunk wasnt modified before, then add to map.
-    // If any chunk in the modified original = 0 delta, then remove from map.
-    // SOUND GOOD!
-
-    // UUUGGGHHH but need relative change between two to determine flow direction, and how to get that from
-    // unmodified and unloaded chunks? If loaded, then ez. But when just processing the delta map in deep unloaded areas?
-    // todo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ALSO???? if not using deltas, then how know when back to "0"?
-    //todo potenital solutions
-    //  1. guesstimate and rectify somehow when loaded. if it resolves itself before ever being loaded, then who cares
-    //      if guesstimate is good enough, why should most players notice?
-    //  2. load a radius around a change into memory and process as needed. issue, how to prevent immediate unloading?
-    //      maybe use one of the bits to force "keep in array" for certain number of "checks"
-    //  3. somehow quickly pull unmodified value from unloaded chunks? if there is an ez way to do, then would solve
-    //      lots of issues.
-    //      ->>> maybe use same technique used to populate the stored world height? half-gen the chunk.
-    //      ... if its fast enough, should be okay.
-
-    // Now how to determine the relative change rate if only storing a delta? Hmmmmmm
-    // Solution is to store the current changed value. No way around it.
-    // But how to get the relative value for adj UNMODIFIED value??
-
-    // Now. How much of an int do we need to store the maximum possible water (for 12 and 16 instances)?
-    // Any bits leftover can be used for other things if desired.
-
-    // (min 12, max 16)
-    // max build in modern version is total 383 blocks (-64 to 320). (4596, 6128)
-    //  -> needs "1111111111111" 13 bits (8191)
-    // BUT max possible with modifications is 4094 (-2047 to 2048). (49128, 65504)
-    //  -> needs "1111111111111111" 16 bits (65535)
-    // int has "1111_1111_1111_1111___111_1111_1111_1111" (31 bits): 16 to WT, 15 to other data.
-    // same game of extra data can therefore be played in the chunk-stored value.
-
-    //1111_1111_1111_1111___111_111_111_111_111
-
-    // NEEDS:
-    //  - Biomes of current and unloaded chunks -> EZ, done.
-    //  - Heightmaps of current (EZ) and unloaded (uhoh) chunks
+// UUUGGGHHH but need relative change between two to determine flow direction, and how to get that from
+// unmodified and unloaded chunks? If loaded, then ez. But when just processing the delta map in deep unloaded areas?
+// todo !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ALSO???? if not using deltas, then how know when back to "0"?
+//todo potenital solutions
+//  1. guesstimate and rectify somehow when loaded. if it resolves itself before ever being loaded, then who cares
+//      if guesstimate is good enough, why should most players notice?
+//  2. load a radius around a change into memory and process as needed. issue, how to prevent immediate unloading?
+//      maybe use one of the bits to force "keep in array" for certain number of "checks"
+//  3. somehow quickly pull unmodified value from unloaded chunks? if there is an ez way to do, then would solve
+//      lots of issues.
+//      ->>> maybe use same technique used to populate the stored world height? half-gen the chunk.
+//      ... if its fast enough, should be okay.
 
 
-    // note: cache somehow??
+// Keep this for personal documentation:
+// Water blocks (charges) per chunk level (min 12, max 16)
+// max build in modern version is total 383 blocks (-64 to 320). (4596, 6128)
+//  -> needs "1111111111111" 13 bits (8191)
+// BUT max possible with modifications is 4094 (-2047 to 2048). (49128, 65504)
+//  -> needs "1111111111111111" 16 bits (65535)
+// int has "1111_1111_1111_1111___111_1111_1111_1111" (31 bits): 16 to WT, 15 to other data.
+// same game of extra data can therefore be played in the chunk-stored value.
 
-    // stored as int, but can be parts of a block. like, every 32 integers is 1 block (divide  by 32)
+// Final decision:
+// Need to store current WT, cached height, and timer.
+// 16 for WT Height (0-65535), giving 16 water blocks per chunk-level todo should be delta not height??
+// 12 for cached chunk height (max possible 4094 (-2047 to 2048)) (0-4095)
+// 3 for cache timer (0-7) for chunk clearing
+
+// Todo... If I can remove the chunkgenned cap, it would be saving 2xINT for every genned chunks.
+//  That would justify me using longs here, or even just two separate ints for ease of calc!
 
 
-    // store map of altered chunks in world cap
-    // purge when back to base
-    // if need base, calculate
-    // *** maybe cache last 20 base chunk wts in this cap?
+// TODO Provide a modifier on WT yield. Each chunk y-level holds 16 "charges" or "pumps".
+//  By default, each charge is 1 block (1000mb), but this could get modified by a config mulitplier... or just raw set?
+//  I like directly set more tbh. Less vague to the user. Will need the pump-block interface to handle...
+//  And ofc, any in-world water draws (like river decreases) will treat draws like 1 block (1000mb) unless the draw
+//  amount is less than 1000, in which case it will take what is needed (if 500mb, will take 2 charges).
 
-//    private final ConcurrentLinkedQueue<ChunkPos> generatedChunks;
-    private final ConcurrentHashMap<ChunkPos, Integer> chunkWTDelta;
+// TODO maybe have the GeoBuilder store the height in HERE with a count of -1! Whenever a chunk is fully genned and
+//  it's cap is attached, have it query for, store in its cap, and purge the value!!!
+
+// store map of altered chunks in world cap
+// purge when back to base
+// if need base, calculate
+// *** maybe cache last 20 base chunk wts in this cap?
+
+// Chunk primer generation heavily built/cloned from Lost Cities (McJty)
+// My gratitude cannot be expressed enough for McJty's prior work in developing this, full credit to them
+// https://github.com/McJtyMods/LostCities
+
+public class WaterTableCapability implements IWaterTableCap {
+
+    @CapabilityInject(IWaterTableCap.class)
+    public static final Capability<IWaterTableCap> WATER_TABLE_CAPABILITY = null;
+
+    private final ConcurrentHashMap<ChunkPos, WTDataCache> chunkWTData;
+    public final ConcurrentHashMap<ChunkPos, Integer> chunkHeightTempCache; // Never serialized, very temporary
+
+    // TODO I believe this means if this cap is attached to another dimension, it should have its own sea level.
+    private int SEA_LEVEL = 63; // Default 63. Should be overwritten at world attachment.
 
     public WaterTableCapability() {
-        this.chunkWTDelta = new ConcurrentHashMap<>();
+        chunkWTData = new ConcurrentHashMap<>();
+        chunkHeightTempCache = new ConcurrentHashMap<>();
     }
+
+    public WaterTableCapability(World world) {
+        this();
+        SEA_LEVEL = extractSeaWater(world);
+    }
+
+    // Tries to get the sea level for a world. If it fails, it will return 63 as a default.
+    private static int extractSeaWater(World world) {
+        AbstractChunkProvider chunkProvider = world.getChunkProvider();
+        if (chunkProvider instanceof ServerChunkProvider) {
+            ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getChunkGenerator();
+            // Will either get the settings value, or default to 63.
+            return generator.getSeaLevel();
+        } else {
+            JemsGeology.LOGGER.error("Something went wrong getting the world's Sea Level! Tell the dev! (Defaulting to 63)");
+            return 63;
+        }
+    }
+
+
+    //////////////////////////////////////
+    //      CHUNK HEIGHT CACHING        //
+    //////////////////////////////////////
+
+    @Override
+    // Used to temporarily store a chunk height for storage after the chunk is fully generated. Not serialized.
+    public void cacheChunkHeight(ChunkPos cPos, int chunkHeight) {
+        chunkHeightTempCache.put(cPos, chunkHeight);
+    }
+
+    @Override
+    // If a cached height isn't present, then provide Integer.MIN_VALUE. It will be properly set when called later.
+    // If present, remove from the cache and return.
+    public int getCachedChunkHeight(ChunkPos cPos) {
+        Integer height = chunkHeightTempCache.remove(cPos);
+        return (height != null) ? height : Integer.MIN_VALUE;
+    }
+
 
     /////////////////////////////
     //      ACCESSIBLE API     //
     /////////////////////////////
 
     // TODO next is the delta map and methods to add/remove to it
+    // TODO have methods to query injects/pump amounts, based on height (pressure) and all that. Later.
+    //  for now, keep basic.
+
+    // Adds 1 charge's worth of mB.
+    public int reqInjectWater() {
+        return 0;
+    }
+
+    // Returns 1 charge's worth of mB if below water level.
+    public int reqPumpWater() {
+        return 0;
+    }
+
+
     // then how it gets updated
+    public void updateDeltaMap() {
+        // TODO make sure it does not purge "-1" counts. Also, make count private... that should not be easy to mess
+        //  with by anyone but ME
 
-
-
-
-
-    // Block-wise current water table height
-    // todo might sepatating the world into 4x4 center-chunk blobs work well here for efficiency???
-    //  calculate the coords first w/ quick math, may allow for simplifications?
+        // make new empty map/table of Changes
+        // loop over every Stored delta. process/spread to nearby as appropriate and store in Changes
+        //  -> need to define cut off, else eventually .0001 block deltas will be spread infinitely
+        //  -> if chunk accessed (either to check or change) from Stored, then reset purge counter
+        // merge Changes into Stored
+        // purge any Stored chunks with zero delta and zero count. Ideally, all with 0 count SHOULD have 0 delta,
+        //     -> need to handle that to be sure, but also should try to prevent that issue.
+    }
 
     // TODO FLOAT OR INT?? ROUND BEFORE RETURN??? HOW MANY WATER BLOCKS PER LEVEL ???
     @Override
     public float getWTHeight(int x, int z, ISeedReader world) {
+        // TODO change this to work on different dimensions. Maybe hold off until feature requested.
         if (!world.getWorld().getDimensionKey().getLocation().toString().equals("minecraft:overworld")) {
             return 0f;
         }
 
         // TODO in case rivers are non-sea level, have config option?
+        // TODO also need a way to handle other dimensions? Maybe hold off until feature requested.
         Biome.Category category = world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getCategory();
         if (category.equals(Biome.Category.OCEAN) || /*(Config.stuff && */category.equals(Biome.Category.RIVER)) {
             return SEA_LEVEL;
         }
 
-
-        world.getChunk(0,0);
-//        ChunkPrimerWrapper;
-//        ChunkPrimer;
-
-        //net.minecraft.world.chunk.ChunkPrimer.func_217303_b(Type)
-        /*
-        private Heightmap generateHeightMapChunk(IWorld world, int x, int z) {
-
-            ChunkPrimer chunk = new ChunkPrimer(new ChunkPos(x, z), new UpgradeData(new CompoundNBT()));
-
-            generator.generateBiomes(chunk);
-            generator.makeBase(world, chunk);
-
-            return chunk.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
-
-        }
-         */
-
-
-
-        // todo the separating into chunks would allow for simplifying AND caching!
-//        ChunkPos centerPos = new ChunkPos(new BlockPos(x, 0, z));
-
-
-        //Chunk chunk = world.getChunk(chunkPos.x, chunkPos.z);
-        //            IWaterTableBase chunkWTBaseCap = chunk.getCapability(WTBaseCapability.WATER_TABLE_BASE_CAPABILITY)
-        //                    .orElseThrow(() -> new RuntimeException("JemsGeo base water table capability is null..."));
-        //            int baseWTHeight = chunkWTBaseCap.getBaseWaterTable();
-
-
         return getBlockWTHeight(x, z, world);
     }
 
-
+    // TODO FINALLLLL i think would be best to STORE table height and calculate the delta.
+    //  because delta is only needed when checking to update the WT, but WTheight is used often.
 
 
     //////////////////////////////
     //      IMPLEMENTATION      //
     //////////////////////////////
 
+    // Block-wise current water table height
+    // todo might sepatating the world into 4x4 center-chunk blobs work well here for efficiency???
+    //  calculate the coords first w/ quick math, may allow for simplifications?
     private float getBlockWTHeight(int x, int z, ISeedReader world) {
         int center_cX = x >> 4;
         int center_cZ = z >> 4;
@@ -248,8 +277,8 @@ public class WaterTableCapability implements IWaterTable {
         float z1 = center_Z - ((1 - zFlag) * 16); // min z
         float z2 = center_Z + (zFlag * 16); // max z
         int Q11 = getChunkWTHeight(center_cX - (1 - xFlag), center_cZ - (1 - zFlag), world); // min x, min z
-        int Q21 = getChunkWTHeight(center_cX + xFlag, center_cZ - (1 - zFlag), world); // max x, min z?
-        int Q12 = getChunkWTHeight(center_cX- (1 - xFlag), center_cZ+ + zFlag, world); // min x, max z?
+        int Q21 = getChunkWTHeight(center_cX + xFlag, center_cZ - (1 - zFlag), world); // max x, min z
+        int Q12 = getChunkWTHeight(center_cX- (1 - xFlag), center_cZ+ + zFlag, world); // min x, max z
         int Q22 = getChunkWTHeight(center_cX + xFlag, center_cZ + zFlag, world); // max x, max z
 
         return UtilMethods.bilinearLerp(x, z, x1, x2, z1, z2, Q11, Q21, Q12, Q22);
@@ -257,40 +286,44 @@ public class WaterTableCapability implements IWaterTable {
 
     // Combine raw chunk WT with world-stored delta
     private int getChunkWTHeight(int cX, int cZ, ISeedReader world) {
-        return getRawChunkWTHeight(cX, cZ, world) - chunkWTDelta.getOrDefault(new ChunkPos(cX,cZ),0);
+        WTDataCache data = chunkWTData.getOrDefault(new ChunkPos(cX,cZ),null);
+        return (data != null) ? data.getCurrHeight() : getRawChunkWTHeight(cX, cZ, world);
     }
 
 
     // could replace water lakes entirely with localized lakes from water table...........
     // BUT that messes with so much spawning stuff maybe? see how vanilla handles lakes and mob spawns and sugarcane and stuff.
     // Rivers are fine. theyll stay as is, bc always at sea level
+    // Except maybe do some random tick shenanigans where if ticked block below WT, then remove?
+    // Maybe make custom fresh water to do that? Maybe that should be saved for a future addon mod.
 
-    // Returns the center WT height raw value
+    // Returns the center WT height raw value; called if not cached
+    // TODO need to enable to handle terrain that is below sea level.
     private int getRawChunkWTHeight(int cX, int cZ, ISeedReader world) {
         int x = (cX << 4) + 7;
         int z = (cZ << 4) + 7;
         Biome.Category category = world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getCategory();
-        if (category.equals(Biome.Category.OCEAN) || /*(Config.stuff && */category.equals(Biome.Category.RIVER)) {
+        if (category.equals(Biome.Category.OCEAN) || /*todo (Config.stuff && */category.equals(Biome.Category.RIVER)) {
+            chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(SEA_LEVEL));
             return SEA_LEVEL;
         }
 
         int chunkHeight = getChunkHeight(cX, cZ, world);
         int abv = chunkHeight - SEA_LEVEL;
-        if (abv <= 0) return SEA_LEVEL;
+        if (abv <= 0) {
+            chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(SEA_LEVEL));
+            return SEA_LEVEL;
+        }
 
         // TODO balance constant C and the downfall/temp etc.
-        // Lower C is closer WT tracking
+        // Lower C is closer WT tracking to chunk height
         final float C = 7.5f - 2f * averagedDownfall(x, z, world) - 2f * averagedTemp(x, z, world);
         final float W = (4*C*C*C)/(27f*SEA_LEVEL);
         float WT = (abv+3*W) - C*(float)Math.cbrt((abv+2*W)*(abv+2*W) / (float)SEA_LEVEL);
 
-        return Math.max((int)Math.floor(WT)+SEA_LEVEL, SEA_LEVEL);
-    }
-
-    // TODO works fine during WG, but not normally.
-    // Return height in center of chunk
-    private int getChunkHeight(int cX, int cZ, ISeedReader world) {
-        return world.getHeight(Heightmap.Type.OCEAN_FLOOR, (cX<<4)+7, (cZ<<4)+7);
+        int rawWTreturn = Math.max((int)Math.floor(WT)+SEA_LEVEL, SEA_LEVEL);
+        chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(rawWTreturn));
+        return rawWTreturn;
     }
 
     private float averagedDownfall(int x, int z, ISeedReader world) {
@@ -324,35 +357,35 @@ public class WaterTableCapability implements IWaterTable {
         return world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getTemperature();
     }
 
-
-
-    private int getSeaLevel() {
-        int seaLevel = -1;
-        DimensionSettings dimSettings = WorldGenRegistries.NOISE_SETTINGS.getValueForKey(DimensionSettings.OVERWORLD);
-        if (dimSettings != null) {
-            seaLevel = dimSettings.getSeaLevel();
-        } else {
-            seaLevel = 63;
-            JemsGeology.LOGGER.error("Failed to get dimension settings for Sea Level. That's bad. Tell the dev! (Defaulting to 63)");
-        }
-        return seaLevel;
-    }
-
-    /*
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////        MY IMPLEMENTATION        ////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // TODO unknown in synchronized is needed. Keep for now, remove if not.
-    // Original method uses a seed reader. Can a world or IWorld work fine too? TO be Seen.
-    private synchronized int getChunkHeightTRUE(int cX, int cZ, @Nonnull ISeedReader world) {
+    //  Original method uses a seed reader. Can a world or IWorld work fine too? Yet to be seen.
+    private synchronized int getChunkHeight(int cX, int cZ, @Nonnull ISeedReader world) {
+        int chunkHeight = SEA_LEVEL;
+        boolean storeFlag = false;
+        boolean genFlag = false;
 
+        IChunkHeightCap chunkHeightCap = null;
+        if (world.chunkExists(cX, cZ)) {
+            chunkHeightCap = world.getWorld().getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY)
+                    .orElseThrow(() -> new RuntimeException("JemsGeo chunk height capability is null in \"Water Table\" capability..."));
 
-        if (false) {
-            // if world.getchunk is loaded && cap isnt null, get value
-            // else, generate
+            int capHeight = chunkHeightCap.getChunkHeight();
+            if (capHeight != Integer.MIN_VALUE) {
+                chunkHeight = capHeight;
+            } else {
+                genFlag = true;
+                storeFlag = true;
+            }
         } else {
+            genFlag = true;
+        }
+
+        // If chunk is not generated + loaded, or it is but the height was never stored in its capability:
+        if (genFlag) {
             ChunkHeightmap heightmap = new ChunkHeightmap();
 
             boolean doNoiseVariant = false;
@@ -368,22 +401,30 @@ public class WaterTableCapability implements IWaterTable {
                 makeDummyChunkNoise(cX, cZ, world, heightmap);
             } else {
                 makeDummyChunk(heightmap);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! This should not have happened... UH-OH");
             }
-
-            return heightmap.getMaximumHeight();
+            chunkHeight =  heightmap.getMaximumHeight();
         }
+
+        //noinspection ConstantConditions
+        if (storeFlag && (chunkHeightCap != null)) {
+            chunkHeightCap.setChunkHeight(chunkHeight);
+        }
+        return chunkHeight;
     }
 
+    // As far as I know this should never be called, but exists just in case.
+    // TODO If I decide I do not need "heightmap" stuff and only want the center chunk value, this can be removed.
     private void makeDummyChunk(ChunkHeightmap heightmap) {
         // This is for now the best we can do given that we don't know the type of terrain generator
         for (int x = 0 ; x < 16 ; x++) {
             for (int z = 0 ; z < 16 ; z++) {
-                heightmap.update(x, 70, z, Blocks.STONE.getDefaultState());
+                heightmap.update(x, SEA_LEVEL, z, Blocks.STONE.getDefaultState());
             }
         }
     }
 
-    private void makeDummyChunkNoise(int chunkX, int chunkZ, IWorld world, ChunkHeightmap heightmap) {
+    private void makeDummyChunkNoise(int chunkX, int chunkZ, ISeedReader world, ChunkHeightmap heightmap) {
         DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
         AbstractChunkProvider chunkProvider = world.getChunkProvider();
         if (chunkProvider instanceof ServerChunkProvider) {
@@ -456,7 +497,7 @@ public class WaterTableCapability implements IWaterTable {
                                 double d18 = MathHelper.clamp(d17 / 200.0D, -1.0D, 1.0D);
 
                                 BlockState blockstate = chunkGenerator.func_236086_a_(d18, yy);
-                                if (blockstate != air) {
+                                if (blockstate != Blocks.AIR.getDefaultState()) {
                                     heightmap.update(xxx, (chunkIndex << 4) + yyy, zzz, blockstate);
                                 }
                             }
@@ -471,141 +512,136 @@ public class WaterTableCapability implements IWaterTable {
         }
 
     }
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////        LOST CITY IMPLEMENTATION        /////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+//    public synchronized ChunkHeightmap getHeightmap(int chunkX, int chunkZ, @Nonnull ISeedReader world) {
+//        ChunkCoord key = new ChunkCoord(world.getLevel().dimension(), chunkX, chunkZ);
+//        if (cachedHeightmaps.containsKey(key)) {
+//            return cachedHeightmaps.get(key);
+//        } else {
+//            ChunkHeightmap heightmap = new ChunkHeightmap(profile.LANDSCAPE_TYPE, profile.GROUNDLEVEL, base);
+//
+//            boolean doNoiseVariant = false;
+//            AbstractChunkProvider chunkProvider = world.getLevel().getChunkSource();
+//            if (chunkProvider instanceof ServerChunkProvider) {
+//                ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getGenerator();
+//                if (generator instanceof NoiseChunkGenerator) {
+//                    doNoiseVariant = true;
+//                }
+//            }
+//
+//            if (doNoiseVariant) {
+//                makeDummyChunkNoise(chunkX, chunkZ, world, heightmap);
+//            } else {
+//                makeDummyChunk(heightmap);
+//            }
+//
+//
+//            cachedHeightmaps.put(key, heightmap);
+//            return heightmap;
+//        }
+//    }
 
-    public synchronized ChunkHeightmap getHeightmap(int chunkX, int chunkZ, @Nonnull ISeedReader world) {
-        ChunkCoord key = new ChunkCoord(world.getLevel().dimension(), chunkX, chunkZ);
-        if (cachedHeightmaps.containsKey(key)) {
-            return cachedHeightmaps.get(key);
-        } else {
-            ChunkHeightmap heightmap = new ChunkHeightmap(profile.LANDSCAPE_TYPE, profile.GROUNDLEVEL, base);
-
-            boolean doNoiseVariant = false;
-            AbstractChunkProvider chunkProvider = world.getLevel().getChunkSource();
-            if (chunkProvider instanceof ServerChunkProvider) {
-                ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getGenerator();
-                if (generator instanceof NoiseChunkGenerator) {
-                    doNoiseVariant = true;
-                }
-            }
-
-            if (doNoiseVariant) {
-                makeDummyChunkNoise(chunkX, chunkZ, world, heightmap);
-            } else {
-                makeDummyChunk(heightmap);
-            }
-
-
-            cachedHeightmaps.put(key, heightmap);
-            return heightmap;
-        }
-    }
-
-    private void makeDummyChunk2(ChunkHeightmap heightmap) {
-        // This is for now the best we can do given that we don't know the type of terrain generator
-        for (int x = 0 ; x < 16 ; x++) {
-            for (int z = 0 ; z < 16 ; z++) {
-                heightmap.update(x, 70, z, Blocks.STONE.defaultBlockState());
-            }
-        }
-    }
+//    private void makeDummyChunk2(ChunkHeightmap heightmap) {
+//        // This is for now the best we can do given that we don't know the type of terrain generator
+//        for (int x = 0 ; x < 16 ; x++) {
+//            for (int z = 0 ; z < 16 ; z++) {
+//                heightmap.update(x, 70, z, Blocks.STONE.defaultBlockState());
+//            }
+//        }
+//    }
 
 
 
-    private void makeDummyChunkNoise(int chunkX, int chunkZ, ISeedReader region, ChunkHeightmap heightmap) {
-        DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
-        AbstractChunkProvider chunkProvider = region.getWorld().getChunkProvider();
-        if (chunkProvider instanceof ServerChunkProvider) {
-            ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getChunkGenerator();
-
-            generator.func_242706_a(region.func_241828_r().getRegistry(Registry.BIOME_KEY), primer);
-            updateHeightmap((NoiseChunkGenerator) generator, primer, heightmap);
-//            generator.generateSurface((WorldGenRegion) region, primer);
-        }
-    }
-
-    public static void updateHeightmap(NoiseChunkGenerator chunkGenerator, IChunk chunk, ChunkHeightmap heightmap) {
-        ChunkPos chunkpos = chunk.getPos();
-        int chunkX = chunkpos.x;
-        int chunkZ = chunkpos.z;
-        int cx = chunkX << 4;
-        int cz = chunkZ << 4;
-
-        double[][][] noise = new double[2][chunkGenerator.noiseSizeZ + 1][chunkGenerator.noiseSizeY + 1];
-
-        for(int nz = 0; nz < chunkGenerator.noiseSizeZ + 1; ++nz) {
-            noise[0][nz] = new double[chunkGenerator.noiseSizeY + 1];
-            chunkGenerator.fillNoiseColumn(noise[0][nz], chunkX * chunkGenerator.noiseSizeX, chunkZ * chunkGenerator.noiseSizeZ + nz);
-            noise[1][nz] = new double[chunkGenerator.noiseSizeY + 1];
-        }
-
-        for(int nx = 0; nx < chunkGenerator.noiseSizeX; ++nx) {
-            int nz;
-            for(nz = 0; nz < chunkGenerator.noiseSizeZ + 1; ++nz) {
-                chunkGenerator.fillNoiseColumn(noise[1][nz], chunkX * chunkGenerator.noiseSizeX + nx + 1, chunkZ * chunkGenerator.noiseSizeZ + nz);
-            }
-
-            for(nz = 0; nz < chunkGenerator.noiseSizeZ; ++nz) {
-                for(int ny = chunkGenerator.noiseSizeY - 1; ny >= 0; --ny) {
-                    double d0 = noise[0][nz][ny];
-                    double d1 = noise[0][nz + 1][ny];
-                    double d2 = noise[1][nz][ny];
-                    double d3 = noise[1][nz + 1][ny];
-                    double d4 = noise[0][nz][ny + 1];
-                    double d5 = noise[0][nz + 1][ny + 1];
-                    double d6 = noise[1][nz][ny + 1];
-                    double d7 = noise[1][nz + 1][ny + 1];
-
-                    for(int l1 = chunkGenerator.verticalNoiseGranularity - 1; l1 >= 0; --l1) {
-                        int yy = ny * chunkGenerator.verticalNoiseGranularity + l1;
-                        int yyy = yy & 15;
-                        int chunkIndex = yy >> 4;
-
-                        double d8 = (double)l1 / (double)chunkGenerator.verticalNoiseGranularity;
-                        double d9 = MathHelper.lerp(d8, d0, d4);
-                        double d10 = MathHelper.lerp(d8, d2, d6);
-                        double d11 = MathHelper.lerp(d8, d1, d5);
-                        double d12 = MathHelper.lerp(d8, d3, d7);
-
-                        for(int l2 = 0; l2 < chunkGenerator.horizontalNoiseGranularity; ++l2) {
-                            int xx = cx + nx * chunkGenerator.horizontalNoiseGranularity + l2;
-                            int xxx = xx & 15;
-                            double d13 = (double)l2 / (double)chunkGenerator.horizontalNoiseGranularity;
-                            double d14 = MathHelper.lerp(d13, d9, d10);
-                            double d15 = MathHelper.lerp(d13, d11, d12);
-
-                            for(int k3 = 0; k3 < chunkGenerator.horizontalNoiseGranularity; ++k3) {
-                                int zz = cz + nz * chunkGenerator.horizontalNoiseGranularity + k3;
-                                int zzz = zz & 15;
-                                double d16 = (double)k3 / (double)chunkGenerator.horizontalNoiseGranularity;
-                                double d17 = MathHelper.lerp(d16, d14, d15);
-                                double d18 = MathHelper.clamp(d17 / 200.0D, -1.0D, 1.0D);
-
-                                BlockState blockstate = chunkGenerator.func_236086_a_(d18, yy);
-                                if (blockstate != air) {
-                                    heightmap.update(xxx, (chunkIndex << 4) + yyy, zzz, blockstate);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            double[][] adouble1 = noise[0];
-            noise[0] = noise[1];
-            noise[1] = adouble1;
-        }
-
-    }
-
-     */
-
+//    private void makeDummyChunkNoise2(int chunkX, int chunkZ, ISeedReader region, ChunkHeightmap heightmap) {
+//        DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
+//        AbstractChunkProvider chunkProvider = region.getWorld().getChunkProvider();
+//        if (chunkProvider instanceof ServerChunkProvider) {
+//            ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getChunkGenerator();
+//
+//            generator.func_242706_a(region.func_241828_r().getRegistry(Registry.BIOME_KEY), primer);
+//            updateHeightmap((NoiseChunkGenerator) generator, primer, heightmap);
+////            generator.generateSurface((WorldGenRegion) region, primer);
+//        }
+//    }
+//
+//    public static void updateHeightmap2(NoiseChunkGenerator chunkGenerator, IChunk chunk, ChunkHeightmap heightmap) {
+//        ChunkPos chunkpos = chunk.getPos();
+//        int chunkX = chunkpos.x;
+//        int chunkZ = chunkpos.z;
+//        int cx = chunkX << 4;
+//        int cz = chunkZ << 4;
+//
+//        double[][][] noise = new double[2][chunkGenerator.noiseSizeZ + 1][chunkGenerator.noiseSizeY + 1];
+//
+//        for(int nz = 0; nz < chunkGenerator.noiseSizeZ + 1; ++nz) {
+//            noise[0][nz] = new double[chunkGenerator.noiseSizeY + 1];
+//            chunkGenerator.fillNoiseColumn(noise[0][nz], chunkX * chunkGenerator.noiseSizeX, chunkZ * chunkGenerator.noiseSizeZ + nz);
+//            noise[1][nz] = new double[chunkGenerator.noiseSizeY + 1];
+//        }
+//
+//        for(int nx = 0; nx < chunkGenerator.noiseSizeX; ++nx) {
+//            int nz;
+//            for(nz = 0; nz < chunkGenerator.noiseSizeZ + 1; ++nz) {
+//                chunkGenerator.fillNoiseColumn(noise[1][nz], chunkX * chunkGenerator.noiseSizeX + nx + 1, chunkZ * chunkGenerator.noiseSizeZ + nz);
+//            }
+//
+//            for(nz = 0; nz < chunkGenerator.noiseSizeZ; ++nz) {
+//                for(int ny = chunkGenerator.noiseSizeY - 1; ny >= 0; --ny) {
+//                    double d0 = noise[0][nz][ny];
+//                    double d1 = noise[0][nz + 1][ny];
+//                    double d2 = noise[1][nz][ny];
+//                    double d3 = noise[1][nz + 1][ny];
+//                    double d4 = noise[0][nz][ny + 1];
+//                    double d5 = noise[0][nz + 1][ny + 1];
+//                    double d6 = noise[1][nz][ny + 1];
+//                    double d7 = noise[1][nz + 1][ny + 1];
+//
+//                    for(int l1 = chunkGenerator.verticalNoiseGranularity - 1; l1 >= 0; --l1) {
+//                        int yy = ny * chunkGenerator.verticalNoiseGranularity + l1;
+//                        int yyy = yy & 15;
+//                        int chunkIndex = yy >> 4;
+//
+//                        double d8 = (double)l1 / (double)chunkGenerator.verticalNoiseGranularity;
+//                        double d9 = MathHelper.lerp(d8, d0, d4);
+//                        double d10 = MathHelper.lerp(d8, d2, d6);
+//                        double d11 = MathHelper.lerp(d8, d1, d5);
+//                        double d12 = MathHelper.lerp(d8, d3, d7);
+//
+//                        for(int l2 = 0; l2 < chunkGenerator.horizontalNoiseGranularity; ++l2) {
+//                            int xx = cx + nx * chunkGenerator.horizontalNoiseGranularity + l2;
+//                            int xxx = xx & 15;
+//                            double d13 = (double)l2 / (double)chunkGenerator.horizontalNoiseGranularity;
+//                            double d14 = MathHelper.lerp(d13, d9, d10);
+//                            double d15 = MathHelper.lerp(d13, d11, d12);
+//
+//                            for(int k3 = 0; k3 < chunkGenerator.horizontalNoiseGranularity; ++k3) {
+//                                int zz = cz + nz * chunkGenerator.horizontalNoiseGranularity + k3;
+//                                int zzz = zz & 15;
+//                                double d16 = (double)k3 / (double)chunkGenerator.horizontalNoiseGranularity;
+//                                double d17 = MathHelper.lerp(d16, d14, d15);
+//                                double d18 = MathHelper.clamp(d17 / 200.0D, -1.0D, 1.0D);
+//
+//                                BlockState blockstate = chunkGenerator.func_236086_a_(d18, yy);
+//                                if (blockstate != Blocks.AIR.getDefaultState()) {
+//                                    heightmap.update(xxx, (chunkIndex << 4) + yyy, zzz, blockstate);
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            double[][] adouble1 = noise[0];
+//            noise[0] = noise[1];
+//            noise[1] = adouble1;
+//        }
+//
+//    }
 
     //////////////////////////////
     //      SERIALIZATION       //
@@ -615,11 +651,20 @@ public class WaterTableCapability implements IWaterTable {
     public CompoundNBT serializeNBT() {
         CompoundNBT compound = new CompoundNBT();
         ListNBT wtChunks = new ListNBT();
-        this.chunkWTDelta.forEach((chunkPos, level) -> {
+        this.chunkWTData.forEach((chunkPos, data) -> {
             CompoundNBT tag = new CompoundNBT();
+
+            // Do not store data cache with 0 count. Just purge these to base, as they should have been anyway.
+            // Also purges cached heights from when a chunk was first generated. These should be consumed nearly
+            // immediately on creation, but just in case any are missed... this will prevent them permanently "leaked"
+            // into the water table cache.
+            if (data.count >= 0) return;
+
             tag.putInt("x", chunkPos.x);
             tag.putInt("z", chunkPos.z);
-            tag.putInt("wtlev", level);
+            tag.putInt("baseHT", data.getBaseHeight());
+            tag.putInt("currHT", data.getCurrHeight());
+            tag.putByte("count", data.count);
             wtChunks.add(tag);
         });
         compound.put(JemsGeology.MOD_ID+":wt", wtChunks);
@@ -632,26 +677,7 @@ public class WaterTableCapability implements IWaterTable {
         wtChunks.forEach(entry -> {
             CompoundNBT nbt = (CompoundNBT) entry;
             ChunkPos chunkPos = new ChunkPos(nbt.getInt("x"), nbt.getInt("z"));
-            this.chunkWTDelta.put(chunkPos, nbt.getInt("wtlev"));
+            this.chunkWTData.put(chunkPos, new WTDataCache(nbt.getInt("baseHT"), nbt.getInt("currHT"), nbt.getByte("count")));
         });
     }
-
-
-    // Implementation
-    /*
-    Chunk value based on
-    - Precipitation (how determine? take avg over chunk? just center point??)
-    - Elevation
-    - "Ocean level" which is also river level, aka minimum possible value.
-        -> If chunk contains(?) mainly contains(?) river/lake, then set chunk value to ocean level
-    - Temperature(?)
-    - Slope(?) (may factor in more w/ corners)
-    - Soil (coarse wont matter much, but fine soil wicks upwards) Maybe not
-    - Rock below? Maybe not
-
-    Corner values
-    - 4 Corner values calculated based on avg. of 3 adjacent chunks and the chunk center
-    - Ensures chunks that share a corner all have the same value
-
-     */
 }
