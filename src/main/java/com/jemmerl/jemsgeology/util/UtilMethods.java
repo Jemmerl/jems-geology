@@ -129,6 +129,11 @@ public class UtilMethods {
         return ((x2 - x1) * (x2 - x1)) + ((y2 - y1) * (y2 - y1)) + ((z2 - z1) * (z2 - z1));
     }
 
+    //    int mod = mod(x, 2) + ((mod(z, 2) + 1) * 2) - 2;
+    //    public static int mod(int a, int b) {
+    //        return (a % b + b) % b;
+    //    }
+
     ////////////////////////
     // BLOCK-TYPE METHODS //
     ////////////////////////

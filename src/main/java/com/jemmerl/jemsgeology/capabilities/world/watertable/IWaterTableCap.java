@@ -9,16 +9,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public interface IWaterTableCap extends INBTSerializable<CompoundNBT> {
-        // getBlockWTLevel
+    float getWTHeight(int x, int z, World world);
 
-    // getChunkWTLevel
 
-    float getWTHeight(int x, int z, ISeedReader world);
-
-    @Deprecated // Do not use this unless you are Jem. (Me, the one writing this comment)
-    void cacheChunkHeight(ChunkPos cPos, int chunkHeight);
-    @Deprecated // Do not use this either unless you are Jem. (Me, the one also writing this comment)
-    int getCachedChunkHeight(ChunkPos cPos);
 
 
 //    int getWaterTableHeight(BlockPos pos);
@@ -32,4 +25,18 @@ public interface IWaterTableCap extends INBTSerializable<CompoundNBT> {
 //    boolean isInWaterTable(BlockPos pos);
 //
 //    boolean isInWaterTable(int x, int y, int z);
+
+
+    // Called during world-gen only.  Do not use this unless you are Jem. (Me, the one writing this comment)
+    @Deprecated
+    int WG_cacheChunkHeight(ChunkPos cPos, int chunkHeight);
+
+    // Called during world-gen only. Do not use this either unless you are Jem. (Me, the one also writing this comment)
+    @Deprecated
+    int WG_consumeChunkHeight(ChunkPos cPos);
+
+    // Called during world-gen only.
+    // I suppose you (someone who is not me, Jem) can call this one. Go for it, champ. Dunno why you would though.
+    // Maybe you just think this method is really cool. In which case, thank you. I appreciate it. I like it too.
+    int WG_chunkWTHeightMap(ChunkPos centerCPos, ISeedReader iSeedReader, short[][] chunkWTOutput);
 }

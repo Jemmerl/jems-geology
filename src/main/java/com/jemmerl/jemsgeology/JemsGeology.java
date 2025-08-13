@@ -26,13 +26,9 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,9 +48,11 @@ import org.apache.logging.log4j.Logger;
 TODO board
     - handle silverfish??
     - If/when implementing cave-ins, make regoliths (soils, saproite) much harder to support to encourage pit mines
-    - Add salt crusts! Do not break when over air, but will break when stepped on! So you can fall through them
     - Add salt water? Would be useful for in salt flats. Config option to disable generating in oceans, if compat needed
         -> Config to not infinite source, or if infinite, only if in ocean biome AND below sea level
+
+    - Yeah, that'd do it. Rule of thumb: nuke all static caches with level context in ServerStoppingEvent or
+    ServerStoppedEvent (the latter is probably safer since it happens after saving
  */
 
 @Mod(JemsGeology.MOD_ID)
@@ -114,6 +112,8 @@ public class JemsGeology
 
     @SubscribeEvent
     public void attachWorldCap(AttachCapabilitiesEvent<World> event) {
+        if (event.getObject().isRemote) return;
+
         //TODO note, can attach to other dims in the future, just for massive ore deposits
         // for now, kept to the overworld for simplicity
         String dimName = event.getObject().getDimensionKey().getLocation().toString();
@@ -129,17 +129,20 @@ public class JemsGeology
 
     @SubscribeEvent
     public void attachChunkCap(AttachCapabilitiesEvent<Chunk> event) {
+        World eventWorld = event.getObject().getWorld();
+        if (eventWorld.isRemote) return;
+
         //TODO note, can attach to other dims in the future, just for massive ore deposits
         // for now, kept to the overworld for simplicity
-        String dimName = event.getObject().getWorld().getDimensionKey().getLocation().toString();
+        String dimName = eventWorld.getDimensionKey().getLocation().toString();
 
         if (dimName.equals("minecraft:overworld")) {
-            IWaterTableCap wtCap = event.getObject().getWorld().getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY).orElse(null);
+            IWaterTableCap wtCap = eventWorld.getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY).orElse(null);
 
-            //event.getObject().getWorld().isRemote;
             int height = Integer.MIN_VALUE;
             if (wtCap != null) {
-                height = wtCap.getCachedChunkHeight(event.getObject().getPos());
+                //noinspection deprecation
+                height = wtCap.WG_consumeChunkHeight(event.getObject().getPos());
             }
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "chunk_height"), new ChunkHeightCapProvider(height));
         }

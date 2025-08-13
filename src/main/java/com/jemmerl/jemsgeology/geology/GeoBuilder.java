@@ -9,6 +9,8 @@ import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapabil
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCap;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ISeedReader;
@@ -27,10 +29,12 @@ public class GeoBuilder {
 //    private final int[] newFaultShift = new int[3];;
 
     private final GeoWrapper[][][] wrapperArray;
+    private final short[][] wtHeights = new short[16][16];
 
     // Note: do not make these static, in case this builder is used for multiple dimensions.
     // If in the future, the standard is to use a different geo-builder implementation/obj per dim, then can be static.
     //  -> (maybe a GeoBuilderBuilder gets implemented??)
+
     private final IDepositCap depCap;
     private final IChunkGennedCap cgCap;
     private final IWaterTableCap wtCap;
@@ -39,10 +43,12 @@ public class GeoBuilder {
     //  then there should never be issues with post-placing ores as the column can just recalculate.
 
     public GeoBuilder(ISeedReader world, BlockPos pos, Random rand, int maxHeight) {
+        wrapperArray = new GeoWrapper[16][maxHeight][16];
+
         this.world = world;
         this.cornerPos = pos;
         this.rand = rand;
-        wrapperArray = new GeoWrapper[16][maxHeight][16];
+
 
 //        this.deformHeights = new int[16][this.chunkReader.getMaxHeight()][16];
 
@@ -52,80 +58,89 @@ public class GeoBuilder {
                 .orElseThrow(() -> new RuntimeException("JemsGeo chunk gen capability is null in \"GeoBuilder\" feature..."));
         this.wtCap = world.getWorld().getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY)
                 .orElseThrow(() -> new RuntimeException("JemsGeo water table capability is null in \"GeoBuilder\" feature..."));
-
-
-
-
-//        IChunk ichunk = world.getChunk(pos.getX() >> 2, pos.getZ() >> 2, ChunkStatus.BIOMES, false);
-////        return ichunk != null && ichunk.getBiomes() != null ? ichunk.getBiomes().getNoiseBiome(x, y, z) : this.getNoiseBiomeRaw(x, y, z);
-//        System.out.println("---------------------------------------");
-//        System.out.println("is chunk nonnull: " + (ichunk != null));
-//        if ((ichunk != null)) {
-//            System.out.println("is biomes nonnull: " + (ichunk.getBiomes() != null));
-//        } else {
-//            System.out.println("is biomes nonnull: YES IS NULL");
-//        }
-
-        //[21:46:23] [Worker-Main-19/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.geology.GeoBuilder:<init>:71]: is chunk nonnull: false
-        //[21:46:23] [Worker-Main-19/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.geology.GeoBuilder:<init>:75]: is biomes nonnull: YES IS NULL
-
-
-//        IChunk chunk = world.getChunk(pos);
-//        System.out.println("here");
-//        System.out.println(world.getNoiseBiomeRaw(pos.getX(), pos.getY(), pos.getZ()).getCategory());
-//        System.out.println("there");
-//        System.out.println(world.getNoiseBiomeRaw(4000, 10, 10000).getCategory());
-//
-//
-//        System.out.println("vs here");
-//        System.out.println(world.getNoiseBiome(pos.getX(), pos.getY(), pos.getZ()).getCategory());
-//        System.out.println("vs there");
-//        System.out.println(world.getNoiseBiome(4000, 10, 10000).getCategory());
-//        System.out.println("trying more");
-//        System.out.println("chunk primer: " + (chunk instanceof ChunkPrimer));
-
-        // Need: height map and biomes. Optimally, from adj chunks as well, but only the single chunk would be workable.
-        // can use chunk primer trick to
-
-
-//        this.wtChunkCap = world.getWorld().getChunk(pos).getCapability(WTBaseCapability.WATER_TABLE_BASE_CAPABILITY)
-//                .orElseThrow(() -> new RuntimeException("JemsGeo chunk base water-table capability is null..."));
-//
-//        world.getWorld().getCapability(WaterTableCapability.WATER_TABLE_CAPABILITY)
-//                .orElseThrow(() -> new RuntimeException("JemsGeo chunk gen capability is null..."));
     }
+
+//    private boolean checkchunk(int x, int z) {
+//        ServerWorld sWorld = world.getWorld();
+//        if (sWorld == null) {
+//            return false;
+//        }
+////        System.out.println("1");
+//        IChunk iChunk = sWorld.getChunk(x,z, ChunkStatus.SURFACE);
+////        System.out.println("2");
+//        if (iChunk instanceof Chunk) System.out.println("A");
+//        if (iChunk instanceof ChunkPrimer) System.out.println("B");
+//        if (iChunk instanceof ChunkPrimerWrapper) System.out.println("C");
+//        if (iChunk instanceof EmptyChunk) System.out.println("D");
+//
+//        if (iChunk instanceof Chunk) {
+//            System.out.println("3");
+//            IChunkHeightCap chunkHeightCap = ((Chunk) iChunk).getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY).orElse(null);
+//            return  ((chunkHeightCap != null) && (chunkHeightCap.getChunkHeight() != Integer.MIN_VALUE));
+//        }
+//        return false;
+//    }
+
+
 
     public GeoWrapper[][][] build() {
         // todo water table height calc can be optimized for world gen.
         //  maybe a method that returns a 16x16 array of values?
+        // check if can get the heights of ungenned chunks around curr gen. if so, check if fully genned, because
+        //  wont want to use their height val (might be a tree!). Can use the caps now tho!!
+        //  make a custom WTcap function for world gen that takes in info like heights? or just let it do its thing?
 
-        // Store the world height to be used later.
+
+
+
+
+        ChunkPos centerCPos = new ChunkPos(cornerPos);
         //noinspection deprecation
-        wtCap.cacheChunkHeight(new ChunkPos(cornerPos),
-                world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, cornerPos.add(7,0,7)).getY());
+        int chunkHeight = wtCap.WG_cacheChunkHeight(centerCPos, wtCap.WG_chunkWTHeightMap(centerCPos, world, wtHeights));
 //        System.out.println(world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, cornerPos.add(7,0,7)).getY());
+
 
 
         // Fill the default array WITHOUT SHALLOW COPYING AN ENTIRE DIMENSION OF IT THIS TIME AAAAAAAAAHHH
         for (int x = 0; x < wrapperArray.length; x++) {
-            for (int y = 0; y < wrapperArray[0].length; y++) {
-                for (int z = 0; z < wrapperArray[0][0].length; z++) {
+            for (int z = 0; z < wrapperArray[0][0].length; z++) {
+                for (int y = 0; y < wrapperArray[0].length; y++) {
                     if ((y & 8)/8 == 0) {
                         wrapperArray[x][y][z] = new GeoWrapper(GeoType.GRAY_RHYOLITE);
                     } else {
                         wrapperArray[x][y][z] = new GeoWrapper(GeoType.PINK_RHYOLITE);
                     }
                     if (rand.nextFloat() > 0.7f) {
-                        if (y < 60) {
-                            wrapperArray[x][y][z].setOreType(ModGeoOres.LIMONITE);
-                        } else {
+                        if (y < wtHeights[x][z]) {
                             wrapperArray[x][y][z].setOreType(ModGeoOres.MAGNETITE);
+                        } else {
+                            wrapperArray[x][y][z].setOreType(ModGeoOres.LIMONITE);
                         }
                         wrapperArray[x][y][z].setGrade(Grade.NORMAL);
                     }
                 }
             }
         }
+
+//        for (int x = 0; x < wrapperArray.length; x++) {
+//            for (int y = 0; y < wrapperArray[0].length; y++) {
+//                for (int z = 0; z < wrapperArray[0][0].length; z++) {
+//                    if ((y & 8)/8 == 0) {
+//                        wrapperArray[x][y][z] = new GeoWrapper(GeoType.GRAY_RHYOLITE);
+//                    } else {
+//                        wrapperArray[x][y][z] = new GeoWrapper(GeoType.PINK_RHYOLITE);
+//                    }
+//                    if (rand.nextFloat() > 0.7f) {
+//                        if (y < 60) {
+//                            wrapperArray[x][y][z].setOreType(ModGeoOres.MAGNETITE);
+//                        } else {
+//                            wrapperArray[x][y][z].setOreType(ModGeoOres.LIMONITE);
+//                        }
+//                        wrapperArray[x][y][z].setGrade(Grade.NORMAL);
+//                    }
+//                }
+//            }
+//        }
 
         surfaceRegolith();
 

@@ -3,9 +3,11 @@ package com.jemmerl.jemsgeology.capabilities.world.watertable;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapability;
 import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.IChunkHeightCap;
+import com.jemmerl.jemsgeology.util.Pair;
 import com.jemmerl.jemsgeology.util.UtilMethods;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.command.impl.ExecuteCommand;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +21,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.AbstractChunkProvider;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.server.ServerChunkProvider;
 import net.minecraftforge.common.capabilities.Capability;
@@ -136,9 +139,6 @@ https://www.mdpi.com/2073-4441/15/21/3865
 //  And ofc, any in-world water draws (like river decreases) will treat draws like 1 block (1000mb) unless the draw
 //  amount is less than 1000, in which case it will take what is needed (if 500mb, will take 2 charges).
 
-// TODO maybe have the GeoBuilder store the height in HERE with a count of -1! Whenever a chunk is fully genned and
-//  it's cap is attached, have it query for, store in its cap, and purge the value!!!
-
 // store map of altered chunks in world cap
 // purge when back to base
 // if need base, calculate
@@ -183,25 +183,6 @@ public class WaterTableCapability implements IWaterTableCap {
     }
 
 
-    //////////////////////////////////////
-    //      CHUNK HEIGHT CACHING        //
-    //////////////////////////////////////
-
-    @Override
-    // Used to temporarily store a chunk height for storage after the chunk is fully generated. Not serialized.
-    public void cacheChunkHeight(ChunkPos cPos, int chunkHeight) {
-        chunkHeightTempCache.put(cPos, chunkHeight);
-    }
-
-    @Override
-    // If a cached height isn't present, then provide Integer.MIN_VALUE. It will be properly set when called later.
-    // If present, remove from the cache and return.
-    public int getCachedChunkHeight(ChunkPos cPos) {
-        Integer height = chunkHeightTempCache.remove(cPos);
-        return (height != null) ? height : Integer.MIN_VALUE;
-    }
-
-
     /////////////////////////////
     //      ACCESSIBLE API     //
     /////////////////////////////
@@ -223,9 +204,6 @@ public class WaterTableCapability implements IWaterTableCap {
 
     // then how it gets updated
     public void updateDeltaMap() {
-        // TODO make sure it does not purge "-1" counts. Also, make count private... that should not be easy to mess
-        //  with by anyone but ME
-
         // make new empty map/table of Changes
         // loop over every Stored delta. process/spread to nearby as appropriate and store in Changes
         //  -> need to define cut off, else eventually .0001 block deltas will be spread infinitely
@@ -236,12 +214,14 @@ public class WaterTableCapability implements IWaterTableCap {
     }
 
     // TODO FLOAT OR INT?? ROUND BEFORE RETURN??? HOW MANY WATER BLOCKS PER LEVEL ???
+    //  -> FLOOR in the direction of sea level?
     @Override
-    public float getWTHeight(int x, int z, ISeedReader world) {
+    public float getWTHeight(int x, int z, World world) {
         // TODO change this to work on different dimensions. Maybe hold off until feature requested.
-        if (!world.getWorld().getDimensionKey().getLocation().toString().equals("minecraft:overworld")) {
-            return 0f;
-        }
+        //  THis isnt attached to any dimensions besides overworld, so this is not needed
+//        if (!world.getWorld().getDimensionKey().getLocation().toString().equals("minecraft:overworld")) {
+//            return 0f;
+//        }
 
         // TODO in case rivers are non-sea level, have config option?
         // TODO also need a way to handle other dimensions? Maybe hold off until feature requested.
@@ -253,9 +233,6 @@ public class WaterTableCapability implements IWaterTableCap {
         return getBlockWTHeight(x, z, world);
     }
 
-    // TODO FINALLLLL i think would be best to STORE table height and calculate the delta.
-    //  because delta is only needed when checking to update the WT, but WTheight is used often.
-
 
     //////////////////////////////
     //      IMPLEMENTATION      //
@@ -264,13 +241,13 @@ public class WaterTableCapability implements IWaterTableCap {
     // Block-wise current water table height
     // todo might sepatating the world into 4x4 center-chunk blobs work well here for efficiency???
     //  calculate the coords first w/ quick math, may allow for simplifications?
-    private float getBlockWTHeight(int x, int z, ISeedReader world) {
+    private float getBlockWTHeight(int x, int z, World world) {
         int center_cX = x >> 4;
         int center_cZ = z >> 4;
-        float center_X = (center_cX << 4) + 7.5f;
-        float center_Z = (center_cZ << 4) + 7.5f;
-        int xFlag = (x >= center_X) ? 1 : 0;
-        int zFlag = (z >= center_Z) ? 1 : 0;
+        float center_X = (center_cX << 4) + 7;
+        float center_Z = (center_cZ << 4) + 7;
+        int xFlag = (x > center_X) ? 1 : 0;
+        int zFlag = (z > center_Z) ? 1 : 0;
 
         float x1 = center_X - ((1 - xFlag) * 16); // min x
         float x2 = center_X + (xFlag * 16); // max x
@@ -278,14 +255,14 @@ public class WaterTableCapability implements IWaterTableCap {
         float z2 = center_Z + (zFlag * 16); // max z
         int Q11 = getChunkWTHeight(center_cX - (1 - xFlag), center_cZ - (1 - zFlag), world); // min x, min z
         int Q21 = getChunkWTHeight(center_cX + xFlag, center_cZ - (1 - zFlag), world); // max x, min z
-        int Q12 = getChunkWTHeight(center_cX- (1 - xFlag), center_cZ+ + zFlag, world); // min x, max z
+        int Q12 = getChunkWTHeight(center_cX - (1 - xFlag), center_cZ+ + zFlag, world); // min x, max z
         int Q22 = getChunkWTHeight(center_cX + xFlag, center_cZ + zFlag, world); // max x, max z
 
         return UtilMethods.bilinearLerp(x, z, x1, x2, z1, z2, Q11, Q21, Q12, Q22);
     }
 
     // Combine raw chunk WT with world-stored delta
-    private int getChunkWTHeight(int cX, int cZ, ISeedReader world) {
+    private int getChunkWTHeight(int cX, int cZ, World world) {
         WTDataCache data = chunkWTData.getOrDefault(new ChunkPos(cX,cZ),null);
         return (data != null) ? data.getCurrHeight() : getRawChunkWTHeight(cX, cZ, world);
     }
@@ -299,7 +276,7 @@ public class WaterTableCapability implements IWaterTableCap {
 
     // Returns the center WT height raw value; called if not cached
     // TODO need to enable to handle terrain that is below sea level.
-    private int getRawChunkWTHeight(int cX, int cZ, ISeedReader world) {
+    private int getRawChunkWTHeight(int cX, int cZ, World world) {
         int x = (cX << 4) + 7;
         int z = (cZ << 4) + 7;
         Biome.Category category = world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getCategory();
@@ -317,7 +294,7 @@ public class WaterTableCapability implements IWaterTableCap {
 
         // TODO balance constant C and the downfall/temp etc.
         // Lower C is closer WT tracking to chunk height
-        final float C = 7.5f - 2f * averagedDownfall(x, z, world) - 2f * averagedTemp(x, z, world);
+        final float C = 7.5f - biomeFactor(new BlockPos(x, chunkHeight, z), world);
         final float W = (4*C*C*C)/(27f*SEA_LEVEL);
         float WT = (abv+3*W) - C*(float)Math.cbrt((abv+2*W)*(abv+2*W) / (float)SEA_LEVEL);
 
@@ -326,51 +303,46 @@ public class WaterTableCapability implements IWaterTableCap {
         return rawWTreturn;
     }
 
-    private float averagedDownfall(int x, int z, ISeedReader world) {
-        float sum = 0f;
+    // Assumes normalized biome properties to [0,1]
+    // Effectively returns (2f * averagedDownfall(x, z, world) + 2f * averagedTemp(x, z, world)), see obsolete below.
+    // Final biome factor ranges between 0 and 4.
+    private float biomeFactor(BlockPos centerPos, IWorld world) {
+        float sumAvg = 0f;
         for (int ix = -2; ix <= 2; ix+=2) {
             for (int iz = -2; iz <= 2; iz+=2) {
-                sum += getChunkDownfall(x+(ix*16), z+(iz*16), world) * UtilMethods.gaussKernel3[(ix+2)/2][(iz+2)/2];
+                Biome biome = world.getBiome(centerPos.add((ix*16), 0, (iz*16)));
+                float gaussKernel = UtilMethods.gaussKernel3[(ix+2)/2][(iz+2)/2];
+                sumAvg += ((getBiomeDownfall(biome) + getBiomeTemp(biome)) * gaussKernel);
             }
         }
-        return sum;
+        return sumAvg + sumAvg;
     }
 
-    private float averagedTemp(int x, int z, ISeedReader world) {
-        float sum = 0f;
-        for (int ix = -2; ix <= 2; ix+=2) {
-            for (int iz = -2; iz <= 2; iz+=2) {
-                sum += getChunkTemp(x+(ix*16), z+(iz*16), world) * UtilMethods.gaussKernel3[(ix+2)/2][(iz+2)/2];
-            }
-        }
-        return sum;
+    // 0 for least rainfall, 1 for most --> does not need remapping, vanilla returns 0 to 1
+    private float getBiomeDownfall(Biome biome) {
+        return biome.getDownfall();
     }
 
-
-    // Return precipt in center of chunk
-    // 0 for least rainfall, 1 for most
-    private float getChunkDownfall(int x, int z, ISeedReader world) {
-        return world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getDownfall();
-    }
-
-    private float getChunkTemp(int x, int z, ISeedReader world) {
-        return world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getTemperature();
+    // 0 for lowest temp (-1), 1 for highest (2) --> needs remapping, vanilla returns -1 to 2
+    private float getBiomeTemp(Biome biome) {
+        return (biome.getTemperature() + 1) / 3f;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////        MY IMPLEMENTATION        ////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TODO unknown in synchronized is needed. Keep for now, remove if not.
+    // TODO unknown if synchronized is needed. Keep for now, remove if not.
     //  Original method uses a seed reader. Can a world or IWorld work fine too? Yet to be seen.
-    private synchronized int getChunkHeight(int cX, int cZ, @Nonnull ISeedReader world) {
+    private synchronized int getChunkHeight(int cX, int cZ, @Nonnull World world) {
         int chunkHeight = SEA_LEVEL;
         boolean storeFlag = false;
         boolean genFlag = false;
 
         IChunkHeightCap chunkHeightCap = null;
+
         if (world.chunkExists(cX, cZ)) {
-            chunkHeightCap = world.getWorld().getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY)
+            chunkHeightCap = world.getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY)
                     .orElseThrow(() -> new RuntimeException("JemsGeo chunk height capability is null in \"Water Table\" capability..."));
 
             int capHeight = chunkHeightCap.getChunkHeight();
@@ -389,7 +361,7 @@ public class WaterTableCapability implements IWaterTableCap {
             ChunkHeightmap heightmap = new ChunkHeightmap();
 
             boolean doNoiseVariant = false;
-            AbstractChunkProvider chunkProvider = world.getWorld().getChunkProvider();
+            AbstractChunkProvider chunkProvider = world.getChunkProvider();
             if (chunkProvider instanceof ServerChunkProvider) {
                 ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getChunkGenerator();
                 if (generator instanceof NoiseChunkGenerator) {
@@ -424,7 +396,7 @@ public class WaterTableCapability implements IWaterTableCap {
         }
     }
 
-    private void makeDummyChunkNoise(int chunkX, int chunkZ, ISeedReader world, ChunkHeightmap heightmap) {
+    private void makeDummyChunkNoise(int chunkX, int chunkZ, World world, ChunkHeightmap heightmap) {
         DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
         AbstractChunkProvider chunkProvider = world.getChunkProvider();
         if (chunkProvider instanceof ServerChunkProvider) {
@@ -518,7 +490,7 @@ public class WaterTableCapability implements IWaterTableCap {
     ///////////////////////////////        LOST CITY IMPLEMENTATION        /////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//    public synchronized ChunkHeightmap getHeightmap(int chunkX, int chunkZ, @Nonnull ISeedReader world) {
+//    public synchronized ChunkHeightmap getHeightmap(int chunkX, int chunkZ, @Nonnull World world) {
 //        ChunkCoord key = new ChunkCoord(world.getLevel().dimension(), chunkX, chunkZ);
 //        if (cachedHeightmaps.containsKey(key)) {
 //            return cachedHeightmaps.get(key);
@@ -557,7 +529,7 @@ public class WaterTableCapability implements IWaterTableCap {
 
 
 
-//    private void makeDummyChunkNoise2(int chunkX, int chunkZ, ISeedReader region, ChunkHeightmap heightmap) {
+//    private void makeDummyChunkNoise2(int chunkX, int chunkZ, World region, ChunkHeightmap heightmap) {
 //        DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
 //        AbstractChunkProvider chunkProvider = region.getWorld().getChunkProvider();
 //        if (chunkProvider instanceof ServerChunkProvider) {
@@ -643,6 +615,91 @@ public class WaterTableCapability implements IWaterTableCap {
 //
 //    }
 
+
+    ////////////////////////////////////////
+    //      WORLD-GEN ONLY METHODS        //
+    ////////////////////////////////////////
+
+    @Override
+    // Called during world-gen only.  Do not use this unless you are Jem. (Me, the one writing this comment)
+    // Used to temporarily store a chunk height for storage after the chunk is fully generated. Not serialized.
+    public int WG_cacheChunkHeight(ChunkPos cPos, int chunkHeight) {
+        chunkHeightTempCache.put(cPos, chunkHeight);
+        return chunkHeight;
+    }
+
+    @Override
+    // Called during world-gen only. Do not use this either unless you are Jem. (Me, the one also writing this comment)
+    // If a cached height isn't present, then provide Integer.MIN_VALUE. It will be properly set when called later.
+    // If present, remove from the cache and return.
+    public int WG_consumeChunkHeight(ChunkPos cPos) {
+        Integer height = chunkHeightTempCache.remove(cPos);
+        return (height != null) ? height : Integer.MIN_VALUE;
+    }
+
+    @Override
+    // Called during world-gen only.
+    // Fills the passed 16x16 output array with block-wise water table heights.
+    // Returns the height of the center chunk (the one being generated) for caching.
+    public int WG_chunkWTHeightMap(ChunkPos centerCPos, ISeedReader world, short[][] chunkWTOutput) {
+        // Get all needed raw water-table levels
+        int height = SEA_LEVEL;
+        short[][] adjChunkWTHeights = new short[3][3];
+        for (int iCx = -1; iCx<2; iCx++) {
+            for (int iCz = -1; iCz<2; iCz++) {
+                ChunkPos currCPos = new ChunkPos(centerCPos.x+iCx, centerCPos.z+iCz);
+                BlockPos currHeightPos = world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, currCPos.asBlockPos().add(7,0,7));
+                if ((iCx == 0) && (iCz == 0)) height = currHeightPos.getY();
+                adjChunkWTHeights[1+iCx][1+iCz] = (short) WG_getRawChunkWTHeight(currHeightPos, world);
+            }
+        }
+
+        // TODO could unroll these a bit, then wouldnt have to calculate the flags
+        // Fill 16x16 chunk water table height map
+        for (int ix = 0; ix < 16; ix++) {
+            for (int iz = 0; iz < 16; iz++) {
+                int xFlag = (ix > 7) ? 1 : 0;
+                int zFlag = (iz > 7) ? 1 : 0;
+
+                float x1 = 7 - ((1 - xFlag) * 16); // min x
+                float x2 = 7 + (xFlag * 16); // max x
+                float z1 = 7 - ((1 - zFlag) * 16); // min z
+                float z2 = 7 + (zFlag * 16); // max z
+
+                int Q11 = adjChunkWTHeights[xFlag][zFlag];
+                int Q21 = adjChunkWTHeights[xFlag+1][zFlag];
+                int Q12 = adjChunkWTHeights[xFlag][zFlag+1];
+                int Q22 = adjChunkWTHeights[xFlag+1][zFlag+1];
+
+                chunkWTOutput[ix][iz] = (short) Math.round(UtilMethods.bilinearLerp(ix, iz, x1, x2, z1, z2, Q11, Q21, Q12, Q22));
+            }
+        }
+        return height;
+    }
+
+    private int WG_getRawChunkWTHeight(BlockPos currPos, ISeedReader world) {
+        Biome.Category category = world.getBiome(currPos).getCategory();
+        if (category.equals(Biome.Category.OCEAN) || /*todo (Config.stuff && */category.equals(Biome.Category.RIVER)) {
+            return SEA_LEVEL;
+        }
+
+        int abv = currPos.getY() - SEA_LEVEL;
+        // TODO need new algo for terrain below sea level
+        if (abv <= 0) {
+            return SEA_LEVEL;
+        }
+
+        // TODO balance constant C and the downfall/temp etc.
+        // Lower C is closer WT tracking to chunk height
+        final float C = 7.5f - biomeFactor(currPos, world);
+        final float W = (4*C*C*C)/(27f*SEA_LEVEL);
+        float WT = (abv+3*W) - C*(float)Math.cbrt((abv+2*W)*(abv+2*W) / (float)SEA_LEVEL);
+
+        // todo handle below sea level terrain (just noting everywhere it needs done)
+        return Math.max((int)Math.floor(WT)+SEA_LEVEL, SEA_LEVEL);
+    }
+
+
     //////////////////////////////
     //      SERIALIZATION       //
     //////////////////////////////
@@ -681,3 +738,25 @@ public class WaterTableCapability implements IWaterTableCap {
         });
     }
 }
+
+// Obsolete for reference
+
+//    private float averagedDownfall(int x, int z, ISeedReader world) {
+//        float sum = 0f;
+//        for (int ix = -2; ix <= 2; ix+=2) {
+//            for (int iz = -2; iz <= 2; iz+=2) {
+//                sum += getChunkDownfall(x+(ix*16), z+(iz*16), world) * UtilMethods.gaussKernel3[(ix+2)/2][(iz+2)/2];
+//            }
+//        }
+//        return sum;
+//    }
+//
+//    private float averagedTemp(int x, int z, ISeedReader world) {
+//        float sum = 0f;
+//        for (int ix = -2; ix <= 2; ix+=2) {
+//            for (int iz = -2; iz <= 2; iz+=2) {
+//                sum += getChunkTemp(x+(ix*16), z+(iz*16), world) * UtilMethods.gaussKernel3[(ix+2)/2][(iz+2)/2];
+//            }
+//        }
+//        return sum;
+//    }

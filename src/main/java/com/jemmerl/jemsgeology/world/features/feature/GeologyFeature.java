@@ -8,6 +8,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
+import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
@@ -24,6 +25,8 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
 
     @Override
     public boolean generate(ISeedReader seedReader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
+
+
 
 //        if (!NoiseInit.configured) {
 //            NoiseInit.init(seedReader.getSeed());
