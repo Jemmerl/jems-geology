@@ -144,6 +144,7 @@ public class JemsGeology
                 //noinspection deprecation
                 height = wtCap.WG_consumeChunkHeight(event.getObject().getPos());
             }
+//            System.out.println("Added to: " + event.getObject().getPos());
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "chunk_height"), new ChunkHeightCapProvider(height));
         }
     }

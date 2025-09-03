@@ -11,6 +11,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -134,9 +135,9 @@ public class UtilMethods {
     //        return (a % b + b) % b;
     //    }
 
-    ////////////////////////
-    // BLOCK-TYPE METHODS //
-    ////////////////////////
+    /////////////////////////////
+    // DIRECTION-BASED METHODS //
+    /////////////////////////////
 
 //    // Copy blockstate property from one similar block to another
 //    public static <T extends Comparable<T>> BlockState copyProperty(BlockState from, BlockState to, Property<T> property) {
@@ -205,5 +206,21 @@ public class UtilMethods {
                 return pos;
         }
     }
+
+    public static ChunkPos adjChunkPos(ChunkPos originPos, Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return new ChunkPos(originPos.x, originPos.z-1);
+            case SOUTH:
+                return new ChunkPos(originPos.x, originPos.z+1);
+            case EAST:
+                return new ChunkPos(originPos.x+1, originPos.z);
+            case WEST:
+                return new ChunkPos(originPos.x-1, originPos.z);
+            default:
+        }
+        return originPos;
+    }
+
 
 }

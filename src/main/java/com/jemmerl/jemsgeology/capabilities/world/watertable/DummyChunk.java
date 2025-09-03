@@ -20,11 +20,11 @@ public class DummyChunk extends ChunkPrimer {
 
     private static final BlockState RHYOLITE = ModBlocks.GEO_BLOCKS.get(GeoType.GRAY_RHYOLITE).getBaseState();
 
-    private final ChunkHeightmap heightmap;
+//    private final ChunkHeightmap heightmap;
 
-    public DummyChunk(ChunkPos pos, ChunkHeightmap heightmap) {
+    public DummyChunk(ChunkPos pos/*, ChunkHeightmap heightmap*/) {
         super(pos, UpgradeData.EMPTY);
-        this.heightmap = heightmap;
+//        this.heightmap = heightmap;
     }
 
     // TODO I do not know if this is important or not. I do not think so.
@@ -38,17 +38,21 @@ public class DummyChunk extends ChunkPrimer {
 
     @Override
     public BlockState getBlockState(BlockPos pos) {
-        if (pos.getY() >= heightmap.getHeight(pos.getX() & 0xf, pos.getZ() & 0xf)) {
-            return Blocks.AIR.getDefaultState();
-        } else {
-            return RHYOLITE;
-        }
+        return Blocks.AIR.getDefaultState();
+
+//        if (pos.getY() >= heightmap.getHeight(pos.getX() & 0xf, pos.getZ() & 0xf)) {
+//            return Blocks.AIR.getDefaultState();
+//        } else {
+//            return RHYOLITE;
+//        }
+
 //        return super.getBlockState(pos);
     }
 
     @Override
     public int getTopBlockY(Heightmap.Type type, int x, int z) {
-        return heightmap.getHeight(x & 0xf, z & 0xf);
+        return 63;
+//        return heightmap.getHeight(x & 0xf, z & 0xf);
     }
 
     // Chunk Primer

@@ -19,6 +19,17 @@ import java.util.Random;
 
 public class GeologyFeature extends Feature<NoFeatureConfig> {
 
+    // TODO looky at this cool array flattener! McJty
+    //     public int getHeight(int x, int z) {
+    //        return heightmap[z*16+x] & 0xff;
+    //    }
+
+    // TODO McJty's fast rand. To find later. I know I will use it, as I have been using my own implement.
+//    private static int fastrand() {
+//        gSeed = (214013 * gSeed + 2531011);
+//        return (gSeed >> 16) & 0x7FFF;
+//    }
+
     public GeologyFeature(Codec<NoFeatureConfig> codec) {
         super(codec);
     }

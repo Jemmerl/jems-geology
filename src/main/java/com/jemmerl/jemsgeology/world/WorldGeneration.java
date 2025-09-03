@@ -3,6 +3,8 @@ package com.jemmerl.jemsgeology.world;
 import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.codec.DatapackCodec;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
@@ -57,14 +59,16 @@ public class WorldGeneration {
     @SubscribeEvent(priority = EventPriority.NORMAL)
     public static void processWorldGenFeatures(final BiomeLoadingEvent biomeLoadingEvent) {
         if (biomeLoadingEvent.getName() != null) {
-
             switch (biomeLoadingEvent.getCategory()) {
                 case NETHER:
                 case THEEND:
-                case NONE:
                     return;
+                case NONE:
+                    // Stony shores is a "NONE" category biome because why not.
+                    if (biomeLoadingEvent.getName().getPath().equals("the_void")) return;
                 default:
             }
+
 
             // TODO remove caves for everywhere except limestones? how. Maybe copy and re-implement cave gen classes
             // VanillaFeatureRemovers.processRawGeneration(event)

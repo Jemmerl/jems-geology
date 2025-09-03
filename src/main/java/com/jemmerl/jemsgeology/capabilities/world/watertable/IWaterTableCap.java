@@ -11,7 +11,11 @@ import net.minecraftforge.common.util.INBTSerializable;
 public interface IWaterTableCap extends INBTSerializable<CompoundNBT> {
     float getWTHeight(int x, int z, World world);
 
+    void updateWTMap(World world);
 
+    int reqInjectWater(ChunkPos centerChunkPos, World world, int amount, boolean cacheUnloaded);
+
+    int reqPumpWater(ChunkPos centerChunkPos, World world, int amount, boolean cacheUnloaded);
 
 
 //    int getWaterTableHeight(BlockPos pos);

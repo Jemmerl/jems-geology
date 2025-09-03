@@ -3,13 +3,12 @@ package com.jemmerl.jemsgeology.capabilities.world.watertable;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapability;
 import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.IChunkHeightCap;
-import com.jemmerl.jemsgeology.util.Pair;
 import com.jemmerl.jemsgeology.util.UtilMethods;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.impl.ExecuteCommand;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -28,6 +27,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
 import javax.annotation.Nonnull;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 // Reference material:
@@ -52,7 +52,7 @@ https://www.mdpi.com/2073-4441/15/21/3865
     // todo worth it to calculate highest block? that way a 60 block aquifer in a mined out chunk isnt a thing?
     //  maybe not. since can toggle if water pops out during block breaking. otherwise just let ppl cheese. no harm.
 
-
+    // where WT flows out of walls, moss and lichen!
 
  */
 
@@ -150,6 +150,10 @@ https://www.mdpi.com/2073-4441/15/21/3865
 
 public class WaterTableCapability implements IWaterTableCap {
 
+    // HASHCODE EQUALS????????
+
+    private static final int MAX_FLOW = Integer.MAX_VALUE;
+
     @CapabilityInject(IWaterTableCap.class)
     public static final Capability<IWaterTableCap> WATER_TABLE_CAPABILITY = null;
 
@@ -191,27 +195,47 @@ public class WaterTableCapability implements IWaterTableCap {
     // TODO have methods to query injects/pump amounts, based on height (pressure) and all that. Later.
     //  for now, keep basic.
 
+    // I think cacheUnload was about if I should force load a unloaded chunk that got reqested water or something?
+
     // Adds 1 charge's worth of mB.
-    public int reqInjectWater() {
+    public int reqInjectWater(ChunkPos chunkPos, World world, int amount, boolean cacheUnloaded) {
+        cache5x5(chunkPos, world, cacheUnloaded);
+        WTDataCache wtData = getChunkWTDataCache(chunkPos, world);
+        wtData.setCurrHeight(wtData.getCurrHeight() + amount);
         return 0;
     }
 
     // Returns 1 charge's worth of mB if below water level.
-    public int reqPumpWater() {
+    public int reqPumpWater(ChunkPos chunkPos, World world, int amount, boolean cacheUnloaded) {
+        cache5x5(chunkPos, world, cacheUnloaded);
+        WTDataCache wtData = getChunkWTDataCache(chunkPos, world);
+        wtData.setCurrHeight(Math.max((wtData.getCurrHeight() - amount), 0));
         return 0;
     }
 
-
-    // then how it gets updated
-    public void updateDeltaMap() {
-        // make new empty map/table of Changes
-        // loop over every Stored delta. process/spread to nearby as appropriate and store in Changes
-        //  -> need to define cut off, else eventually .0001 block deltas will be spread infinitely
-        //  -> if chunk accessed (either to check or change) from Stored, then reset purge counter
-        // merge Changes into Stored
-        // purge any Stored chunks with zero delta and zero count. Ideally, all with 0 count SHOULD have 0 delta,
-        //     -> need to handle that to be sure, but also should try to prevent that issue.
+    // Used when modifying the water table.
+    // TODO this could be a lot of calls with frequent modifications
+    //  optimize or find a way to call less often.
+    private void cache5x5(ChunkPos centerPos, World world, boolean cacheUnloaded) {
+        for (int ix = -2; ix < 3; ix++) {
+            for (int iz = -2; iz < 3; iz++) {
+                if ((ix == 0) && (iz == 0)) continue;
+                ChunkPos checkChunkPos = new ChunkPos(centerPos.x+ix, centerPos.z+iz);
+                WTDataCache wtData = chunkWTData.get(checkChunkPos);
+                if (wtData != null) {
+                    wtData.resetCount();
+                    continue;
+                }
+                System.out.println(checkChunkPos + ", " + world.chunkExists(checkChunkPos.x, checkChunkPos.z));
+                if (cacheUnloaded || world.chunkExists(checkChunkPos.x, checkChunkPos.z)) {
+                    calcChunkWTHeight(checkChunkPos, world);
+                }
+            }
+        }
+        chunkWTData.forEach((trhis, th) -> System.out.println(trhis + ": " + th.getCurrHeight()));
     }
+
+
 
     // TODO FLOAT OR INT?? ROUND BEFORE RETURN??? HOW MANY WATER BLOCKS PER LEVEL ???
     //  -> FLOOR in the direction of sea level?
@@ -232,6 +256,223 @@ public class WaterTableCapability implements IWaterTableCap {
 
         return getBlockWTHeight(x, z, world);
     }
+
+
+    ////////////////////////////////////
+    //      WATER TABLE UPDATING      //
+    ////////////////////////////////////
+
+    private static void printMap(AbstractMap<ChunkPos, WTDataCache> map) {
+        int[][] temp = new int[11][11];
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[0].length; j++) {
+                temp[i][j] = Integer.MIN_VALUE;
+            }
+        }
+
+//        System.out.println("ALL CACHED:");
+        map.forEach(((chunkPos, dataCache) -> {
+//            System.out.println("Pos: " + chunkPos + ", val: " + dataCache.getCurrHeight());
+
+            if (((chunkPos.x+5) < 0) || ((chunkPos.x+5) >= temp.length)) return;
+            if (((chunkPos.z+5) < 0) || ((chunkPos.z+5) >= temp[0].length)) return;
+
+            temp[chunkPos.x+5][chunkPos.z+5] = dataCache.delta();
+        }));
+//        System.out.println("END CACHED");
+
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < temp[0].length; j++) {
+                int tempint = temp[i][j];
+                if (tempint == Integer.MIN_VALUE) {
+                    System.out.print(" empty");
+                    continue;
+                }
+                System.out.printf("%3d%3s", temp[i][j], "");
+            }
+            System.out.println();
+        }
+    }
+
+    // Cache biome too? Not until bottleneck found.
+    @Override
+    public void updateWTMap(World world) {
+        System.out.println("BEFORE: ");
+        printMap(chunkWTData);
+        ConcurrentHashMap<ChunkPos, Integer> wtDeltas = new ConcurrentHashMap<>();
+        ArrayList<ChunkPos> removeList = new ArrayList<>();
+
+        //todo concurrent modification issue
+        // potential sol? deep copy of keyset.
+
+        // Calculate deltas
+        for (ChunkPos currPos : chunkWTData.keySet()) {
+            WTDataCache currWTData = chunkWTData.get(currPos);
+
+            // UP, RIGHT, DOWN, LEFT
+            ChunkPos[] adjPos = new ChunkPos[]{
+                    UtilMethods.adjChunkPos(currPos, Direction.NORTH),
+                    UtilMethods.adjChunkPos(currPos, Direction.EAST),
+                    UtilMethods.adjChunkPos(currPos, Direction.SOUTH),
+                    UtilMethods.adjChunkPos(currPos, Direction.WEST)
+            };
+
+            // TODO algorithm needs to be reworked to be okay with (curr-base), not curr.
+
+            int currRelVal = currWTData.delta();
+            int[] adjHeight = new int[]{
+                    getChunkWTDataCache(adjPos[0], world).delta(),
+                    getChunkWTDataCache(adjPos[1], world).delta(),
+                    getChunkWTDataCache(adjPos[2], world).delta(),
+                    getChunkWTDataCache(adjPos[3], world).delta()
+            };
+
+            // Check and mark to purge unused cached chunks
+            if ((currRelVal == 0) && (adjHeight[0] == 0) && (adjHeight[1] == 0) && (adjHeight[2] == 0) && (adjHeight[3] == 0)) {
+                if (currWTData.decCount() < 1) removeList.add(currPos);
+                continue;
+            }
+
+            int[] adjDiff = new int[]{
+                    getAdjRelDiff(adjHeight[0], currRelVal),
+                    getAdjRelDiff(adjHeight[1], currRelVal),
+                    getAdjRelDiff(adjHeight[2], currRelVal),
+                    getAdjRelDiff(adjHeight[3], currRelVal)
+            };
+            int totalDiff = Arrays.stream(adjDiff).sum();
+
+            int[] contributions = new int[]{
+                    getContribution(adjDiff[0], totalDiff),
+                    getContribution(adjDiff[1], totalDiff),
+                    getContribution(adjDiff[2], totalDiff),
+                    getContribution(adjDiff[3], totalDiff)
+            };
+            int sumLoss = Arrays.stream(contributions).sum();
+
+            wtDeltas.merge(currPos, -sumLoss, Integer::sum);
+            wtDeltas.merge(adjPos[0], contributions[0], Integer::sum);
+            wtDeltas.merge(adjPos[1], contributions[1], Integer::sum);
+            wtDeltas.merge(adjPos[2], contributions[2], Integer::sum);
+            wtDeltas.merge(adjPos[3], contributions[3], Integer::sum);
+        }
+
+        // Apply deltas to cache
+        for (Map.Entry<ChunkPos, Integer> deltaEntry : wtDeltas.entrySet()) {
+            // If the chunk was not previously cached, this method will do so. But it should have been already
+            // handled during the delta calculation.
+            WTDataCache wtData = getChunkWTDataCache(deltaEntry.getKey(), world);
+            int updatedWTHeight = wtData.getCurrHeight() + deltaEntry.getValue();
+
+            updatedWTHeight = Math.min((updatedWTHeight+getChunkRecharge(deltaEntry.getKey())), wtData.getBaseHeight());
+            wtData.setCurrHeight(updatedWTHeight);
+        }
+
+        // Purge unused chunks
+        for (ChunkPos removePos: removeList) {
+            if (chunkWTData.get(removePos).delta() != 0) {
+                JemsGeology.LOGGER.warn("Tried to remove a modified watertable cached chunk from world: {} at chunk: {}", world, removePos);
+                continue;
+            }
+            chunkWTData.remove(removePos);
+        }
+
+        System.out.println("AFTER: ");
+        printMap(chunkWTData);
+    }
+
+    /*
+    [11:56:24] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:292]: BEFORE:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+[11:56:24] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:371]: AFTER:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+[11:56:24] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.events.ForgeBusEvents:updateWTDelta:29]: Ran for: 2 ms
+[11:56:54] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:292]: BEFORE:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty-40    empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+[11:56:54] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:371]: AFTER:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty-35    empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+[11:56:54] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.events.ForgeBusEvents:updateWTDelta:29]: Ran for: 14 ms
+[11:57:24] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:292]: BEFORE:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty-63    empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+[11:57:24] [Server thread/INFO] [STDOUT/]: [com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability:updateWTMap:371]: AFTER:
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty-11    empty empty empty empty empty empty empty
+ empty empty-11    empty-11    empty empty empty empty empty empty
+ empty empty empty-11    empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+ empty empty empty empty empty empty empty empty empty empty empty
+     */
+
+
+    // Used for checking amount to flow-out of a chunk, so only one difference direction is counted.
+    private static int getAdjRelDiff(int adj, int curr) {
+        return Math.max((curr-adj), 0);
+    }
+
+    private static int getContribution(int adjDiff, float totalDiff) {
+        // (adjDiff / totalDiff) = contributionPercent
+        return Math.min(Math.round(adjDiff * (adjDiff / totalDiff) * .25f), MAX_FLOW);
+    }
+
+    private static int getChunkRecharge(ChunkPos chunkPos) {
+        return 5;
+    }
+
+
 
 
     //////////////////////////////
@@ -261,10 +502,26 @@ public class WaterTableCapability implements IWaterTableCap {
         return UtilMethods.bilinearLerp(x, z, x1, x2, z1, z2, Q11, Q21, Q12, Q22);
     }
 
-    // Combine raw chunk WT with world-stored delta
+
+    // Get cached WT or calculate the base chunk WT height
     private int getChunkWTHeight(int cX, int cZ, World world) {
-        WTDataCache data = chunkWTData.getOrDefault(new ChunkPos(cX,cZ),null);
-        return (data != null) ? data.getCurrHeight() : getRawChunkWTHeight(cX, cZ, world);
+        return getChunkWTHeight(new ChunkPos(cX, cZ), world);
+    }
+
+    private int getChunkWTHeight(ChunkPos chunkPos, World world) {
+        WTDataCache data = chunkWTData.get(chunkPos);
+        return (data != null) ? data.getCurrHeight() : calcChunkWTHeight(chunkPos, world);
+    }
+
+    private WTDataCache getChunkWTDataCache(ChunkPos chunkPos, World world) {
+        WTDataCache data = chunkWTData.get(chunkPos);
+        if (data != null) {
+            return data;
+        }
+
+        // If not present, then calculate and try again. Shouldn't ever return null.
+        calcChunkWTHeight(chunkPos, world);
+        return chunkWTData.get(chunkPos);
     }
 
 
@@ -274,21 +531,21 @@ public class WaterTableCapability implements IWaterTableCap {
     // Except maybe do some random tick shenanigans where if ticked block below WT, then remove?
     // Maybe make custom fresh water to do that? Maybe that should be saved for a future addon mod.
 
-    // Returns the center WT height raw value; called if not cached
+    // Returns the center WT height raw value; check if the data is cached before calling.
     // TODO need to enable to handle terrain that is below sea level.
-    private int getRawChunkWTHeight(int cX, int cZ, World world) {
-        int x = (cX << 4) + 7;
-        int z = (cZ << 4) + 7;
+    private int calcChunkWTHeight(ChunkPos chunkPos, World world) {
+        int x = (chunkPos.x << 4) + 7;
+        int z = (chunkPos.z << 4) + 7;
         Biome.Category category = world.getBiome(new BlockPos(x, SEA_LEVEL, z)).getCategory();
         if (category.equals(Biome.Category.OCEAN) || /*todo (Config.stuff && */category.equals(Biome.Category.RIVER)) {
-            chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(SEA_LEVEL));
+            chunkWTData.put(chunkPos, new WTDataCache(SEA_LEVEL));
             return SEA_LEVEL;
         }
 
-        int chunkHeight = getChunkHeight(cX, cZ, world);
+        int chunkHeight = getChunkHeight(chunkPos.x, chunkPos.z, world);
         int abv = chunkHeight - SEA_LEVEL;
         if (abv <= 0) {
-            chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(SEA_LEVEL));
+            chunkWTData.put(chunkPos, new WTDataCache(SEA_LEVEL));
             return SEA_LEVEL;
         }
 
@@ -299,12 +556,12 @@ public class WaterTableCapability implements IWaterTableCap {
         float WT = (abv+3*W) - C*(float)Math.cbrt((abv+2*W)*(abv+2*W) / (float)SEA_LEVEL);
 
         int rawWTreturn = Math.max((int)Math.floor(WT)+SEA_LEVEL, SEA_LEVEL);
-        chunkWTData.put(new ChunkPos(cX, cZ), new WTDataCache(rawWTreturn));
+        chunkWTData.put(chunkPos, new WTDataCache(rawWTreturn));
         return rawWTreturn;
     }
 
     // Assumes normalized biome properties to [0,1]
-    // Effectively returns (2f * averagedDownfall(x, z, world) + 2f * averagedTemp(x, z, world)), see obsolete below.
+    // Effectively returns (2f * averagedDownfall(x, z, world) + 2f * averagedTemp(x, z, world)), see obsolete method.
     // Final biome factor ranges between 0 and 4.
     private float biomeFactor(BlockPos centerPos, IWorld world) {
         float sumAvg = 0f;
@@ -319,11 +576,13 @@ public class WaterTableCapability implements IWaterTableCap {
     }
 
     // 0 for least rainfall, 1 for most --> does not need remapping, vanilla returns 0 to 1
+    // If other mods add biomes that break this pattern, we will have an ISSUE.
     private float getBiomeDownfall(Biome biome) {
         return biome.getDownfall();
     }
 
     // 0 for lowest temp (-1), 1 for highest (2) --> needs remapping, vanilla returns -1 to 2
+    // If other mods add biomes that break this pattern, we will have an ISSUE.
     private float getBiomeTemp(Biome biome) {
         return (biome.getTemperature() + 1) / 3f;
     }
@@ -342,7 +601,7 @@ public class WaterTableCapability implements IWaterTableCap {
         IChunkHeightCap chunkHeightCap = null;
 
         if (world.chunkExists(cX, cZ)) {
-            chunkHeightCap = world.getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY)
+            chunkHeightCap = world.getChunk(cX, cZ).getCapability(ChunkHeightCapability.CHUNK_HEIGHT_CAPABILITY)
                     .orElseThrow(() -> new RuntimeException("JemsGeo chunk height capability is null in \"Water Table\" capability..."));
 
             int capHeight = chunkHeightCap.getChunkHeight();
@@ -358,7 +617,7 @@ public class WaterTableCapability implements IWaterTableCap {
 
         // If chunk is not generated + loaded, or it is but the height was never stored in its capability:
         if (genFlag) {
-            ChunkHeightmap heightmap = new ChunkHeightmap();
+//            ChunkHeightmap heightmap = new ChunkHeightmap();
 
             boolean doNoiseVariant = false;
             AbstractChunkProvider chunkProvider = world.getChunkProvider();
@@ -370,12 +629,13 @@ public class WaterTableCapability implements IWaterTableCap {
             }
 
             if (doNoiseVariant) {
-                makeDummyChunkNoise(cX, cZ, world, heightmap);
+                chunkHeight = makeDummyChunkNoise(cX, cZ, world/*, heightmap*/);
             } else {
-                makeDummyChunk(heightmap);
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! This should not have happened... UH-OH");
+//                chunkHeight = makeDummyChunk(/*heightmap*/);
+                chunkHeight = SEA_LEVEL;
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! This should not have happened... UH-OH"); //todo
             }
-            chunkHeight =  heightmap.getMaximumHeight();
+//            chunkHeight = heightmap.getMaximumHeight();
         }
 
         //noinspection ConstantConditions
@@ -387,31 +647,34 @@ public class WaterTableCapability implements IWaterTableCap {
 
     // As far as I know this should never be called, but exists just in case.
     // TODO If I decide I do not need "heightmap" stuff and only want the center chunk value, this can be removed.
-    private void makeDummyChunk(ChunkHeightmap heightmap) {
-        // This is for now the best we can do given that we don't know the type of terrain generator
-        for (int x = 0 ; x < 16 ; x++) {
-            for (int z = 0 ; z < 16 ; z++) {
-                heightmap.update(x, SEA_LEVEL, z, Blocks.STONE.getDefaultState());
-            }
-        }
-    }
+//    private void makeDummyChunk(/*ChunkHeightmap heightmap*/) {
+//        // This is for now the best we can do given that we don't know the type of terrain generator
+//        for (int x = 0 ; x < 16 ; x++) {
+//            for (int z = 0 ; z < 16 ; z++) {
+//                heightmap.update(x, SEA_LEVEL, z, Blocks.STONE.getDefaultState());
+//            }
+//        }
+//    }
 
-    private void makeDummyChunkNoise(int chunkX, int chunkZ, World world, ChunkHeightmap heightmap) {
-        DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ), heightmap);
+    private int makeDummyChunkNoise(int chunkX, int chunkZ, World world/*, ChunkHeightmap heightmap*/) {
+        DummyChunk primer = new DummyChunk(new ChunkPos(chunkX, chunkZ)/*, heightmap*/);
         AbstractChunkProvider chunkProvider = world.getChunkProvider();
         if (chunkProvider instanceof ServerChunkProvider) {
             ChunkGenerator generator = ((ServerChunkProvider) chunkProvider).getChunkGenerator();
 
             // Sets the biomes in the chunk?
             generator.func_242706_a(world.func_241828_r().getRegistry(Registry.BIOME_KEY), primer);
-            updateHeightmap((NoiseChunkGenerator) generator, primer, heightmap);
+            return updateHeightmap((NoiseChunkGenerator) generator, primer/*, heightmap*/);
 //            generator.generateSurface((WorldGenRegion) region, primer);
         }
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!! This should not have happened (2)... UH-OH"); //todo
+        return SEA_LEVEL;
     }
 
 
     // Seems to be using part of NoiseChunkGenerator#func_230352_b_, also known as fillFromNoise.
-    public static void updateHeightmap(NoiseChunkGenerator chunkGenerator, IChunk chunk, ChunkHeightmap heightmap) {
+    public static int updateHeightmap(NoiseChunkGenerator chunkGenerator, IChunk chunk/*, ChunkHeightmap heightmap*/) {
+        int centerMaxHeight = Integer.MIN_VALUE;
         ChunkPos chunkpos = chunk.getPos();
         int chunkX = chunkpos.x;
         int chunkZ = chunkpos.z;
@@ -446,7 +709,7 @@ public class WaterTableCapability implements IWaterTableCap {
                     for(int l1 = chunkGenerator.verticalNoiseGranularity - 1; l1 >= 0; --l1) {
                         int yy = ny * chunkGenerator.verticalNoiseGranularity + l1;
                         int yyy = yy & 15;
-                        int chunkIndex = yy >> 4;
+//                        int chunkIndex = yy >> 4;
 
                         double d8 = (double)l1 / (double)chunkGenerator.verticalNoiseGranularity;
                         double d9 = MathHelper.lerp(d8, d0, d4);
@@ -457,6 +720,7 @@ public class WaterTableCapability implements IWaterTableCap {
                         for(int l2 = 0; l2 < chunkGenerator.horizontalNoiseGranularity; ++l2) {
                             int xx = cx + nx * chunkGenerator.horizontalNoiseGranularity + l2;
                             int xxx = xx & 15;
+                            if (xxx != 7) continue; // CUSTOM STUFF RIGHT HERE
                             double d13 = (double)l2 / (double)chunkGenerator.horizontalNoiseGranularity;
                             double d14 = MathHelper.lerp(d13, d9, d10);
                             double d15 = MathHelper.lerp(d13, d11, d12);
@@ -464,25 +728,27 @@ public class WaterTableCapability implements IWaterTableCap {
                             for(int k3 = 0; k3 < chunkGenerator.horizontalNoiseGranularity; ++k3) {
                                 int zz = cz + nz * chunkGenerator.horizontalNoiseGranularity + k3;
                                 int zzz = zz & 15;
+                                if (zzz != 7) continue; // CUSTOM STUFF RIGHT HERE
+
                                 double d16 = (double)k3 / (double)chunkGenerator.horizontalNoiseGranularity;
                                 double d17 = MathHelper.lerp(d16, d14, d15);
                                 double d18 = MathHelper.clamp(d17 / 200.0D, -1.0D, 1.0D);
 
                                 BlockState blockstate = chunkGenerator.func_236086_a_(d18, yy);
-                                if (blockstate != Blocks.AIR.getDefaultState()) {
-                                    heightmap.update(xxx, (chunkIndex << 4) + yyy, zzz, blockstate);
-                                }
+                                if (blockstate == Blocks.AIR.getDefaultState()) continue;
+                                if (yyy > centerMaxHeight) centerMaxHeight = yyy; // CUSTOM STUFF RIGHT HERE
+//                                    heightmap.update(xxx, (chunkIndex << 4) + yyy, zzz, blockstate);
                             }
                         }
                     }
                 }
             }
-
             double[][] adouble1 = noise[0];
             noise[0] = noise[1];
             noise[1] = adouble1;
         }
 
+        return centerMaxHeight;
     }
 
 

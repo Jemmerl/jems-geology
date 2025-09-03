@@ -2,6 +2,9 @@ package com.jemmerl.jemsgeology.capabilities.world.watertable;
 
 public class WTDataCache {
     private static final int INIT_COUNT = 5;
+    // TODO this will depend on how frequently the WTs are updated.
+    //  Updated every hour? Then a count of 3 is significant. Updated every minute? 10 might not be enough.
+    //  Will need play-testing to determine optimal value!
 
     // maybe private so can force min/max caps?
     private final int baseHeight;
@@ -23,22 +26,30 @@ public class WTDataCache {
         this.count = count;
     }
 
-    public void setCurrHeight(int currHeight) {
-        this.currHeight = currHeight;
+    public void setCurrHeight(int newCurrHeight) {
+        currHeight = newCurrHeight;
+    }
+
+    public void addToCurrHeight(int delta) {
+        currHeight += delta;
     }
 
     public int getBaseHeight() {
-        resetCount();
         return baseHeight;
     }
 
     public int getCurrHeight() {
-        resetCount();
         return currHeight;
     }
 
     public int delta() {
-        return currHeight - baseHeight;
+        int delta = currHeight - baseHeight;
+        if (delta != 0) resetCount();
+        return delta;
+    }
+
+    public int decCount() {
+        return (count -= 1);
     }
 
     public void resetCount() {
