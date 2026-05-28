@@ -20,6 +20,7 @@ public class GeoOreRegistryAPI {
     public static final Map<String, OreType> ORE_TYPES = Collections.unmodifiableMap(REGISTERED);
 
     //TODO itll be easy to remove this and rework ores to not use an API if I decide people dont get opinions.
+    // edit: "easy" he says
 
     // Todo add override boolean to replace conflict instead of throw warning?
     public static boolean registerOreType(OreType oreType) {
@@ -49,7 +50,7 @@ public class GeoOreRegistryAPI {
     public static Map<String, OreType> getRegisteredOres() {
         // DEBUG
         if (ServerConfig.DEBUG_ORE_REGISTRY.get()) {
-            JemsGeology.LOGGER.info("Retrieved " + REGISTERED.size() + " registered ores");
+            JemsGeology.LOGGER.info("Retrieved " + REGISTERED.size() + " registered ores.");
         }
         return ORE_TYPES;
     }

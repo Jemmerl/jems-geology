@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "rocks",
+  "ingredients": [
+    {
+      "item": "jemsgeo:rocksalt_cobbles"
+    }
+  ],
+  "result": {
+    "item": "jemsgeo:rocksalt_ore",
+    "count": 4
+  }
+}

@@ -1,13 +1,14 @@
 package com.jemmerl.jemsgeology.init;
 
-import com.google.common.collect.ImmutableMap;
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.blocks.*;
+import com.jemmerl.jemsgeology.geology.geos.props.Hardness;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -45,11 +46,23 @@ public class ModBlocks {
     //      BLOCK REGISTRATION      //
     //////////////////////////////////
 
-    public static final LinkedHashMap<GeoType, GeoRegistry> GEO_BLOCKS = buildGeoBlocks();
-    private static LinkedHashMap<GeoType, GeoRegistry> buildGeoBlocks() {
-        LinkedHashMap<GeoType, GeoRegistry> geoBlocks = new LinkedHashMap<>();
+    public static final LinkedHashMap<GeoType, BaseGeoRegistry> GEO_BLOCKS = buildGeoBlocks();
+    private static LinkedHashMap<GeoType, BaseGeoRegistry> buildGeoBlocks() {
+        LinkedHashMap<GeoType, BaseGeoRegistry> geoBlocks = new LinkedHashMap<>();
         for (GeoType geoType : GeoType.values()) {
-            geoBlocks.put(geoType, new GeoRegistry(geoType));
+            Hardness hardness = geoType.getHardness();
+            if (hardness == Hardness.HARD) {
+                geoBlocks.put(geoType, new HardStoneGeoRegistry(geoType));
+                continue;
+            } else if (hardness == Hardness.SOFT) {
+                if (geoType.getGeoLoot().hasPresetDrop()) {
+                    geoBlocks.put(geoType, new SoftStoneGeoRegistry(geoType, geoType.getGeoLoot().getPresetDrop()));
+                } else {
+                    geoBlocks.put(geoType, new SoftStoneGeoRegistry(geoType));
+                }
+                continue;
+            }
+            geoBlocks.put(geoType, new BaseGeoRegistry(geoType));
         }
         return geoBlocks;
     }

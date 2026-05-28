@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.init;
 
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.geology.OreItemRegistry;
 import com.jemmerl.jemsgeology.items.QuarryItem;
@@ -43,10 +43,10 @@ public class ModItems {
     public static final RegistryObject<Item> ROCKSALT = registerOreItem("rocksalt");
     public static final RegistryObject<Item> GYPSUM = registerOreItem("gypsum");
     public static final RegistryObject<Item> BORAX = registerOreItem("borax");
-    public static final RegistryObject<Item> LIGNITE_COAL = registerOreItem("lignite_coal_ore");
-    public static final RegistryObject<Item> SUBBITUMINOUS_COAL = registerOreItem("sub-bituminous_coal_ore");
-    public static final RegistryObject<Item> BITUMINOUS_COAL = registerOreItem("bituminous_coal_ore");
-    public static final RegistryObject<Item> ANTHRACITE_COAL = registerOreItem("anthracite_coal_ore");
+    public static final RegistryObject<Item> LIGNITE_COAL_ORE = registerOreItem("lignite_coal_ore");
+    public static final RegistryObject<Item> SUBBITUMINOUS_COAL_ORE = registerOreItem("sub-bituminous_coal_ore");
+    public static final RegistryObject<Item> BITUMINOUS_COAL_ORE = registerOreItem("bituminous_coal_ore");
+    public static final RegistryObject<Item> ANTHRACITE_COAL_ORE = registerOreItem("anthracite_coal_ore");
 
     public static final LinkedHashMap<OreType, OreItemRegistry> ORE_ITEMS = buildOreRegistries();
     private static LinkedHashMap<OreType, OreItemRegistry> buildOreRegistries() {

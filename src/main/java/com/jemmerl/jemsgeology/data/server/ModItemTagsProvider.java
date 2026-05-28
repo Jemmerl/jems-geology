@@ -2,7 +2,8 @@ package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModTags;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
@@ -29,9 +30,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 //        Builder<Item> tagBuilderGoodOre = this.getOrCreateBuilder(ModTags.Items.JEMSGEO_GOOD_ORE);
 //        Builder<Item> tagBuilderAllOre = this.getOrCreateBuilder(ModTags.Items.JEMSGEO_ALL_ORE);
 
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            if (geoRegistry.hasCobble()) {
-                tagBuilderGeoRocks.add(geoRegistry.getRockItem());
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+            if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                tagBuilderGeoRocks.add(((SoftStoneGeoRegistry) geoRegistry).getRockItem());
             }
         }
 

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/rocksalt_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/rocksalt_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/rocksalt_stone"
+    }
+  }
+}

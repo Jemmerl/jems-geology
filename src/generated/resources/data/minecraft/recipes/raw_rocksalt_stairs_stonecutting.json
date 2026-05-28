@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:rocksalt_stone"
+  },
+  "result": "jemsgeo:rocksalt_stairs",
+  "count": 1
+}

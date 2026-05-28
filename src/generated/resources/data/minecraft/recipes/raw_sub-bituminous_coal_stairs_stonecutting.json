@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:sub-bituminous_coal_stone"
+  },
+  "result": "jemsgeo:sub-bituminous_coal_stairs",
+  "count": 1
+}

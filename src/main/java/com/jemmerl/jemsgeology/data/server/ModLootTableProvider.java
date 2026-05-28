@@ -1,15 +1,16 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.google.common.collect.ImmutableList;
-import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
 import com.jemmerl.jemsgeology.data.DataGenerators;
 import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
@@ -28,7 +29,6 @@ import net.minecraft.loot.functions.SetCount;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
@@ -64,8 +64,7 @@ public class ModLootTableProvider extends LootTableProvider {
 
         @Override
         protected void addTables() {
-            for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
-                boolean hasCobble = geoRegistry.hasCobble();
+            for (BaseGeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
 
                 registerStoneLootTables(geoRegistry);
 
@@ -76,44 +75,55 @@ public class ModLootTableProvider extends LootTableProvider {
 //                    // Loot Tables for base stone/stone ores
 //
 //                }
+//
 
-                if (hasCobble) {
-                    registerCobblesLootTable(geoRegistry);
-                    registerDropSelfLootTable(geoRegistry.getCobblestone());
-                    registerLootTable(geoRegistry.getCobbleSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getCobbleStairs());
-                    registerDropSelfLootTable(geoRegistry.getCobbleWall());
+                if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                    SoftStoneGeoRegistry softStoneGeoRegistry = (SoftStoneGeoRegistry) geoRegistry;
 
-                    registerDropSelfLootTable(geoRegistry.getMossyCobblestone());
-                    registerLootTable(geoRegistry.getMossyCobbleSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getMossyCobbleStairs());
-                    registerDropSelfLootTable(geoRegistry.getMossyCobbleWall());
+                    registerCobblesLootTable(softStoneGeoRegistry);
+                    registerLootTable(softStoneGeoRegistry.getRawSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(softStoneGeoRegistry.getRawStairs());
+                } else {
+                    continue;
+                }
 
-                    registerLootTable(geoRegistry.getRawSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getRawStairs());
-                    registerDropSelfLootTable(geoRegistry.getRawWall());
+                if (geoRegistry instanceof HardStoneGeoRegistry) {
+                    HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
 
-                    registerDropSelfLootTable(geoRegistry.getPolishedStone());
-                    registerLootTable(geoRegistry.getPolishedSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getPolishedStairs());
-                    registerDropSelfLootTable(geoRegistry.getPolishedWall());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getCobblestone());
+                    registerLootTable(hardStoneGeoRegistry.getCobbleSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getCobbleStairs());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getCobbleWall());
 
-                    registerDropSelfLootTable(geoRegistry.getBricks());
-                    registerLootTable(geoRegistry.getBrickSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getBrickStairs());
-                    registerDropSelfLootTable(geoRegistry.getBrickWall());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyCobblestone());
+                    registerLootTable(hardStoneGeoRegistry.getMossyCobbleSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyCobbleStairs());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyCobbleWall());
 
-                    registerDropSelfLootTable(geoRegistry.getMossyBricks());
-                    registerLootTable(geoRegistry.getMossyBrickSlab(), BlockLootTables::droppingSlab);
-                    registerDropSelfLootTable(geoRegistry.getMossyBrickStairs());
-                    registerDropSelfLootTable(geoRegistry.getMossyBrickWall());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getRawWall());
 
-                    registerDropSelfLootTable(geoRegistry.getChiseled());
-                    registerDropSelfLootTable(geoRegistry.getCracked());
-                    registerDropSelfLootTable(geoRegistry.getPillar());
-                    registerDropSelfLootTable(geoRegistry.getButton());
-                    registerDropSelfLootTable(geoRegistry.getPressurePlate());
-               }
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getPolishedStone());
+                    registerLootTable(hardStoneGeoRegistry.getPolishedSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getPolishedStairs());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getPolishedWall());
+
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getBricks());
+                    registerLootTable(hardStoneGeoRegistry.getBrickSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getBrickStairs());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getBrickWall());
+
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyBricks());
+                    registerLootTable(hardStoneGeoRegistry.getMossyBrickSlab(), BlockLootTables::droppingSlab);
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyBrickStairs());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getMossyBrickWall());
+
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getChiseled());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getCracked());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getPillar());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getButton());
+                    registerDropSelfLootTable(hardStoneGeoRegistry.getPressurePlate());
+
+                }
             }
         }
 
@@ -122,7 +132,7 @@ public class ModLootTableProvider extends LootTableProvider {
         //////////////////////////////////////
 
         // LOOSE COBBLES
-        private void registerCobblesLootTable(GeoRegistry geoRegistry) {
+        private void registerCobblesLootTable(SoftStoneGeoRegistry geoRegistry) {
             Block cobbles = geoRegistry.getCobbles();
             registerLootTable(cobbles, droppingWithSilkTouch(cobbles,
                     withExplosionDecay(cobbles, ItemLootEntry.builder(geoRegistry.getRockItem())
@@ -130,7 +140,7 @@ public class ModLootTableProvider extends LootTableProvider {
         }
 
         // BASE STONES
-        private void registerStoneLootTables(GeoRegistry geoRegistry) {
+        private void registerStoneLootTables(BaseGeoRegistry geoRegistry) {
             registerStoneNoOreLoot(geoRegistry);
             for (OreType oreType : ModGeoOres.getModOreTypes()) {
                 if (!(oreType.hasOre() && oreType.getGeoPredicate().generatesIn(geoRegistry.getGeoType())) ) continue;
@@ -143,16 +153,16 @@ public class ModLootTableProvider extends LootTableProvider {
 
         /////////////////////////////////////////////////////////////////////////////////////
 
-        private void registerStoneNoOreLoot(GeoRegistry geoRegistry) {
-            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+        private void registerStoneNoOreLoot(BaseGeoRegistry geoRegistry) {
+            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getMainDropItem());
             Block block = geoRegistry.getBaseGeoBlock().getBlock();
 
             registerLootTable(block, withExplosionDecay(block, LootTable.builder()
                     .addLootPool(LootPool.builder().addEntry(rockEntry))));
         }
 
-        private void registerStoneOreLoot(GeoRegistry geoRegistry, OreType oreType, Grade grade) {
-            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getDropItem());
+        private void registerStoneOreLoot(BaseGeoRegistry geoRegistry, OreType oreType, Grade grade) {
+            LootEntry.Builder<?> rockEntry = buildGeoLootEntry(geoRegistry.getGeoType().getGeoLoot(), geoRegistry.getMainDropItem());
 
             Block block = geoRegistry.getOreVariant(oreType, grade);
             LootEntry.Builder<?> oreEntry = buildGeoLootEntry(oreType, grade);

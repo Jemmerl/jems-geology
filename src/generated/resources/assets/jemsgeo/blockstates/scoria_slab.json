@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/scoria_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/scoria_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/scoria_stone"
+    }
+  }
+}

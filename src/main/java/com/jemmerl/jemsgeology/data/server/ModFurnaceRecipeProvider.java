@@ -1,7 +1,8 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
 import net.minecraft.data.CookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -22,10 +23,11 @@ public class ModFurnaceRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            if (geoRegistry.hasCobble()) {
-                CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(geoRegistry.getBricks()), geoRegistry.getCracked(),
-                        0.1F, 200).addCriterion("stone_bricks_block", hasItem(geoRegistry.getBricks())).build(consumer);
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+            if (geoRegistry instanceof HardStoneGeoRegistry) {
+                HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
+                CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(hardStoneGeoRegistry.getBricks()), hardStoneGeoRegistry.getCracked(),
+                        0.1F, 200).addCriterion("stone_bricks_block", hasItem(hardStoneGeoRegistry.getBricks())).build(consumer);
             }
         }
     }

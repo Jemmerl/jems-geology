@@ -7,7 +7,7 @@ import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapabil
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapProvider;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapStorage;
 import com.jemmerl.jemsgeology.init.*;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
 import com.jemmerl.jemsgeology.init.worldgen.ModFeaturePlacements;
 import com.jemmerl.jemsgeology.init.worldgen.ModFeatures;
@@ -77,6 +77,7 @@ public class JemsGeology
         ModFeaturePlacements.register(eventBus);
         ModFeatures.register(eventBus);
 
+//        eventBus.addListener(this::beforeRegistries);
         eventBus.addListener(this::commonSetup);
         eventBus.addListener(this::doClientStuff);
 
@@ -86,6 +87,12 @@ public class JemsGeology
         ServerConfig.loadConfig(ServerConfig.SERVER_SPEC, FMLPaths.GAMEDIR.get()
                 .resolve(FMLConfig.defaultConfigPath()).resolve(MOD_ID + "-server.toml"));
     }
+
+//    private void beforeRegistries(final FMLConstructModEvent event) {
+//        System.out.println("AAAAAAAAAAaaAAAAAAAAAAAAAAAAAAAAAaaaaa");
+//        ModGeoOres.init();
+//        ModItems.registerOreItems();
+//    }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         CapabilityManager.INSTANCE.register(IDepositCap.class, new DepositCapStorage(), DepositCapability::new);
@@ -103,7 +110,7 @@ public class JemsGeology
 
     private void doClientStuff(final FMLClientSetupEvent event) {
         // Set transparent textures for all ore blocks
-        for (GeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
+        for (BaseGeoRegistry geoRegistry : ModBlocks.GEO_BLOCKS.values()) {
             for(Block block: geoRegistry.getAllOreGeoBlocks())
                 RenderTypeLookup.setRenderLayer(block, RenderType.getCutout());
         }
@@ -127,6 +134,7 @@ public class JemsGeology
         }
     }
 
+//     Will com back to WT's later
     @SubscribeEvent
     public void attachChunkCap(AttachCapabilitiesEvent<Chunk> event) {
         World eventWorld = event.getObject().getWorld();

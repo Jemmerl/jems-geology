@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:anthracite_coal_stone"
+  },
+  "result": "jemsgeo:anthracite_coal_slab",
+  "count": 2
+}

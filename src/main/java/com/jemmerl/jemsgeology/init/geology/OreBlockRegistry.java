@@ -2,7 +2,7 @@ package com.jemmerl.jemsgeology.init.geology;
 
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;

@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.blocks;
 
 import com.jemmerl.jemsgeology.entities.FallingCobbleEntity;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FallingBlock;
 import net.minecraft.block.material.Material;

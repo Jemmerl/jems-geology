@@ -4,17 +4,14 @@ import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.IChunkGennedCap;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.IWaterTableCap;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapability;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCap;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.gen.Heightmap;
 
 import java.util.Random;
 

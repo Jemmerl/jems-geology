@@ -15,6 +15,9 @@ public class ForgeBusEvents {
 
     @SubscribeEvent
     public static void updateWTDelta(@Nonnull final TickEvent.WorldTickEvent event) {
+        //TODO TEMP to disable
+        if (true) return;
+
         if (event.side.isClient()) return;
 
         if (event.world.getDimensionKey().getLocation().toString().equals("minecraft:overworld") && (event.phase == TickEvent.Phase.END)) {

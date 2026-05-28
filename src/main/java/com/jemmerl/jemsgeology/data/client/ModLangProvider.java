@@ -3,7 +3,9 @@ package com.jemmerl.jemsgeology.data.client;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.Item;
@@ -59,7 +61,7 @@ public class ModLangProvider extends LanguageProvider {
         }
 
         // Blocks
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
             if (geoRegistry.getGeoType().getGeoGroup().isRegolith()) {
                 for (Block block: geoRegistry.getAllGeoBlocks()) {
                     nameRegolithOreBlock(block);
@@ -70,14 +72,17 @@ public class ModLangProvider extends LanguageProvider {
                 }
             }
 
-            if (geoRegistry.hasCobble()) {
-                nameCobblesBlock(geoRegistry.getCobbles());
-                nameCobblestoneBlock(geoRegistry.getCobblestone());
-
-                for (Block block: geoRegistry.getDecorBlocks()) {
-                    nameStoneDecorBlock(block);
-                }
+            geoRegistry.getDecorBlocks().forEach(this::nameStoneDecorBlock);
+            if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                nameCobblesBlock(((SoftStoneGeoRegistry) geoRegistry).getCobbles());
+            } else {
+                continue;
             }
+
+            if (geoRegistry instanceof HardStoneGeoRegistry) {
+                nameCobblestoneBlock(((HardStoneGeoRegistry) geoRegistry).getCobblestone());
+            }
+
         }
     }
 

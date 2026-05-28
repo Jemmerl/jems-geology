@@ -3,9 +3,11 @@ package com.jemmerl.jemsgeology.data.client;
 import com.jemmerl.jemsgeology.blocks.IGeoBlock;
 import com.jemmerl.jemsgeology.geology.ores.Grade;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.block.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.state.properties.AttachFace;
@@ -27,8 +29,8 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            // Base stone/ores
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+            // Base geoblock/ores
             for (Block block: geoRegistry.getAllGeoBlocks()) {
                 if (block instanceof IGeoBlock) {
                     buildSimpleOreBlock(block,
@@ -36,87 +38,95 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                 }
             }
 
-            // Decorative stone variants / cobbles
-            if (geoRegistry.hasCobble()) {
-                simpleBlock(geoRegistry.getCobbles());
-                simpleBlock(geoRegistry.getCobblestone());
-
-                ResourceLocation baseStoneRL = modLoc("block/" +
+            ResourceLocation baseStoneRL;
+            ResourceLocation cobblestoneRL;
+            if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                SoftStoneGeoRegistry softStoneGeoRegistry = (SoftStoneGeoRegistry) geoRegistry;
+                baseStoneRL = modLoc("block/" +
                         Objects.requireNonNull(geoRegistry.getBaseGeoBlock().getRegistryName()).getPath());
-                ResourceLocation cobbleRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getCobblestone().getRegistryName()).getPath());
+
+                simpleBlock(softStoneGeoRegistry.getCobbles());
+                slabBlock((SlabBlock) softStoneGeoRegistry.getRawSlab(), baseStoneRL, baseStoneRL);
+                stairsBlock((StairsBlock) softStoneGeoRegistry.getRawStairs(), baseStoneRL);
+            } else {
+                continue;
+            }
+
+            if (geoRegistry instanceof HardStoneGeoRegistry) {
+                HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
+
+                cobblestoneRL = modLoc("block/" +
+                        Objects.requireNonNull(hardStoneGeoRegistry.getCobblestone().getRegistryName()).getPath());
                 ResourceLocation mossyCobbleRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getMossyCobblestone().getRegistryName()).getPath());
+                        Objects.requireNonNull(hardStoneGeoRegistry.getMossyCobblestone().getRegistryName()).getPath());
                 ResourceLocation polishedRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getPolishedStone().getRegistryName()).getPath());
+                        Objects.requireNonNull(hardStoneGeoRegistry.getPolishedStone().getRegistryName()).getPath());
                 ResourceLocation brickRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getBricks().getRegistryName()).getPath());
+                        Objects.requireNonNull(hardStoneGeoRegistry.getBricks().getRegistryName()).getPath());
                 ResourceLocation mossyBrickRL = modLoc("block/" +
-                        Objects.requireNonNull(geoRegistry.getMossyBricks().getRegistryName()).getPath());
+                        Objects.requireNonNull(hardStoneGeoRegistry.getMossyBricks().getRegistryName()).getPath());
 
-                slabBlock((SlabBlock) geoRegistry.getRawSlab(), baseStoneRL, baseStoneRL);
-                stairsBlock((StairsBlock) geoRegistry.getRawStairs(), baseStoneRL);
-                wallBlock((WallBlock) geoRegistry.getRawWall(), baseStoneRL);
+                simpleBlock(hardStoneGeoRegistry.getCobblestone());
+                wallBlock((WallBlock) hardStoneGeoRegistry.getRawWall(), baseStoneRL);
 
-                slabBlock((SlabBlock) geoRegistry.getCobbleSlab(), cobbleRL, cobbleRL);
-                stairsBlock((StairsBlock) geoRegistry.getCobbleStairs(), cobbleRL);
-                wallBlock((WallBlock) geoRegistry.getCobbleWall(), cobbleRL);
+                slabBlock((SlabBlock) hardStoneGeoRegistry.getCobbleSlab(), cobblestoneRL, cobblestoneRL);
+                stairsBlock((StairsBlock) hardStoneGeoRegistry.getCobbleStairs(), cobblestoneRL);
+                wallBlock((WallBlock) hardStoneGeoRegistry.getCobbleWall(), cobblestoneRL);
 
-                simpleBlock(geoRegistry.getMossyCobblestone());
-                slabBlock((SlabBlock) geoRegistry.getMossyCobbleSlab(), mossyCobbleRL, mossyCobbleRL);
-                stairsBlock((StairsBlock) geoRegistry.getMossyCobbleStairs(), mossyCobbleRL);
-                wallBlock((WallBlock) geoRegistry.getMossyCobbleWall(), mossyCobbleRL);
+                simpleBlock(hardStoneGeoRegistry.getMossyCobblestone());
+                slabBlock((SlabBlock) hardStoneGeoRegistry.getMossyCobbleSlab(), mossyCobbleRL, mossyCobbleRL);
+                stairsBlock((StairsBlock) hardStoneGeoRegistry.getMossyCobbleStairs(), mossyCobbleRL);
+                wallBlock((WallBlock) hardStoneGeoRegistry.getMossyCobbleWall(), mossyCobbleRL);
 
-                simpleBlock(geoRegistry.getPolishedStone());
-                slabBlock((SlabBlock) geoRegistry.getPolishedSlab(), polishedRL, polishedRL);
-                stairsBlock((StairsBlock) geoRegistry.getPolishedStairs(), polishedRL);
-                wallBlock((WallBlock) geoRegistry.getPolishedWall(), polishedRL);
+                simpleBlock(hardStoneGeoRegistry.getPolishedStone());
+                slabBlock((SlabBlock) hardStoneGeoRegistry.getPolishedSlab(), polishedRL, polishedRL);
+                stairsBlock((StairsBlock) hardStoneGeoRegistry.getPolishedStairs(), polishedRL);
+                wallBlock((WallBlock) hardStoneGeoRegistry.getPolishedWall(), polishedRL);
 
-                simpleBlock(geoRegistry.getBricks());
-                slabBlock((SlabBlock) geoRegistry.getBrickSlab(), brickRL, brickRL);
-                stairsBlock((StairsBlock) geoRegistry.getBrickStairs(), brickRL);
-                wallBlock((WallBlock) geoRegistry.getBrickWall(), brickRL);
+                simpleBlock(hardStoneGeoRegistry.getBricks());
+                slabBlock((SlabBlock) hardStoneGeoRegistry.getBrickSlab(), brickRL, brickRL);
+                stairsBlock((StairsBlock) hardStoneGeoRegistry.getBrickStairs(), brickRL);
+                wallBlock((WallBlock) hardStoneGeoRegistry.getBrickWall(), brickRL);
 
-                simpleBlock(geoRegistry.getMossyBricks());
-                slabBlock((SlabBlock) geoRegistry.getMossyBrickSlab(), mossyBrickRL, mossyBrickRL);
-                stairsBlock((StairsBlock) geoRegistry.getMossyBrickStairs(), mossyBrickRL);
-                wallBlock((WallBlock) geoRegistry.getMossyBrickWall(), mossyBrickRL);
+                simpleBlock(hardStoneGeoRegistry.getMossyBricks());
+                slabBlock((SlabBlock) hardStoneGeoRegistry.getMossyBrickSlab(), mossyBrickRL, mossyBrickRL);
+                stairsBlock((StairsBlock) hardStoneGeoRegistry.getMossyBrickStairs(), mossyBrickRL);
+                wallBlock((WallBlock) hardStoneGeoRegistry.getMossyBrickWall(), mossyBrickRL);
 
-                simpleBlock(geoRegistry.getChiseled());
-                simpleBlock(geoRegistry.getCracked());
-                logBlock((RotatedPillarBlock) geoRegistry.getPillar());
+                simpleBlock(hardStoneGeoRegistry.getChiseled());
+                simpleBlock(hardStoneGeoRegistry.getCracked());
+                logBlock((RotatedPillarBlock) hardStoneGeoRegistry.getPillar());
 
-                buttonBlock((AbstractButtonBlock) geoRegistry.getButton(), polishedRL);
-                pressurePlateBlock((PressurePlateBlock) geoRegistry.getPressurePlate(), polishedRL);
-
+                buttonBlock((AbstractButtonBlock) hardStoneGeoRegistry.getButton(), polishedRL);
+                pressurePlateBlock((PressurePlateBlock) hardStoneGeoRegistry.getPressurePlate(), polishedRL);
 
                 // Inventory models
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getRawWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getRawWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", baseStoneRL);
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getCobbleWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getCobbleWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
-                        .texture("wall", cobbleRL);
+                        .texture("wall", cobblestoneRL);
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getMossyCobbleWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getMossyCobbleWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", mossyCobbleRL);
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getPolishedWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getPolishedWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", polishedRL);
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getBrickWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getBrickWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", brickRL);
                 models().withExistingParent("block/" +
-                                Objects.requireNonNull(geoRegistry.getMossyBrickWall().getRegistryName()).getPath() +
+                                Objects.requireNonNull(hardStoneGeoRegistry.getMossyBrickWall().getRegistryName()).getPath() +
                                 "_inventory", mcLoc("block/wall_inventory"))
                         .texture("wall", mossyBrickRL);
 
-                buttonInventoryModel(geoRegistry.getButton(), polishedRL);
+                buttonInventoryModel(hardStoneGeoRegistry.getButton(), polishedRL);
             }
         }
     }

@@ -2,8 +2,10 @@ package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModTags;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.geology.OreBlockRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.data.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
@@ -39,9 +41,8 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
         Builder<Block> tagVanillaWalls = this.getOrCreateBuilder(BlockTags.WALLS);
 
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
             boolean isRegolith = geoRegistry.getGeoType().getGeoGroup().isRegolith();
-            boolean hasCobble = geoRegistry.hasCobble();
 
             tagBuilderNoOre.add(geoRegistry.getBaseGeoBlock());
             if (isRegolith) {
@@ -70,16 +71,25 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
                 }
             }
 
-            if (hasCobble) {
-                tagBuilderGeoCobbles.add(geoRegistry.getCobbles());
-                tagBuilderGeoCobblestone.add(geoRegistry.getCobblestone());
 
-                tagVanillaWalls.add(geoRegistry.getCobbleWall());
-                tagVanillaWalls.add(geoRegistry.getMossyCobbleWall());
-                tagVanillaWalls.add(geoRegistry.getRawWall());
-                tagVanillaWalls.add(geoRegistry.getPolishedWall());
-                tagVanillaWalls.add(geoRegistry.getBrickWall());
-                tagVanillaWalls.add(geoRegistry.getMossyBrickWall());
+            if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                SoftStoneGeoRegistry softStoneGeoRegistry = (SoftStoneGeoRegistry) geoRegistry;
+                tagBuilderGeoCobbles.add(softStoneGeoRegistry.getCobbles());
+            } else {
+                continue;
+            }
+
+            if (geoRegistry instanceof HardStoneGeoRegistry) {
+                HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
+
+                tagBuilderGeoCobblestone.add(hardStoneGeoRegistry.getCobblestone());
+
+                tagVanillaWalls.add(hardStoneGeoRegistry.getCobbleWall());
+                tagVanillaWalls.add(hardStoneGeoRegistry.getMossyCobbleWall());
+                tagVanillaWalls.add(hardStoneGeoRegistry.getRawWall());
+                tagVanillaWalls.add(hardStoneGeoRegistry.getPolishedWall());
+                tagVanillaWalls.add(hardStoneGeoRegistry.getBrickWall());
+                tagVanillaWalls.add(hardStoneGeoRegistry.getMossyBrickWall());
             }
         }
 

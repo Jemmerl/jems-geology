@@ -1,12 +1,7 @@
 package com.jemmerl.jemsgeology.geology.ores;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoPredicate;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
-import net.minecraft.item.Item;
 
-import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
 

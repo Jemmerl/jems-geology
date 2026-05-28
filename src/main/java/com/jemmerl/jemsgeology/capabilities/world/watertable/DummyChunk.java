@@ -1,6 +1,6 @@
 package com.jemmerl.jemsgeology.capabilities.world.watertable;
 
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

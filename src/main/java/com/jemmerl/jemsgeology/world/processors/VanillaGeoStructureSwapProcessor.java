@@ -2,9 +2,10 @@ package com.jemmerl.jemsgeology.world.processors;
 
 
 import com.google.common.collect.Maps;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
 import net.minecraft.block.*;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +20,7 @@ public class VanillaGeoStructureSwapProcessor extends StructureProcessor {
 //            Registry.BLOCK.listOf().fieldOf("ignore_block").orElse(new ArrayList<>()).xmap(HashSet::new, ArrayList::new).forGetter(config -> config.blocksToIgnore)
 //    ).apply(instance, instance.stable(VanillaGeoStructureSwapProcessor::new)));
 
-    private static final GeoRegistry grayRhyo = ModBlocks.GEO_BLOCKS.get(GeoType.GRAY_RHYOLITE);
+    private static final HardStoneGeoRegistry grayRhyo = (HardStoneGeoRegistry) ModBlocks.GEO_BLOCKS.get(GeoType.GRAY_RHYOLITE);
     private static final Map<Block, Block> replacementMap = Util.make(Maps.newHashMap(), (map) -> {
         map.put(Blocks.COBBLESTONE, grayRhyo.getCobblestone());
         map.put(Blocks.MOSSY_COBBLESTONE, grayRhyo.getMossyCobblestone());

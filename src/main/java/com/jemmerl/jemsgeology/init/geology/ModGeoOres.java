@@ -1,11 +1,10 @@
 package com.jemmerl.jemsgeology.init.geology;
 
-import com.google.common.collect.ImmutableSet;
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoGroup;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoPredicate;
-import com.jemmerl.jemsgeology.geology.geoblocks.GeoType;
+import com.jemmerl.jemsgeology.geology.geos.GeoGroup;
+import com.jemmerl.jemsgeology.geology.ores.GeoPredicate;
+import com.jemmerl.jemsgeology.geology.geos.GeoType;
 import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
 import com.jemmerl.jemsgeology.geology.ores.OreType;
 import net.minecraft.item.Items;
@@ -13,7 +12,6 @@ import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.RandomValueRange;
 
 import java.util.*;
-import java.util.function.Supplier;
 
 public class ModGeoOres {
 
@@ -138,4 +136,6 @@ public class ModGeoOres {
     public static Set<OreType> getModOreTypes() {
         return MOD_ORE_TYPES;
     }
+
+    public static void init() {}
 }

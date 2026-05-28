@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/lignite_coal_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/lignite_coal_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/lignite_coal_stone"
+    }
+  }
+}

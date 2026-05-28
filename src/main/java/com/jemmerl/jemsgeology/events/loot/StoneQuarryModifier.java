@@ -72,7 +72,7 @@ public class StoneQuarryModifier extends LootModifier {
 
     // Check if the block has been successfully quarried by the player
     private boolean isBlockQuarried(World world, BlockPos pos, BlockState state, PlayerEntity playerIn) {
-        if (world.isRemote || playerIn.isCreative()) {
+        if (world.isRemote) { // TODO removed "isCreative" or whatever
             return false;
         }
 

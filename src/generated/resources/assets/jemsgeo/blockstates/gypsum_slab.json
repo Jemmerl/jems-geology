@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/gypsum_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/gypsum_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/gypsum_stone"
+    }
+  }
+}

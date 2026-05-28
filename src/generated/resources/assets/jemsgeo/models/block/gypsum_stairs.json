@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/gypsum_stone",
+    "bottom": "jemsgeo:block/gypsum_stone",
+    "top": "jemsgeo:block/gypsum_stone"
+  }
+}

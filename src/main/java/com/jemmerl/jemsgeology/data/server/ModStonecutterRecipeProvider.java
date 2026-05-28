@@ -1,7 +1,9 @@
 package com.jemmerl.jemsgeology.data.server;
 
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geology.GeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
+import com.jemmerl.jemsgeology.init.geology.georegistries.SoftStoneGeoRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.IFinishedRecipe;
@@ -25,143 +27,155 @@ public class ModStonecutterRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        for (GeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
-            if (geoRegistry.hasCobble()) {
-                Block rawStone = geoRegistry.getBaseGeoBlock();
-                Block cobblestone = geoRegistry.getCobblestone();
-                Block mossyCobblestone = geoRegistry.getMossyCobblestone();
-                Block polished = geoRegistry.getPolishedStone();
-                Block bricks = geoRegistry.getBricks();
-                Block mossyBricks = geoRegistry.getMossyBricks();
-                Item rockItem = geoRegistry.getRockItem();
+        for (BaseGeoRegistry geoRegistry: ModBlocks.GEO_BLOCKS.values()) {
+
+            Item rockItem;
+            Block rawStone;
+            if (geoRegistry instanceof SoftStoneGeoRegistry) {
+                SoftStoneGeoRegistry softStoneGeoRegistry = (SoftStoneGeoRegistry) geoRegistry;
+                rockItem = softStoneGeoRegistry.getRockItem();
+                rawStone = softStoneGeoRegistry.getBaseGeoBlock();
 
                 // Raw decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                        Ingredient.fromItems(rawStone), geoRegistry.getRawSlab(), 2)
+                                Ingredient.fromItems(rawStone), softStoneGeoRegistry.getRawSlab(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
                         .build(consumer, "raw_" + geoRegistry.getGeoType().getName() + "_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getRawStairs())
+                                Ingredient.fromItems(rawStone), softStoneGeoRegistry.getRawStairs())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
                         .build(consumer, "raw_" + geoRegistry.getGeoType().getName() + "_stairs_stonecutting");
+            } else {
+                continue;
+            }
 
+            if (geoRegistry instanceof HardStoneGeoRegistry) {
+                HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
+                Block cobblestone = hardStoneGeoRegistry.getCobblestone();
+                Block mossyCobblestone = hardStoneGeoRegistry.getMossyCobblestone();
+                Block polished = hardStoneGeoRegistry.getPolishedStone();
+                Block bricks = hardStoneGeoRegistry.getBricks();
+                Block mossyBricks = hardStoneGeoRegistry.getMossyBricks();
+
+                // Raw decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getRawWall(), 2)
+                                Ingredient.fromItems(rawStone), hardStoneGeoRegistry.getRawWall(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "raw_" + geoRegistry.getGeoType().getName() + "_walls_stonecutting");
+                        .build(consumer, "raw_" + hardStoneGeoRegistry.getGeoType().getName() + "_walls_stonecutting");
 
                 // Cobble decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(cobblestone), geoRegistry.getCobbleSlab(), 2)
+                                Ingredient.fromItems(cobblestone), hardStoneGeoRegistry.getCobbleSlab(), 2)
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "cobble_" + geoRegistry.getGeoType().getName() + "_slabs_stonecutting");
+                        .build(consumer, "cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(cobblestone), geoRegistry.getCobbleStairs())
+                                Ingredient.fromItems(cobblestone), hardStoneGeoRegistry.getCobbleStairs())
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "cobble_" + geoRegistry.getGeoType().getName() + "_stairs_stonecutting");
+                        .build(consumer, "cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(cobblestone), geoRegistry.getCobbleWall(), 2)
+                                Ingredient.fromItems(cobblestone), hardStoneGeoRegistry.getCobbleWall(), 2)
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "cobble_" + geoRegistry.getGeoType().getName() + "_walls_stonecutting");
+                        .build(consumer, "cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_walls_stonecutting");
 
                 // Mossy cobble decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyCobblestone), geoRegistry.getMossyCobbleSlab(), 2)
+                                Ingredient.fromItems(mossyCobblestone), hardStoneGeoRegistry.getMossyCobbleSlab(), 2)
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "mossy_cobble_" + geoRegistry.getGeoType().getName() + "_slabs_stonecutting");
+                        .build(consumer, "mossy_cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyCobblestone), geoRegistry.getMossyCobbleStairs())
+                                Ingredient.fromItems(mossyCobblestone), hardStoneGeoRegistry.getMossyCobbleStairs())
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "mossy_cobble_" + geoRegistry.getGeoType().getName() + "_stairs_stonecutting");
+                        .build(consumer, "mossy_cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyCobblestone), geoRegistry.getMossyCobbleWall(), 2)
+                                Ingredient.fromItems(mossyCobblestone), hardStoneGeoRegistry.getMossyCobbleWall(), 2)
                         .addCriterion("has_rock", hasItem(rockItem))
-                        .build(consumer, "mossy_cobble_" + geoRegistry.getGeoType().getName() + "_walls_stonecutting");
+                        .build(consumer, "mossy_cobble_" + hardStoneGeoRegistry.getGeoType().getName() + "_walls_stonecutting");
 
                 // Polished decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
                                 Ingredient.fromItems(rawStone), polished)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_stonecutting");
+                        .build(consumer, "polished_" + hardStoneGeoRegistry.getGeoType().getName() + "_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(polished), geoRegistry.getPolishedSlab(), 2)
+                                Ingredient.fromItems(polished), hardStoneGeoRegistry.getPolishedSlab(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_slabs_stonecutting");
+                        .build(consumer, "polished_" + hardStoneGeoRegistry.getGeoType().getName() + "_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(polished), geoRegistry.getPolishedStairs())
+                                Ingredient.fromItems(polished), hardStoneGeoRegistry.getPolishedStairs())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_stairs_stonecutting");
+                        .build(consumer, "polished_" + hardStoneGeoRegistry.getGeoType().getName() + "_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(polished), geoRegistry.getPolishedWall(), 2)
+                                Ingredient.fromItems(polished), hardStoneGeoRegistry.getPolishedWall(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "polished_" + geoRegistry.getGeoType().getName() + "_walls_stonecutting");
+                        .build(consumer, "polished_" + hardStoneGeoRegistry.getGeoType().getName() + "_walls_stonecutting");
 
                 // Brick decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
                                 Ingredient.fromItems(rawStone), bricks)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_bricks_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_bricks_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(bricks), geoRegistry.getBrickSlab(), 2)
+                                Ingredient.fromItems(bricks), hardStoneGeoRegistry.getBrickSlab(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_brick_slabs_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_brick_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(bricks), geoRegistry.getBrickStairs())
+                                Ingredient.fromItems(bricks), hardStoneGeoRegistry.getBrickStairs())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_brick_stairs_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_brick_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(bricks), geoRegistry.getBrickWall(), 2)
+                                Ingredient.fromItems(bricks), hardStoneGeoRegistry.getBrickWall(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_brick_walls_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_brick_walls_stonecutting");
 
                 // Mossy brick decor blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyBricks), geoRegistry.getMossyBrickSlab(), 2)
+                                Ingredient.fromItems(mossyBricks), hardStoneGeoRegistry.getMossyBrickSlab(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "mossy_" + geoRegistry.getGeoType().getName() + "_brick_slabs_stonecutting");
+                        .build(consumer, "mossy_" + hardStoneGeoRegistry.getGeoType().getName() + "_brick_slabs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyBricks), geoRegistry.getMossyBrickStairs())
+                                Ingredient.fromItems(mossyBricks), hardStoneGeoRegistry.getMossyBrickStairs())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "mossy_" + geoRegistry.getGeoType().getName() + "_brick_stairs_stonecutting");
+                        .build(consumer, "mossy_" + hardStoneGeoRegistry.getGeoType().getName() + "_brick_stairs_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(mossyBricks), geoRegistry.getMossyBrickWall(), 2)
+                                Ingredient.fromItems(mossyBricks), hardStoneGeoRegistry.getMossyBrickWall(), 2)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "mossy_" + geoRegistry.getGeoType().getName() + "_brick_walls_stonecutting");
+                        .build(consumer, "mossy_" + hardStoneGeoRegistry.getGeoType().getName() + "_brick_walls_stonecutting");
 
                 // Misc decor and function blocks
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getChiseled())
+                                Ingredient.fromItems(rawStone), hardStoneGeoRegistry.getChiseled())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, "chiseled_" + geoRegistry.getGeoType().getName() + "_stonecutting");
+                        .build(consumer, "chiseled_" + hardStoneGeoRegistry.getGeoType().getName() + "_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getPillar())
+                                Ingredient.fromItems(rawStone), hardStoneGeoRegistry.getPillar())
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_pillar_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_pillar_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getButton(), 4)
+                                Ingredient.fromItems(rawStone), hardStoneGeoRegistry.getButton(), 4)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_button_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_button_stonecutting");
 
                 SingleItemRecipeBuilder.stonecuttingRecipe(
-                                Ingredient.fromItems(rawStone), geoRegistry.getPressurePlate(), 3)
+                                Ingredient.fromItems(rawStone), hardStoneGeoRegistry.getPressurePlate(), 3)
                         .addCriterion("has_geostone", hasItem(rawStone.asItem()))
-                        .build(consumer, geoRegistry.getGeoType().getName() + "_pressure_plate_stonecutting");
+                        .build(consumer, hardStoneGeoRegistry.getGeoType().getName() + "_pressure_plate_stonecutting");
             }
+
         }
     }
 }
