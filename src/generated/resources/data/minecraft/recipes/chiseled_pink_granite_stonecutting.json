@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:pink_granite_stone"
+  },
+  "result": "jemsgeo:chiseled_pink_granite",
+  "count": 1
+}

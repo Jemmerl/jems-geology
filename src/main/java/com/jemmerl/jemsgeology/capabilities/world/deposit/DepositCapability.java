@@ -1,8 +1,8 @@
 package com.jemmerl.jemsgeology.capabilities.world.deposit;
 
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -43,16 +43,16 @@ public class DepositCapability implements IDepositCap {
     }
 
     @Override
-    public void putImmediatePendingOre(BlockPos pos, OreType oreType, Grade grade, String name) {
-        PendingBlock p = new PendingBlock(pos, oreType, grade, false, name);
+    public void putImmediatePendingOre(BlockPos pos, OreType oreType, OreGrade oreGrade, String name) {
+        PendingBlock p = new PendingBlock(pos, oreType, oreGrade, false, name);
         ChunkPos cp = new ChunkPos(pos);
         this.immediatePendingBlocks.putIfAbsent(cp, new ConcurrentLinkedQueue<>());
         this.immediatePendingBlocks.get(cp).add(p);
     }
 
     @Override
-    public void putDelayedPendingOre(BlockPos pos, OreType oreType, Grade grade, String name) {
-        PendingBlock p = new PendingBlock(pos, oreType, grade, true, name);
+    public void putDelayedPendingOre(BlockPos pos, OreType oreType, OreGrade oreGrade, String name) {
+        PendingBlock p = new PendingBlock(pos, oreType, oreGrade, true, name);
         ChunkPos cp = new ChunkPos(pos);
         this.delayedPendingBlocks.putIfAbsent(cp, new ConcurrentLinkedQueue<>());
         this.delayedPendingBlocks.get(cp).add(p);
@@ -137,12 +137,12 @@ public class DepositCapability implements IDepositCap {
                     CompoundNBT compoundNBT = (CompoundNBT) e;
                     BlockPos pos = deSerializeBlockPos(compoundNBT.getString("pos"));
                     OreType ore = GeoOreRegistryAPI.fromString(compoundNBT.getString("ore"));
-                    Grade grade = Grade.valueOf(compoundNBT.getString("grade"));
+                    OreGrade oreGrade = OreGrade.valueOf(compoundNBT.getString("grade"));
                     String name = (compoundNBT.getString("name"));
                     if (compoundNBT.getBoolean("delayed")) {
-                        this.putDelayedPendingOre(pos, ore, grade, name);
+                        this.putDelayedPendingOre(pos, ore, oreGrade, name);
                     } else {
-                        this.putImmediatePendingOre(pos, ore, grade, name);
+                        this.putImmediatePendingOre(pos, ore, oreGrade, name);
                     }
                 });
             });
@@ -199,21 +199,21 @@ public class DepositCapability implements IDepositCap {
     public static class PendingBlock {
         private BlockPos pos;
         private OreType ore;
-        private Grade grade;
+        private OreGrade oreGrade;
         private boolean delayed;
         private String name; // Name of the deposit generating the block
 
-        public PendingBlock(BlockPos pos, OreType oreType, Grade grade, boolean delayed, String name) {
+        public PendingBlock(BlockPos pos, OreType oreType, OreGrade oreGrade, boolean delayed, String name) {
             this.pos = pos;
             this.ore = oreType;
-            this.grade = grade;
+            this.oreGrade = oreGrade;
             this.delayed = delayed;
             this.name = name;
         }
 
         public BlockPos getPos() { return this.pos; }
         public OreType getOre() { return this.ore; }
-        public Grade getGrade() { return this.grade; }
+        public OreGrade getGrade() { return this.oreGrade; }
         public boolean getDelayed() { return this.delayed; }
         public String getName() { return this.name; }
 
@@ -222,7 +222,7 @@ public class DepositCapability implements IDepositCap {
             CompoundNBT posTag = NBTUtil.writeBlockPos(this.pos);
             tag.put("pos", posTag);
             tag.putString("ore", this.ore.getName());
-            tag.putString("grade", this.grade.getName());
+            tag.putString("grade", this.oreGrade.getName());
             tag.putBoolean("delayed", this.delayed);
             tag.putString("name", this.name);
             return tag;
@@ -237,7 +237,7 @@ public class DepositCapability implements IDepositCap {
                 String grade = tag.getCompound("grade").toString();
                 boolean delayed = tag.getBoolean("delayed");
                 String name = tag.getCompound("name").toString();
-                return new PendingBlock(pos, GeoOreRegistryAPI.fromString(ore), Grade.valueOf(grade), delayed, name);
+                return new PendingBlock(pos, GeoOreRegistryAPI.fromString(ore), OreGrade.valueOf(grade), delayed, name);
             }
             return null;
         }

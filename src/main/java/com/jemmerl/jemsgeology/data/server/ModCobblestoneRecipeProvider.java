@@ -1,7 +1,6 @@
 package com.jemmerl.jemsgeology.data.server;
 
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
-import com.jemmerl.jemsgeology.geology.geos.props.Hardness;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
@@ -20,11 +19,10 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
 
     @Override
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-        for (GeoType geoBlock : GeoType.values()) {
-
-            BaseGeoRegistry geoRegistry = ModBlocks.GEO_BLOCKS.get(geoBlock);
+        for (GeoType geoType : GeoType.ALL_GEOTYPES) {
+            BaseGeoRegistry geoRegistry = ModBlocks.GEO_BLOCKS.get(geoType);
             Item rockItem;
-            if (geoBlock.getHardness().ordinal() > 0) {
+            if (geoType.getHardness().ordinal() > 0) {
                 SoftStoneGeoRegistry softStoneGeoRegistry = (SoftStoneGeoRegistry) geoRegistry;
                 rockItem = softStoneGeoRegistry.getRockItem();
 
@@ -47,7 +45,7 @@ public class ModCobblestoneRecipeProvider extends RecipeProvider {
                 continue;
             }
 
-            if (geoBlock.getHardness().ordinal() > 1) {
+            if (geoType.getHardness().ordinal() > 1) {
                 HardStoneGeoRegistry hardStoneGeoRegistry = (HardStoneGeoRegistry) geoRegistry;
 
                 // Recipe to craft cobblestone

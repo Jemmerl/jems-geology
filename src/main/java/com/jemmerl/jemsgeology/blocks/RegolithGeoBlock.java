@@ -1,11 +1,11 @@
 package com.jemmerl.jemsgeology.blocks;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 
 public class RegolithGeoBlock extends BaseGeoBlock {
-    public RegolithGeoBlock(Properties properties, GeoType geoType, OreType oreType, Grade grade) {
-        super(properties, geoType, oreType, grade);
+    public RegolithGeoBlock(Properties properties, GeoType geoType, OreType oreType, OreGrade oreGrade) {
+        super(properties, geoType, oreType, oreGrade);
     }
 }

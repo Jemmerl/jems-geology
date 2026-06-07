@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.init;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
 import net.minecraft.item.ItemGroup;
@@ -48,7 +48,7 @@ public class ModItemGroups {
         @Override
         public ItemStack createIcon() {
             return ModBlocks.GEO_BLOCKS.get(GeoType.BASALT)
-                    .getOreVariant(ModGeoOres.OLIVINE, Grade.NORMAL).asItem().getDefaultInstance();
+                    .getOreVariant(ModGeoOres.OLIVINE, OreGrade.NORMAL).asItem().getDefaultInstance();
         }
     };
 

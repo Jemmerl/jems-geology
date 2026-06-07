@@ -144,7 +144,6 @@ public class FastNoiseLite
     private DomainWarpType mDomainWarpType = DomainWarpType.OpenSimplex2;
     private TransformType3D mWarpTransformType3D = TransformType3D.DefaultOpenSimplex2;
     private float mDomainWarpAmp = 1.0f;
-    private float mDomainWarpFreq = mFrequency; // Same as mFrequency unless otherwise set - Jem
 
     /// <summary>
     /// Create new FastNoise object with default seed
@@ -174,14 +173,6 @@ public class FastNoiseLite
     /// Default: 0.01
     /// </remarks>
     public void SetFrequency(float frequency) { mFrequency = frequency; }
-
-    /// <summary>
-    /// Sets frequency for all domain warp types
-    /// </summary>
-    /// <remarks>
-    /// Default: 0.01
-    /// </remarks>
-    public void SetDomainWarpFrequency(float frequency) { mDomainWarpFreq = frequency; }
 
     /// <summary>
     /// Sets noise algorithm used for GetNoise(...)
@@ -314,6 +305,49 @@ public class FastNoiseLite
     /// Default: 1.0
     /// </remarks>
     public void SetDomainWarpAmp(float domainWarpAmp) { mDomainWarpAmp = domainWarpAmp; }
+
+
+    /// <summary>
+    /// Jemmerl: does not have full capabilities as other GetNoise; currently voronoi only.
+    /// 1D noise at given position using current settings
+    /// </summary>
+    /// <returns>
+    /// Noise output bounded between -1...1
+    /// </returns>
+    public float GetNoise(/*FNLfloat*/ float x)
+    {
+        x *= mFrequency;
+
+//        switch (mNoiseType)
+//        {
+//            case OpenSimplex2:
+//            case OpenSimplex2S:
+//            {
+//                final /*FNLfloat*/ float SQRT3 = (/*FNLfloat*/ float)1.7320508075688772935274463415059;
+//                final /*FNLfloat*/ float F2 = 0.5f * (SQRT3 - 1);
+//                /*FNLfloat*/ float t = (x + y) * F2;
+//                x += t;
+//                y += t;
+//            }
+//            break;
+//            default:
+//                break;
+//        }
+
+//        switch (mFractalType)
+//        {
+//            default:
+//                return GenNoiseSingle(mSeed, x, y);
+//            case FBm:
+//                return GenFractalFBm(x, y);
+//            case Ridged:
+//                return GenFractalRidged(x, y);
+//            case PingPong:
+//                return GenFractalPingPong(x, y);
+//        }
+
+        return GenNoiseSingle(mSeed, x);
+    }
 
 
     /// <summary>
@@ -639,6 +673,15 @@ public class FastNoiseLite
     private static final int PrimeY = 1136930381;
     private static final int PrimeZ = 1720413743;
 
+    //// Jemmerl: Vector1 Hashing
+    private static int Hash(int seed, int xPrimed)
+    {
+        int hash = seed ^ xPrimed;
+
+        hash *= 0x27d4eb2d;
+        return hash;
+    }
+
     private static int Hash(int seed, int xPrimed, int yPrimed)
     {
         int hash = seed ^ xPrimed ^ yPrimed;
@@ -700,6 +743,29 @@ public class FastNoiseLite
 
 
     // Generic noise gen
+
+    //// Jemmerl: Added for 1D strata noise, currently only does voronoi
+    private float GenNoiseSingle(int seed, /*FNLfloat*/ float x)
+    {
+        return SingleCellular(seed, x);
+//        switch (mNoiseType)
+//        {
+//            case OpenSimplex2:
+//                return SingleSimplex(seed, x, y);
+//            case OpenSimplex2S:
+//                return SingleOpenSimplex2S(seed, x, y);
+//            case Cellular:
+//                return SingleCellular(seed, x, y);
+//            case Perlin:
+//                return SinglePerlin(seed, x, y);
+//            case ValueCubic:
+//                return SingleValueCubic(seed, x, y);
+//            case Value:
+//                return SingleValue(seed, x, y);
+//            default:
+//                return 0;
+//        }
+    }
 
     private float GenNoiseSingle(int seed, /*FNLfloat*/ float x, /*FNLfloat*/ float y)
     {
@@ -1423,6 +1489,116 @@ public class FastNoiseLite
 
     // Cellular Noise
 
+    //// Jemmerl: 1D Cellular voronoi noise, for strata generation
+    private float SingleCellular(int seed, /*FNLfloat*/ float x)
+    {
+        int xr = FastRound(x);
+
+        float distance0 = Float.MAX_VALUE;
+        float distance1 = Float.MAX_VALUE;
+        int closestHash = 0;
+
+        float cellularJitter = 0.43701595f * mCellularJitterModifier;
+
+        int xPrimed = (xr - 1) * PrimeX;
+
+        switch (mCellularDistanceFunction)
+        {
+            default:
+            case Euclidean:
+            case EuclideanSq:
+                for (int xi = xr - 1; xi <= xr + 1; xi++)
+                {
+                    int hash = Hash(seed, xPrimed);
+                    int idx = hash & (255 << 1);
+
+                    float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
+
+                    float newDistance = vecX * vecX;
+
+                    distance1 = FastMax(FastMin(distance1, newDistance), distance0);
+                    if (newDistance < distance0)
+                    {
+                        distance0 = newDistance;
+                        closestHash = hash;
+                    }
+
+                    xPrimed += PrimeX;
+                }
+                break;
+            case Manhattan:
+                for (int xi = xr - 1; xi <= xr + 1; xi++)
+                {
+                    int hash = Hash(seed, xPrimed);
+                    int idx = hash & (255 << 1);
+
+                    float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
+
+                    float newDistance = FastAbs(vecX);
+
+                    distance1 = FastMax(FastMin(distance1, newDistance), distance0);
+                    if (newDistance < distance0)
+                    {
+                        distance0 = newDistance;
+                        closestHash = hash;
+                    }
+
+                    xPrimed += PrimeX;
+                }
+                break;
+            case Hybrid:
+                for (int xi = xr - 1; xi <= xr + 1; xi++)
+                {
+                    int hash = Hash(seed, xPrimed);
+                    int idx = hash & (255 << 1);
+
+                    float vecX = (float)(xi - x) + RandVecs2D[idx] * cellularJitter;
+
+                    float newDistance = FastAbs(vecX) + (vecX * vecX);
+
+                    distance1 = FastMax(FastMin(distance1, newDistance), distance0);
+                    if (newDistance < distance0)
+                    {
+                        distance0 = newDistance;
+                        closestHash = hash;
+                    }
+
+                    xPrimed += PrimeX;
+                }
+                break;
+        }
+
+        if (mCellularDistanceFunction == CellularDistanceFunction.Euclidean && mCellularReturnType != CellularReturnType.CellValue)
+        {
+            distance0 = FastSqrt(distance0);
+
+            if (mCellularReturnType != CellularReturnType.Distance)
+            {
+                distance1 = FastSqrt(distance1);
+            }
+        }
+
+        switch (mCellularReturnType)
+        {
+            case CellValue:
+                return closestHash * (1 / 2147483648.0f);
+            case Distance:
+                return distance0 - 1;
+            case Distance2:
+                return distance1 - 1;
+            case Distance2Add:
+                return (distance1 + distance0) * 0.5f - 1;
+            case Distance2Sub:
+                return distance1 - distance0 - 1;
+            case Distance2Mul:
+                return distance1 * distance0 * 0.5f - 1;
+            case Distance2Div:
+                return distance0 / distance1 - 1;
+            default:
+                return 0;
+        }
+    }
+
     private float SingleCellular(int seed, /*FNLfloat*/ float x, /*FNLfloat*/ float y)
     {
         int xr = FastRound(x);
@@ -1940,11 +2116,28 @@ public class FastNoiseLite
 
     // Domain Warp Single Wrapper
 
+    //// Jemmerl: Vector1 Domain Warp
+    public void DomainWarp(Vector1 coord) {
+        /*FNLfloat*/ float xf = coord.x * mFrequency;
+        int x0 = FastFloor(xf);
+        float xs = InterpHermite((float)(xf - x0));
+
+        x0 *= PrimeX;
+        int x1 = x0 + PrimeX;
+
+        int hash0 = Hash(mSeed, x0) & (255 << 1);
+        int hash1 = Hash(mSeed, x1) & (255 << 1);
+
+        float lx0x = Lerp(RandVecs2D[hash0], RandVecs2D[hash1], xs);
+
+        coord.x += lx0x * mDomainWarpAmp * mFractalBounding;
+    }
+
     private void DomainWarpSingle(Vector2 coord)
     {
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         /*FNLfloat*/ float xs = coord.x;
         /*FNLfloat*/ float ys = coord.y;
@@ -1970,7 +2163,7 @@ public class FastNoiseLite
     {
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         /*FNLfloat*/ float xs = coord.x;
         /*FNLfloat*/ float ys = coord.y;
@@ -2019,7 +2212,7 @@ public class FastNoiseLite
     {
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         for (int i = 0; i < mOctaves; i++)
         {
@@ -2052,7 +2245,7 @@ public class FastNoiseLite
     {
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         for (int i = 0; i < mOctaves; i++)
         {
@@ -2124,7 +2317,7 @@ public class FastNoiseLite
 
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         for (int i = 0; i < mOctaves; i++)
         {
@@ -2177,7 +2370,7 @@ public class FastNoiseLite
 
         int seed = mSeed;
         float amp = mDomainWarpAmp * mFractalBounding;
-        float freq = mDomainWarpFreq;
+        float freq = mFrequency;
 
         for (int i = 0; i < mOctaves; i++)
         {
@@ -2597,6 +2790,29 @@ public class FastNoiseLite
         coord.x += vx * warpAmp;
         coord.y += vy * warpAmp;
         coord.z += vz * warpAmp;
+    }
+
+    //// Jemmerl: Vector1 Inner Class
+    public static class Vector1 {
+        public /*FNLfloat*/ float x;
+        public Vector1(/*FNLfloat*/ float x) {
+            this.x = x;
+        }
+
+        public Vector1 add(Vector1 vec1) {
+            float x1 = this.x + vec1.x;
+            return new Vector1(x1);
+        }
+
+        public Vector1 subt(Vector1 vec1) {
+            float x1 = this.x - vec1.x;
+            return new Vector1(x1);
+        }
+
+        public Vector1 mult(float mult) {
+            float x1 = this.x * mult;
+            return new Vector1(x1);
+        }
     }
 
     public static class Vector2

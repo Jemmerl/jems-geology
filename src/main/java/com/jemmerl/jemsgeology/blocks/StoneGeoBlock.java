@@ -1,8 +1,8 @@
 package com.jemmerl.jemsgeology.blocks;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ServerConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -16,8 +16,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 public class StoneGeoBlock extends BaseGeoBlock {
-    public StoneGeoBlock(Properties properties, GeoType geoType, OreType oreType, Grade grade) {
-        super(properties, geoType, oreType, grade);
+    public StoneGeoBlock(Properties properties, GeoType geoType, OreType oreType, OreGrade oreGrade) {
+        super(properties, geoType, oreType, oreGrade);
     }
 
     // Stone block hardness can be affected by both a global multiplier and depth-based scale

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "side": "jemsgeo:block/mossy_greenschist_bricks",
+    "bottom": "jemsgeo:block/mossy_greenschist_bricks",
+    "top": "jemsgeo:block/mossy_greenschist_bricks"
+  }
+}

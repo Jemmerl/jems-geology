@@ -1,14 +1,14 @@
 package com.jemmerl.jemsgeology.world.features.feature;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.GeoBuilder;
-import com.jemmerl.jemsgeology.geology.GeoWrapper;
+import com.jemmerl.jemsgeology.init.NoiseInit;
+import com.jemmerl.jemsgeology.world.geobuilding.GeoBuilder;
+import com.jemmerl.jemsgeology.world.geobuilding.UnbakedGeo;
 import com.jemmerl.jemsgeology.util.ReplaceStatus;
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
-import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.IChunk;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
@@ -37,6 +37,8 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
     @Override
     public boolean generate(ISeedReader seedReader, ChunkGenerator generator, Random rand, BlockPos pos, NoFeatureConfig config) {
 
+        if (!NoiseInit.configured) { NoiseInit.initNoise(seedReader.getSeed()); }
+
 
 
 //        if (!NoiseInit.configured) {
@@ -44,7 +46,7 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
 //        }
 
         GeoBuilder geoBuilder = new GeoBuilder(seedReader, pos, rand, getMaxTerrainHeight(seedReader, pos));
-        GeoWrapper[][][] wrapperArray = geoBuilder.build();
+        UnbakedGeo[][][] wrapperArray = geoBuilder.build();
 
         IChunk chunk = seedReader.getChunk(pos);
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
@@ -59,28 +61,22 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
                     mutablePos.setY(y);
 
                     BlockState originalState = chunk.getBlockState(mutablePos);
-                    GeoWrapper geoWrapper = wrapperArray[x][y][z];
+                    UnbakedGeo unbakedGeo = wrapperArray[x][y][z];
 
                     switch (ReplaceStatus.checkStatus(originalState)) {
                         case FAILED:
                         case GEOBLOCK_STONE:
                         case GEOBLOCK_REGOLITH:
+                        case VANILLA_REGOLITH:
                         case GEOBLOCK_DETRITUS:
                             break;
                         case VANILLA_STONE:
-                            chunk.getSections()[y >> 4].setBlockState(x, y & 15, z,
-                                    geoWrapper.toGeoBlock(false).getDefaultState(), false);
-                            break;
-                        case VANILLA_DETRITUS:
-                            //if(gravel)
-                            //ifelse{
 
+                            // TODO Temp replacing of vanilla regolith to show surface stone conditions
                             //todo regolith blending?? select from random nearby for on borders
 
-                            if (y <= (topY - getDepth(mutablePos.toImmutable()))) {
-                                chunk.getSections()[y >> 4].setBlockState(x, y & 15, z,
-                                        geoWrapper.toGeoBlock(true).getDefaultState(), false);
-                            }
+                            chunk.getSections()[y >> 4].setBlockState(x, y & 15, z,
+                                    unbakedGeo.bake(false).getDefaultState(), false);
                             break;
                         default:
                             JemsGeology.LOGGER.error("Unexpected block replacement condition in stone replacement feature!");

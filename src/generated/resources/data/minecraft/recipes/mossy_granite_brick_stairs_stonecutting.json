@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:stonecutting",
-  "ingredient": {
-    "item": "jemsgeo:mossy_granite_bricks"
-  },
-  "result": "jemsgeo:mossy_granite_brick_stairs",
-  "count": 1
-}

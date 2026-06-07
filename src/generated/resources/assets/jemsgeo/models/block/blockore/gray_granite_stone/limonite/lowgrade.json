@@ -1,0 +1,8 @@
+{
+  "parent": "jemsgeo:block/stone_ore_parent",
+  "textures": {
+    "all": "jemsgeo:block/gray_granite_stone",
+    "particle": "jemsgeo:block/gray_granite_stone",
+    "overlay": "jemsgeo:block/ore/poor_limonite"
+  }
+}

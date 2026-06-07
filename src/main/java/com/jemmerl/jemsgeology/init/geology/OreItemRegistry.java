@@ -1,6 +1,6 @@
 package com.jemmerl.jemsgeology.init.geology;
 
-import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.item.Item;
 

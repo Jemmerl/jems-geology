@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=top": {
+      "model": "jemsgeo:block/polished_carbonatite_slab_top"
+    },
+    "type=bottom": {
+      "model": "jemsgeo:block/polished_carbonatite_slab"
+    },
+    "type=double": {
+      "model": "jemsgeo:block/polished_carbonatite_stone"
+    }
+  }
+}

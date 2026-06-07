@@ -2,9 +2,8 @@ package com.jemmerl.jemsgeology.world.processors;
 
 
 import com.google.common.collect.Maps;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
-import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
 import net.minecraft.block.*;
 import net.minecraft.util.Util;

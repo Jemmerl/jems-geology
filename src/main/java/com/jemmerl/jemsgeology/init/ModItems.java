@@ -1,8 +1,8 @@
 package com.jemmerl.jemsgeology.init;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.geology.OreItemRegistry;
 import com.jemmerl.jemsgeology.items.QuarryItem;

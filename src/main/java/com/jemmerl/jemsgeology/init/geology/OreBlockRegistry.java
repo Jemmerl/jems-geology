@@ -1,8 +1,8 @@
 package com.jemmerl.jemsgeology.init.geology;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.RegistryObject;
@@ -19,8 +19,8 @@ public class OreBlockRegistry {
 
     public OreBlockRegistry(GeoType geoType, OreType oreType) {
         hasPoorOre = oreType.hasPoorOre();
-        poorOreBlock = hasPoorOre ? registerOreBlock(geoType, oreType, Grade.POOR) : null;
-        normalOreBlock = registerOreBlock(geoType, oreType, Grade.NORMAL);
+        poorOreBlock = hasPoorOre ? registerOreBlock(geoType, oreType, OreGrade.POOR) : null;
+        normalOreBlock = registerOreBlock(geoType, oreType, OreGrade.NORMAL);
 //        richOreBlock = hasRichOre ? registerOreBlock(geoType, oreType, GradeType.HIGHGRADE, blockType);
     }
 
@@ -40,9 +40,9 @@ public class OreBlockRegistry {
         return gradedOreBlocks;
     }
 
-    private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, Grade grade) {
+    private RegistryObject<Block> registerOreBlock(GeoType geoType, OreType oreType, OreGrade oreGrade) {
         return geoType.getGeoGroup().isRegolith() ?
-                ModBlocks.registerRegolithOreBlock(geoType, oreType, grade) :
-                ModBlocks.registerStoneOreBlock(geoType, oreType, grade);
+                ModBlocks.registerRegolithOreBlock(geoType, oreType, oreGrade) :
+                ModBlocks.registerStoneOreBlock(geoType, oreType, oreGrade);
     }
 }

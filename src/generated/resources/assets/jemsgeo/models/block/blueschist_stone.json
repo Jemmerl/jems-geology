@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/blueschist_stone",
+    "up": "jemsgeo:block/blueschist_stone",
+    "down": "jemsgeo:block/blueschist_stone",
+    "north": "jemsgeo:block/blueschist_stone",
+    "south": "jemsgeo:block/blueschist_stone",
+    "east": "jemsgeo:block/blueschist_stone",
+    "west": "jemsgeo:block/blueschist_stone"
+  }
+}

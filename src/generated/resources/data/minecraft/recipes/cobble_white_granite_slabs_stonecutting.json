@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:white_granite_cobblestone"
+  },
+  "result": "jemsgeo:white_granite_cobble_slab",
+  "count": 2
+}

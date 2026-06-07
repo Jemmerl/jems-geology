@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:mossy_blueschist_cobblestone"
+  },
+  "result": "jemsgeo:mossy_blueschist_cobble_wall",
+  "count": 2
+}

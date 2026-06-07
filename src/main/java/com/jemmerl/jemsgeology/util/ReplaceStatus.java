@@ -14,7 +14,7 @@ public enum ReplaceStatus {
     VANILLA_STONE,
     GEOBLOCK_REGOLITH,
     GEOBLOCK_DETRITUS,
-    VANILLA_DETRITUS,
+    VANILLA_REGOLITH,
     FAILED;
 
     // Check if the block is some form of vanilla stone
@@ -43,13 +43,13 @@ public enum ReplaceStatus {
         return (isGeoBlockStone(block) || isVanillaStone(block));
     }
 
-    // Check if the block is some form of vanilla detritus
+    // Check if the block is some form of surface regolith
     public static boolean isDetritusBlock(Block block) {
-        return (isVanillaDetritus(block) || isGeoBlockDetritus(block));
+        return (isVanillaRegolith(block) || isGeoBlockDetritus(block));
     }
 
-    // Check if the block is some form of vanilla detritus
-    public static boolean isVanillaDetritus(Block block) {
+    // Check if the block is some form of vanilla regolith
+    public static boolean isVanillaRegolith(Block block) {
         return (block.isIn(Tags.Blocks.DIRT) || block.isIn(Tags.Blocks.SAND)
                 || block.isIn(Tags.Blocks.GRAVEL));
     }
@@ -63,7 +63,7 @@ public enum ReplaceStatus {
             if (isGeoBlockDetritus(replaced)) { return GEOBLOCK_DETRITUS; }
         }
         if (isVanillaStone(replaced)) { return VANILLA_STONE; }
-        if (isVanillaDetritus(replaced)) { return VANILLA_DETRITUS; }
+        if (isVanillaRegolith(replaced)) { return VANILLA_REGOLITH; }
         return FAILED; // If not any stone or detritus,
     }
 

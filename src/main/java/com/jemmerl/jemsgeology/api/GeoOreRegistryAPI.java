@@ -1,11 +1,9 @@
 package com.jemmerl.jemsgeology.api;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
 import com.jemmerl.jemsgeology.init.ServerConfig;
-import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 
 import java.util.*;
 

@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "jemsgeo:block/carbonatite_stone",
+    "up": "jemsgeo:block/carbonatite_stone",
+    "down": "jemsgeo:block/carbonatite_stone",
+    "north": "jemsgeo:block/carbonatite_stone",
+    "south": "jemsgeo:block/carbonatite_stone",
+    "east": "jemsgeo:block/carbonatite_stone",
+    "west": "jemsgeo:block/carbonatite_stone"
+  }
+}

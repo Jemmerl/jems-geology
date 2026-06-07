@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.capabilities.world.deposit;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -18,9 +18,9 @@ public interface IDepositCap extends INBTSerializable<CompoundNBT> {
 
     void setDepositGenerated(ChunkPos pos);
 
-    void putImmediatePendingOre(BlockPos pos, OreType oreType, Grade grade, String name);
+    void putImmediatePendingOre(BlockPos pos, OreType oreType, OreGrade oreGrade, String name);
 
-    void putDelayedPendingOre(BlockPos pos, OreType oreType, Grade grade, String name);
+    void putDelayedPendingOre(BlockPos pos, OreType oreType, OreGrade oreGrade, String name);
 
     void removeImmediatePendingBlocksForChunk(ChunkPos cp);
 

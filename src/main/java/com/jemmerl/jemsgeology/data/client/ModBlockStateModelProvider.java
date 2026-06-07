@@ -1,9 +1,9 @@
 package com.jemmerl.jemsgeology.data.client;
 
 import com.jemmerl.jemsgeology.blocks.IGeoBlock;
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.geology.georegistries.HardStoneGeoRegistry;
@@ -143,17 +143,17 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
 
 
     // Return the appropriate model file for a given block based on if it has different side textures
-    private ModelFile buildModelFile(GeoType geologyType, OreType oreType, Grade grade, String basePath) {
+    private ModelFile buildModelFile(GeoType geologyType, OreType oreType, OreGrade oreGrade, String basePath) {
         if (GeoType.SIDE_TEXTURE_MODELS.contains(geologyType)) {
-            return buildModelDiffSides(basePath, oreType, grade);
+            return buildModelDiffSides(basePath, oreType, oreGrade);
         } else {
-            return buildModelAllSides(basePath, oreType, grade);
+            return buildModelAllSides(basePath, oreType, oreGrade);
         }
     }
 
 
     // Build the model file given the block path and property names with the same texture on all faces
-    private ModelFile buildModelAllSides(String basePath, OreType oreType, Grade grade) {
+    private ModelFile buildModelAllSides(String basePath, OreType oreType, OreGrade oreGrade) {
         ModelFile modelFile;
 
         if (!oreType.hasOre()) {
@@ -167,13 +167,13 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                     .texture("west", modLoc("block/" + basePath));
         } else {
             String oreName = oreType.getName().toLowerCase(Locale.ENGLISH);
-            String gradeName = grade.getName().toLowerCase(Locale.ENGLISH);
+            String gradeName = oreGrade.getName().toLowerCase(Locale.ENGLISH);
 
             modelFile = models().withExistingParent("block/blockore/" + basePath + "/" + oreName + "/" + gradeName,
                             modLoc("block/stone_ore_parent"))
                     .texture("all", modLoc("block/" + basePath))
                     .texture("particle", modLoc("block/" + basePath))
-                    .texture("overlay", modLoc("block/ore/" + grade.getAssetName() + oreName));
+                    .texture("overlay", modLoc("block/ore/" + oreGrade.getAssetName() + oreName));
         }
 
         return modelFile;
@@ -181,7 +181,7 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
 
 
     // Build the model file given the block path and property names with a different texture on the sides
-    private ModelFile buildModelDiffSides(String basePath, OreType oreType, Grade grade) {
+    private ModelFile buildModelDiffSides(String basePath, OreType oreType, OreGrade oreGrade) {
         ModelFile modelFile;
 
         if (!oreType.hasOre()) {
@@ -195,14 +195,14 @@ public class ModBlockStateModelProvider extends BlockStateProvider {
                     .texture("west", modLoc("block/" + basePath + "2"));
         } else {
             String oreName = oreType.getName().toLowerCase(Locale.ENGLISH);
-            String gradeName = grade.getName().toLowerCase(Locale.ENGLISH);
+            String gradeName = oreGrade.getName().toLowerCase(Locale.ENGLISH);
 
             modelFile = models().withExistingParent("block/blockore/" + basePath + "/" + oreName + "/" + gradeName,
                             modLoc("block/stone_ore_parent_sides"))
                     .texture("particle", modLoc("block/" + basePath + "1"))
                     .texture("ends", modLoc("block/" + basePath + "1"))
                     .texture("sides", modLoc("block/" + basePath + "2"))
-                    .texture("overlay", modLoc("block/ore/" + grade.getAssetName() + oreName));
+                    .texture("overlay", modLoc("block/ore/" + oreGrade.getAssetName() + oreName));
         }
 
         return modelFile;

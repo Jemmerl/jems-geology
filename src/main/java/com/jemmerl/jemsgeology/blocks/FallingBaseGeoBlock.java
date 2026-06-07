@@ -1,21 +1,21 @@
 package com.jemmerl.jemsgeology.blocks;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.FallingBlock;
 
 public class FallingBaseGeoBlock extends FallingBlock implements IGeoBlock {
     private final GeoType geoType;
     private final OreType oreType;
-    private final Grade grade;
+    private final OreGrade oreGrade;
 
-    public FallingBaseGeoBlock(AbstractBlock.Properties properties, GeoType geoType, OreType oreType, Grade grade) {
+    public FallingBaseGeoBlock(AbstractBlock.Properties properties, GeoType geoType, OreType oreType, OreGrade oreGrade) {
         super(properties);
         this.geoType = geoType;
         this.oreType = oreType;
-        this.grade = grade;
+        this.oreGrade = oreGrade;
 
         // Blockstates may be useful for determining natural vs placed stones, if I want to do custom cavein stuff.
         // Keeping the infrastructure
@@ -33,7 +33,7 @@ public class FallingBaseGeoBlock extends FallingBlock implements IGeoBlock {
     }
 
     @Override
-    public Grade getGrade() {
-        return grade;
+    public OreGrade getGrade() {
+        return oreGrade;
     }
 }

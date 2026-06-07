@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:pink_granite_cobblestone"
+  },
+  "result": "jemsgeo:pink_granite_cobble_stairs",
+  "count": 1
+}

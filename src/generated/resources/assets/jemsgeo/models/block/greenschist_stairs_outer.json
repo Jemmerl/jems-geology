@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "side": "jemsgeo:block/greenschist_stone",
+    "bottom": "jemsgeo:block/greenschist_stone",
+    "top": "jemsgeo:block/greenschist_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:eclogite_stone"
+  },
+  "result": "jemsgeo:eclogite_pressure_plate",
+  "count": 3
+}

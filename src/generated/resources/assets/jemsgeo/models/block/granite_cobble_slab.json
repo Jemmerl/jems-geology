@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "side": "jemsgeo:block/granite_cobblestone",
-    "bottom": "jemsgeo:block/granite_cobblestone",
-    "top": "jemsgeo:block/granite_cobblestone"
-  }
-}

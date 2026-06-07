@@ -2,11 +2,11 @@ package com.jemmerl.jemsgeology.init.geology;
 
 import com.jemmerl.jemsgeology.JemsGeology;
 import com.jemmerl.jemsgeology.api.GeoOreRegistryAPI;
-import com.jemmerl.jemsgeology.geology.geos.GeoGroup;
-import com.jemmerl.jemsgeology.geology.ores.GeoPredicate;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
-import com.jemmerl.jemsgeology.geology.ores.GeoLoot;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoGroup;
+import com.jemmerl.jemsgeology.init.geology.ores.GeoPredicate;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.GeoLoot;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
 import net.minecraft.item.Items;
 import net.minecraft.loot.ConstantRange;
 import net.minecraft.loot.RandomValueRange;

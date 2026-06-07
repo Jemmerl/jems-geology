@@ -1,8 +1,8 @@
 package com.jemmerl.jemsgeology.init.geology.georegistries;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.geology.ModGeoOres;
 import com.jemmerl.jemsgeology.init.geology.OreBlockRegistry;
@@ -59,12 +59,12 @@ public class BaseGeoRegistry {
     public BlockState getBaseState() { return getBaseGeoBlock().getDefaultState(); } // Makes some stuff cleaner :)
 
     public Block getOreVariant(OreType oreType) {
-        return getOreVariant(oreType, Grade.NORMAL);
+        return getOreVariant(oreType, OreGrade.NORMAL);
     }
 
-    public Block getOreVariant(OreType oreType, Grade grade) {
+    public Block getOreVariant(OreType oreType, OreGrade oreGrade) {
         if (oreType.hasOre() && oreType.getGeoPredicate().generatesIn(geoType)) {
-            switch (grade) {
+            switch (oreGrade) {
                 case NORMAL:
                     return oreRegistry.get(oreType).getNormalOreBlock().get();
                 case POOR:

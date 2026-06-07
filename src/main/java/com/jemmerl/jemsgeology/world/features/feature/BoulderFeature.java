@@ -1,7 +1,7 @@
 package com.jemmerl.jemsgeology.world.features.feature;
 
 import com.jemmerl.jemsgeology.JemsGeology;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ServerConfig;
 import com.jemmerl.jemsgeology.util.ReplaceStatus;

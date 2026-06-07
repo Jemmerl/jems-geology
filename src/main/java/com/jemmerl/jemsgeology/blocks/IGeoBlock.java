@@ -1,21 +1,18 @@
 package com.jemmerl.jemsgeology.blocks;
 
-import com.jemmerl.jemsgeology.geology.ores.Grade;
-import com.jemmerl.jemsgeology.geology.ores.OreType;
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
-import net.minecraft.util.ResourceLocation;
+import com.jemmerl.jemsgeology.init.geology.ores.OreGrade;
+import com.jemmerl.jemsgeology.init.geology.ores.OreType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
+import net.minecraftforge.common.extensions.IForgeBlock;
 
-public interface IGeoBlock {
+public interface IGeoBlock extends IForgeBlock {
 
     // Return ore state of block
     OreType getOreType();
 
     // Return grade state of block
-    Grade getGrade();
+    OreGrade getGrade();
 
     // Return the stone type of the block
     GeoType getGeoType();
-
-    // All GeoBlocks are blocks, but I cannot call a block method from the interface without including here
-    ResourceLocation getRegistryName();
 }

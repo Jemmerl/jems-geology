@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "side": "jemsgeo:block/eclogite_stone",
+    "bottom": "jemsgeo:block/eclogite_stone",
+    "top": "jemsgeo:block/eclogite_stone"
+  }
+}

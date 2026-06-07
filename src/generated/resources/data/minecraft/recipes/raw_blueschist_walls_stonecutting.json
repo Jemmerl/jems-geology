@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:blueschist_stone"
+  },
+  "result": "jemsgeo:blueschist_wall",
+  "count": 2
+}

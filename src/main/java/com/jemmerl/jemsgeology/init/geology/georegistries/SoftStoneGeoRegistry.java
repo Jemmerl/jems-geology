@@ -1,11 +1,10 @@
 package com.jemmerl.jemsgeology.init.geology.georegistries;
 
-import com.jemmerl.jemsgeology.geology.geos.GeoType;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.init.ModBlocks;
 import com.jemmerl.jemsgeology.init.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
 import net.minecraftforge.fml.RegistryObject;
 
 import java.util.ArrayList;

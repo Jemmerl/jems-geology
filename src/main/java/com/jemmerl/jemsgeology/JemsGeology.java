@@ -6,6 +6,7 @@ import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapStor
 import com.jemmerl.jemsgeology.capabilities.chunk.chunkheight.ChunkHeightCapability;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapProvider;
 import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapStorage;
+import com.jemmerl.jemsgeology.events.loot.StoneQuarryModifier;
 import com.jemmerl.jemsgeology.init.*;
 import com.jemmerl.jemsgeology.init.geology.georegistries.BaseGeoRegistry;
 import com.jemmerl.jemsgeology.init.worldgen.ModConfiguredFeatures;
@@ -29,7 +30,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -38,11 +41,14 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.annotation.Nonnull;
 
 /*
 TODO board
@@ -87,12 +93,6 @@ public class JemsGeology
         ServerConfig.loadConfig(ServerConfig.SERVER_SPEC, FMLPaths.GAMEDIR.get()
                 .resolve(FMLConfig.defaultConfigPath()).resolve(MOD_ID + "-server.toml"));
     }
-
-//    private void beforeRegistries(final FMLConstructModEvent event) {
-//        System.out.println("AAAAAAAAAAaaAAAAAAAAAAAAAAAAAAAAAaaaaa");
-//        ModGeoOres.init();
-//        ModItems.registerOreItems();
-//    }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         CapabilityManager.INSTANCE.register(IDepositCap.class, new DepositCapStorage(), DepositCapability::new);
@@ -156,6 +156,8 @@ public class JemsGeology
             event.addCapability(new ResourceLocation(JemsGeology.MOD_ID, "chunk_height"), new ChunkHeightCapProvider(height));
         }
     }
+
+
 }
 
 /*

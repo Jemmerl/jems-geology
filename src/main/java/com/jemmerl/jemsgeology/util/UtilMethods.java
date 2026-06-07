@@ -48,16 +48,16 @@ public class UtilMethods {
     }
 
 
-    // Check if a block is a regolith geo block
+    // Check if a block is a regolith geoblock
     @Deprecated
     public static boolean isRegolith(Block block) {
         return ((block instanceof IGeoBlock) && isRegolith((IGeoBlock) block));
     }
 
-    // Check if a geo block is a regolith block
+    // Check if a geoblock is a regolith block
     @Deprecated
     public static boolean isRegolith(IGeoBlock block) {
-        return block.getRegistryName().toString().contains("regolith");
+        return block.getBlock().getRegistryName().toString().contains("regolith");
     }
 
 //    // Attempt to convert a geoblock to a regolith form, preserving properties (else return original)

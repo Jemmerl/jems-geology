@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "jemsgeo:white_granite_stone"
+  },
+  "result": "jemsgeo:white_granite_pillar",
+  "count": 1
+}
