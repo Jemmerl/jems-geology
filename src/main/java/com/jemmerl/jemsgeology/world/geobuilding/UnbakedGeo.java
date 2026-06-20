@@ -7,38 +7,28 @@ import com.jemmerl.jemsgeology.init.ModBlocks;
 import net.minecraft.block.Block;
 
 public class UnbakedGeo {
-    private GeoType geoType;
-    private OreType oreType;
-    private OreGrade oreGrade;
-    private Metamorphism.Temp metaTemp;
-    private Metamorphism.Pressure metaPressure;
-    private Metamorphism.MetaSomatism metaSomatism;
+    private GeoType geoType = GeoType.EMPTY;
+    private OreType oreType = OreType.NONE;
+    private OreGrade oreGrade = OreGrade.NONE;
+    private Metamorphism.Temp metaTemp = Metamorphism.Temp.T000C;
+    private Metamorphism.Pressure metaPressure = Metamorphism.Pressure.P000MPA;
+    private Metamorphism.MetaSomatism metaSomatism = Metamorphism.MetaSomatism.NONE;
+    private boolean pegmatite = false;
 
     //private GeoType protolithGeoType = null;
     //private boolean isRegolith;
 
     // Used for default init
-    public UnbakedGeo() {
-        this.geoType = GeoType.EMPTY;
-        this.oreType = OreType.NONE;
-        this.oreGrade = OreGrade.NONE;
-        this.metaTemp = Metamorphism.Temp.T000C;
-        this.metaPressure = Metamorphism.Pressure.P000MPA;
-        this.metaSomatism = Metamorphism.MetaSomatism.NONE;
-    }
+    public UnbakedGeo() {}
 
     public UnbakedGeo(GeoType geoType) {
         this.geoType = geoType;
-        this.oreType = OreType.NONE;
-        this.oreGrade = OreGrade.NONE;
-        //this.isRegolith = isRegolith;
     }
 
     public UnbakedGeo(GeoType geoType, OreType oreType, OreGrade oreGrade) {
         this.geoType = geoType;
         this.oreType = oreType;
         this.oreGrade = oreGrade;
-        //this.isRegolith = isRegolith;
     }
 
     public void setGeoType(GeoType geologyType) { this.geoType = geologyType; }
@@ -47,6 +37,7 @@ public class UnbakedGeo {
     public void setMetaTemp(Metamorphism.Temp metaTemp) { this.metaTemp = metaTemp; }
     public void setMetaPressure(Metamorphism.Pressure metaPressure) { this.metaPressure = metaPressure; }
     public void setMetaSomatism(Metamorphism.MetaSomatism metaSomatism) { this.metaSomatism = metaSomatism; }
+    public void setPegmatite(boolean pegmatite) { this.pegmatite = pegmatite; }
     //public void setProtolithGeoType(GeoType protolithGeoType) { this.protolithGeoType = protolithGeoType; }
     //public void setRegolith(boolean isRegolith) { this.isRegolith = isRegolith; }
 
@@ -56,8 +47,25 @@ public class UnbakedGeo {
     public Metamorphism.Temp getMetaTemp() { return metaTemp; }
     public Metamorphism.Pressure getMetaPressure() { return metaPressure; }
     public Metamorphism.MetaSomatism getMetaSomatism() { return metaSomatism; }
+    public boolean getPegmatite() { return pegmatite; }
     //public GeoType getProtolithGeoType() { return protolithGeoType; }
     //public Grade isRegolith() { return isRegolith; }
+
+    public boolean isEmpty() { return geoType == GeoType.EMPTY; }
+
+    public boolean apply(GeoType geoType) {
+        this.geoType = geoType;
+        return this.halfBake();
+    }
+
+    public boolean merge(UnbakedGeo merging) {
+        this.geoType = merging.geoType;
+        this.metaTemp = merging.metaTemp; // TODO check which is "greater", then keep that one.
+        this.metaPressure = merging.metaPressure; // TODO samsies
+        this.metaSomatism = merging.metaSomatism; // TODO idk what to do here
+        return this.halfBake();
+    }
+
 
     // Applies metamorphism, but remains a GeoWrapper. Returns "false" if failed to process
     // TODO how to handle ores? ez for pre-placement ores, but not post. may have to recalc just like deformation

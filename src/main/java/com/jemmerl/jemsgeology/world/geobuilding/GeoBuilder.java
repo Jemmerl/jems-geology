@@ -6,6 +6,7 @@ import com.jemmerl.jemsgeology.capabilities.world.watertable.WaterTableCapabilit
 import com.jemmerl.jemsgeology.capabilities.world.chunkgenned.ChunkGennedCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.DepositCapability;
 import com.jemmerl.jemsgeology.capabilities.world.deposit.IDepositCap;
+import com.jemmerl.jemsgeology.init.geology.geotypes.GeoType;
 import com.jemmerl.jemsgeology.world.geobuilding.georegions.BasementGenerator;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -24,8 +25,8 @@ public class GeoBuilder {
 //    private final int[] oldFaultShift = new int[3];
 //    private final int[] newFaultShift = new int[3];;
 
-    private final UnbakedGeo[][][] wrapperArray;
-    private final short[][][] deformArray;
+    private final UnbakedGeo[][][] wrapperArray; // X Z Y
+    private final short[][][] deformArray; // X Z Y
     private final short[][] wtHeights = new short[16][16];
 
     // Note: do not make these static, in case this builder is used for multiple dimensions.
@@ -40,8 +41,8 @@ public class GeoBuilder {
     //  then there should never be issues with post-placing ores as the column can just recalculate.
 
     public GeoBuilder(ISeedReader world, BlockPos pos, Random rand, int maxHeight) {
-        wrapperArray = new UnbakedGeo[16][maxHeight][16];
-        deformArray = new short[16][maxHeight][16];
+        wrapperArray = new UnbakedGeo[16][16][maxHeight];
+        deformArray = new short[16][16][maxHeight];
 
         this.world = world;
         this.maxHeight = maxHeight;
@@ -103,9 +104,9 @@ public class GeoBuilder {
 
         // Fill the default array WITHOUT SHALLOW COPYING AN ENTIRE DIMENSION OF IT THIS TIME AAAAAAAAAHHH
         for (int x = 0; x < wrapperArray.length; x++) {
-            for (int z = 0; z < wrapperArray[0][0].length; z++) {
-                for (int y = 0; y < wrapperArray[0].length; y++) {
-                    wrapperArray[x][y][z] = new UnbakedGeo();
+            for (int z = 0; z < wrapperArray[0].length; z++) {
+                for (int y = 0; y < wrapperArray[0][0].length; y++) {
+                    wrapperArray[x][z][y] = new UnbakedGeo();
                 }
             }
         }
@@ -123,7 +124,7 @@ public class GeoBuilder {
         generateBasement();
         // first strata faulting/deformation
         // first strata ign intrusive
-        // strata
+        generateUpperStrata();
         // second strata faulting
         // second strata ign intrusive
     }
@@ -133,18 +134,33 @@ public class GeoBuilder {
     private void generateBasement() {
         // basement faulting/deformation
         // basement
+        BasementGenerator.buildBasement(wrapperArray, deformArray, cornerPos);
+
+
+//        for (int x = 0; x < wrapperArray.length; x++) {
+//            for (int z = 0; z < wrapperArray[0][0].length; z++) {
+//                for (int y = 0; y < wrapperArray[0].length; y++) {
+//                    wrapperArray[x][z][y] = BasementGenerator.getGeoWrapper(cornerPos.add(x, y, z));
+//                }
+//            }
+//        }
+
+    }
+
+
+    private void generateUpperStrata() {
         for (int x = 0; x < wrapperArray.length; x++) {
-            for (int z = 0; z < wrapperArray[0][0].length; z++) {
-                for (int y = 0; y < wrapperArray[0].length; y++) {
-                    wrapperArray[x][y][z] = BasementGenerator.getGeoWrapper(cornerPos.add(x, y, z));
+            for (int z = 0; z < wrapperArray[0].length; z++) {
+                for (int y = 0; y < wrapperArray[0][0].length; y++) {
+                    // todo make a method in unbaked to make this cleaner?
+                    UnbakedGeo unbakedGeo = wrapperArray[x][z][y];
+                    if (unbakedGeo.isEmpty()) unbakedGeo.setGeoType(GeoType.LIMESTONE);
                 }
             }
         }
-
-
-
-
     }
+
+
 
     private void applyRegolith() {
         // generate depth map

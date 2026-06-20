@@ -9,6 +9,6 @@ public class Pair<X, Y> {
         second = y;
     }
 
-    X first;
-    Y second;
+    public X first;
+    public Y second;
 }

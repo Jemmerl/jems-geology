@@ -39,12 +39,6 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
 
         if (!NoiseInit.configured) { NoiseInit.initNoise(seedReader.getSeed()); }
 
-
-
-//        if (!NoiseInit.configured) {
-//            NoiseInit.init(seedReader.getSeed());
-//        }
-
         GeoBuilder geoBuilder = new GeoBuilder(seedReader, pos, rand, getMaxTerrainHeight(seedReader, pos));
         UnbakedGeo[][][] wrapperArray = geoBuilder.build();
 
@@ -61,7 +55,7 @@ public class GeologyFeature extends Feature<NoFeatureConfig> {
                     mutablePos.setY(y);
 
                     BlockState originalState = chunk.getBlockState(mutablePos);
-                    UnbakedGeo unbakedGeo = wrapperArray[x][y][z];
+                    UnbakedGeo unbakedGeo = wrapperArray[x][z][y];
 
                     switch (ReplaceStatus.checkStatus(originalState)) {
                         case FAILED:

@@ -2,52 +2,87 @@ package com.jemmerl.jemsgeology.world.geobuilding.georegions;
 
 import com.jemmerl.jemsgeology.world.geobuilding.UnbakedGeo;
 import com.jemmerl.jemsgeology.world.geobuilding.georegions.noise.BasementRegionNoise;
+import com.jemmerl.jemsgeology.world.geobuilding.georegions.noise.InstStrataNoise;
 import com.jemmerl.jemsgeology.world.geobuilding.georegions.regions.AbstractBasementRegion;
-import com.jemmerl.jemsgeology.world.geobuilding.georegions.regions.SingleBasementRegion;
+import com.jemmerl.jemsgeology.world.geobuilding.georegions.regions.OrogenicBasementRegion;
+import com.jemmerl.jemsgeology.world.geobuilding.georegions.regions.StrataRegion;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import net.minecraft.util.math.BlockPos;
 
-import javax.annotation.Nonnull;
-
 public class BasementGenerator {
 
-    // TODO if i reuse a lot of code exactly, do an abstract class. otherwise, there is no contract that needs held.
-    //  these are all hardcoded built in after all
+    public static final int AVG_BASEMENT_Y = 25;
 
-    // LRU cache with 3 - 5 entries
-    private static final int CACHE_SIZE = 5; // TODO size?
+    private static final int CACHE_SIZE = 5; // TODO size? 3 - 5 entries?
+    private static final Int2ObjectLinkedOpenHashMap<AbstractBasementRegion> basementRegionLRU = initRegionCache();
+    private static final Int2ObjectLinkedOpenHashMap<StrataRegion> basementStrataLRU = initStrataCache();
 
-    private static Int2ObjectLinkedOpenHashMap<AbstractBasementRegion> regionLRU = initCache();
-    // Int2ReferenceLinkedOpenHashMap???
+    // TODO make the strata for basement regions independant of the basement region noise. aka, its own noise
+    //  gen. that way adjacent orogeny regions can influence each-other. ALSO ALSO make basement regions a bit larger?
 
-    // do caching here, as well as weighted region gen selection based on the random seed noise
+    public static void buildBasement(UnbakedGeo[][][] wrapperArray, short[][][] deformArray, BlockPos cornerPos) {
+            for (int x = 0; x < wrapperArray.length; x++) {
+            for (int z = 0; z < wrapperArray[0].length; z++) {
+                final int xP = cornerPos.getX() + x;
+                final int zP = cornerPos.getZ() + z;
 
-    public static UnbakedGeo getGeoWrapper(int x, int y, int z) {
-        int regionSeed = BasementRegionNoise.getRegionalSeed(x, y, z);
+                int regionSeed = BasementRegionNoise.getBasementRegionSeed(xP, zP); // TODO regions are flat, fix??
+                AbstractBasementRegion region = basementRegionLRU.getAndMoveToFirst(regionSeed);
+                if (region == null) {
+                    region = new OrogenicBasementRegion(regionSeed);
+                    // get the region from the seed, since  not in LRU
+                    putBasement(regionSeed, region);
+                }
 
-        AbstractBasementRegion region = regionLRU.getAndMoveToFirst(regionSeed);
-        if (region == null) {
-            region = new SingleBasementRegion(regionSeed);
-            // get the region from the seed, since  not in LRU
-            put(regionSeed, region);
+                region.buildDeformColumn(xP, zP, deformArray[x][z]);
+
+                int basementLimit = Math.min(BasementRegionNoise.getBasementDepth(xP, zP), wrapperArray[0][0].length);
+
+                for (int y = 0; y < basementLimit; y++) {
+                    UnbakedGeo unbakedGeo = region.getUnbakedGeo(xP, y, zP);
+
+                    if (unbakedGeo.isEmpty()) {
+                        int strataSeed = BasementRegionNoise.getBasementStrataSeed(xP, y, zP);
+                        StrataRegion strataRegion = basementStrataLRU.getAndMoveToFirst(strataSeed);
+                        if (strataRegion == null) {
+                            strataRegion = new StrataRegion(strataSeed);
+                            // get the region from the seed, since  not in LRU
+                            putStrata(strataSeed, strataRegion);
+                        }
+
+                        unbakedGeo.merge(strataRegion.getUnbakedGeo(xP, y, zP));
+                    }
+
+                    wrapperArray[x][z][y] = unbakedGeo;
+                }
+
+            }
         }
-
-        return region.getUnbakedGeo(x, y, z);
     }
 
-    public static UnbakedGeo getGeoWrapper(@Nonnull BlockPos blockPos) {
-        return getGeoWrapper(blockPos.getX(), blockPos.getY(), blockPos.getZ());
+    public static void buildBasementDeformOnly(short[][][] deformArray) {
+
     }
 
-    //
-    //
-    //
+    private static AbstractBasementRegion regionSelector;
 
-    private static void put(int regionSeed, AbstractBasementRegion region) {
-        if (regionLRU.size() >= CACHE_SIZE) {
-            regionLRU.removeLast();
+
+    //////////////////////////////////
+    //          CACHE STUFF         //
+    //////////////////////////////////
+
+    private static void putBasement(int regionSeed, AbstractBasementRegion region) {
+        if (basementRegionLRU.size() >= CACHE_SIZE) {
+            basementRegionLRU.removeLast();
         }
-        regionLRU.putAndMoveToFirst(regionSeed, region);
+        basementRegionLRU.putAndMoveToFirst(regionSeed, region);
+    }
+
+    private static void putStrata(int strataSeed, StrataRegion strataRegion) {
+        if (basementStrataLRU.size() >= CACHE_SIZE) {
+            basementStrataLRU.removeLast();
+        }
+        basementStrataLRU.putAndMoveToFirst(strataSeed, strataRegion);
     }
 
 //    private static void invalidateCache() {
@@ -59,8 +94,14 @@ public class BasementGenerator {
 //        reloadCache = false;
 //    }
 
-    private static Int2ObjectLinkedOpenHashMap<AbstractBasementRegion> initCache() {
+    private static Int2ObjectLinkedOpenHashMap<AbstractBasementRegion> initRegionCache() {
         Int2ObjectLinkedOpenHashMap<AbstractBasementRegion> c = new Int2ObjectLinkedOpenHashMap<>(CACHE_SIZE);
+//        c.defaultReturnValue(-1);
+        return c;
+    }
+
+    private static Int2ObjectLinkedOpenHashMap<StrataRegion> initStrataCache() {
+        Int2ObjectLinkedOpenHashMap<StrataRegion> c = new Int2ObjectLinkedOpenHashMap<>(CACHE_SIZE);
 //        c.defaultReturnValue(-1);
         return c;
     }
